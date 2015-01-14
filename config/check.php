@@ -26,21 +26,21 @@ if($_POST['signin'] == 'Sign In'){
   $nip = $_POST['nip'];
   $pass = md5($_POST['pass']);
 
-  $cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI");
-  $data_1 = oci_execute($cek);
+  //$cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI");
+  //$data_1 = oci_execute($cek);
   $hasil = oci_parse($koneksi, "SELECT * FROM PEGAWAI INNER JOIN LEVEL_LOGIN ON (PEGAWAI.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL)
             WHERE PEGAWAI.NIP_PEGAWAI=$nip");
   $data_2 = oci_execute($hasil, OCI_DEFAULT);
   $row_2 = oci_fetch_array($hasil);
   $db_nip2 = $row_2['NIP_PEGAWAI'];
-  while($row_1 = oci_fetch_array($cek)){
-    $db_nip1 = $row_1['NIP_PEGAWAI'];
-  }
+  //while($row_1 = oci_fetch_array($cek)){
+  //  $db_nip1 = $row_1['NIP_PEGAWAI'];
+  //}
 
-  if($db_nip1 == $db_nip2){
+  if($nip == $db_nip2){
     $db_password = $row_2['PASS_PEGAWAI']; //this will store that password on a variable
     $db_level = $row_2['ID_LEVEL'];
-
+    //echo $nip."<br>".$db_level."<br> sukses";
     if ($pass == $db_password) {   
       //echo $db_nip."<br>".$nip;
       if($db_level == 1){
@@ -78,13 +78,13 @@ if($_POST['signin'] == 'Sign In'){
           </script>
         <?php
       }
-    } else {
+    } else if ($pass != $db_password) {
         ?>
           <script type="text/javascript">
             setTimeout(function() {
                 swal({
                       title:"Oopss!",   
-                      text: "Maaf data Anda tidak ditemukan. Silahkan menghubungi Admin !",   
+                      text: "Maaf PASSWORD Anda salah. Silahkan untuk mengulangi !",   
                       type: "warning",
                       showCancelButton: false
                 }, function(){

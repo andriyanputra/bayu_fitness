@@ -6,7 +6,9 @@
 <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- iCheck -->
 <script src="../assets/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-
+<!-- DATA TABES SCRIPT -->
+<script src="../assets/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="../assets/js/AdminLTE/app.js" type="text/javascript"></script>
 
@@ -48,4 +50,7 @@
     }
     setInterval(showTime, 500);
     // ========================Akhir Jam========================================== //
+</script>
+<script type="text/javascript">
+    $("#data_supplier").dataTable();
 </script>
