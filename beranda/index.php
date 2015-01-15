@@ -17,7 +17,7 @@
         <meta name="description" content="Common form elements and layouts" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!--page specific plugin styles-->
-        <link rel="shortcut icon" href="../../assets/img/favicon.png">
+        <link rel="shortcut icon" href="../assets/img/favicon.png">
 
         <script src="../assets/frontend/js/sweet-alert.js"></script>
         <link rel="stylesheet" href="../assets/frontend/css/sweet-alert.css" />

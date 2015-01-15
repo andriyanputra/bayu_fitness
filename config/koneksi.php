@@ -7,9 +7,9 @@ $database="localhost/xe";
 $koneksi=oci_connect($username,$password,$database);
  
 if($koneksi){
-//echo "Koneksi berhasil";
+	//echo "Koneksi berhasil";
 }else{
-$err=oci_error();
-echo "Gagal tersambung ke ORACLE". $err['text'];
+	$err=oci_error();
+	echo "Gagal tersambung ke ORACLE". $err['text'];
 }
 ?>
