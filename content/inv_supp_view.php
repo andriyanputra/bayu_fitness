@@ -34,12 +34,29 @@
                             <td><?php echo $data[ALAMAT_SUPPLIER]; ?></td>
                             <td>
                                 <a href="index?page=inv_supp_edit&id=<?php echo $data[ID_SUPPLIER]; ?>" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                <a href="index?page=inv_supp_hapus&id=<?php echo $data[ID_SUPPLIER]; ?>" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
+                                <a href="javascript:confirmDelete('index?page=inv_supp_hapus&id=<?php echo $data[ID_SUPPLIER]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                     <?php
                         }
                     ?>
+                    <script type="text/javascript">
+                        function confirmDelete(delUrl) {
+                            setTimeout(function() {
+                                swal({
+                                    title: "Apakah Anda yakin?",
+                                    text: "Anda tidak akan bisa mengembalikan data yang telah terhapus!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Yes, delete it!"
+                                },
+                                function(){
+                                    document.location = delUrl;
+                                });
+                            }, 200);
+                        }
+                    </script>
                     </tbody>
                 </table>
             </div><!-- /.box-body -->

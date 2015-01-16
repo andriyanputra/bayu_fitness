@@ -25,6 +25,8 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- DATA TABLES -->
         <link href="../assets/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <!-- daterange picker -->
+        <link href="../assets/css/datepicker.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
         <link href="../assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
@@ -40,7 +42,7 @@
                 color: #000;
             }
         </style>
-
+        
         <!--inline styles related to this page-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>

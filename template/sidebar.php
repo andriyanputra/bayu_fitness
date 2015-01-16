@@ -27,6 +27,7 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="../beranda/index?page=inv_supp"><i class="fa fa-angle-double-right"></i> Data Supplier</a></li>
+            <li><a href="../beranda/index?page=inv_barang"><i class="fa fa-angle-double-right"></i> Data Barang</a></li>
             <li><a href="../beranda/index?page=inv_pembelian"><i class="fa fa-angle-double-right"></i> Pembelian</a></li>
             <li><a href="../beranda/index?page=inv_penjualan"><i class="fa fa-angle-double-right"></i> Penjualan</a></li>
             <li><a href="../beranda/index?page=inv_stock"><i class="fa fa-angle-double-right"></i> Stock Barang</a></li>
@@ -59,8 +60,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="pages/tables/simple.html"><i class="fa fa-angle-double-right"></i> Simple tables</a></li>
-            <li><a href="pages/tables/data.html"><i class="fa fa-angle-double-right"></i> Data tables</a></li>
+            <li><a href="#"><i class="fa fa-angle-double-right"></i> Grafik</a></li>
+            <li><a href="#"><i class="fa fa-angle-double-right"></i> Laporan Bulanan</a></li>
         </ul>
     </li>
 </ul>

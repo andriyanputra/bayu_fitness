@@ -2,7 +2,7 @@
 	@session_start();
 
 	if($_SESSION['NIP_PEGAWAI'] == 115623210){
-		if($_POST['simpan'] == 'Sumbit'){
+		if($_POST['simpan'] == 'Simpan'){
 			$id_supplier = $_POST['kd_supplier'];
 			$cek=oci_parse($koneksi,"select ID_SUPPLIER from SUPPLIER WHERE ID_SUPPLIER='$id_supplier'");
 			oci_execute($cek);

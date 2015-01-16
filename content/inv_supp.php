@@ -37,19 +37,19 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label for="">Nama Supplier:</label>
+                                    <label for="">Nama Supplier&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                     <input type="text" class="form-control" name="nm_supplier" id="text" placeholder="Nama Supplier" required>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label for="">No. Telp/HP:</label>
+                                    <label for="">No. Telp/HP&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                     <input type="text" class="form-control" name="no_telp" id="text" placeholder="Nomor Telepon/HP" required>
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                    <label for="">Fax:</label>
+                                    <label for="">Fax&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                     <input type="text" class="form-control" name="no_fax" id="text" placeholder="Nomor Fax" required>
                                 </div>
                             </div>
@@ -57,22 +57,28 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label for="">Alamat:</label>
+                                    <label for="">Alamat&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                     <textarea class="form-control" rows="3" name="almt_supplier" id="alamat_supplier" placeholder="Alamat Supplier" required></textarea>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                    <label for="">Email Address:</label>
+                                    <label for="">Email Address&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                     <input type="email" class="form-control" id="email" name="email_supplier" placeholder="Email Address" required>
                                 </div>    
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="text-red"><b>*</b></span>&nbsp;Tidak boleh kosong.
                             </div>
                         </div>
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
                         <div class="text-right">
-                            <input type="submit" name="simpan" class="btn btn-primary" value="Submit" />
+                            <input type="submit" name="simpan" class="btn btn-primary" value="Simpan" />
                         </div>
                     </div>
                 </form>

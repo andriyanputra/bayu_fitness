@@ -11,10 +11,13 @@
 <script src="../assets/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="../assets/js/AdminLTE/app.js" type="text/javascript"></script>
-
+<!-- datepicker -->
+<script src="../assets/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../assets/js/AdminLTE/dashboard.js" type="text/javascript"></script>     
-
+<script type="text/javascript" src="../assets/js/bootstrap-filestyle.js"></script> 
+<!-- Numeric -->
+<!--<script type="text/javascript" src="http://rawgit.com/BobKnothe/autoNumeric/master/autoNumeric.js"></script>-->
+<script src="../assets/js/autoNumeric.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../assets/js/AdminLTE/demo.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -53,4 +56,28 @@
 </script>
 <script type="text/javascript">
     $("#data_supplier").dataTable();
+</script>
+<script type="text/javascript">
+    //options method for call datepicker
+    $(".input-group.date").datepicker({ autoclose: true, todayHighlight: true });
+</script>
+ <script type="text/javascript">
+    $('.auto').autoNumeric('init');
+    $(":file").filestyle({buttonName: "btn-primary"});
+    //image upload
+    function bacaGambar(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#gambar_nodin').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#preview_gambar").change(function(){
+        bacaGambar(this);
+    });
 </script>
