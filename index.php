@@ -27,7 +27,8 @@ header ("location:index.php");
     <![endif]-->
 <!--[if lte IE 8]>
 		<script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
-	<![endif]-->  
+	<![endif]--> 
+  <link rel="shortcut icon" href="assets/img/favicon.png"> 
 <link rel="stylesheet" href="assets/frontend/css/sweet-alert.css" />
 <link rel="stylesheet" href="assets/frontend/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/frontend/css/bootstrap.min.css" />

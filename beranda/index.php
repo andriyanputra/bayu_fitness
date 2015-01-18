@@ -18,9 +18,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!--page specific plugin styles-->
         <link rel="shortcut icon" href="../assets/img/favicon.png">
-
+        <!--sweet alert-->
         <script src="../assets/frontend/js/sweet-alert.js"></script>
         <link rel="stylesheet" href="../assets/frontend/css/sweet-alert.css" />
+        <!--colorbox-->
+        <link rel="stylesheet" href="../assets/css/colorbox/colorbox.css" type="text/css" />
         <!-- bootstrap 3.0.2 -->
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- DATA TABLES -->

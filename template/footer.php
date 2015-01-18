@@ -4,6 +4,8 @@
 <script src="../assets/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
 <!-- Bootstrap -->
 <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+<!--Colorbox-->
+<script src="../assets/js/plugins/colorbox/jquery.colorbox.js" type="text/javascript"></script>
 <!-- iCheck -->
 <script src="../assets/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 <!-- DATA TABES SCRIPT -->
@@ -60,6 +62,11 @@
 <script type="text/javascript">
     //options method for call datepicker
     $(".input-group.date").datepicker({ autoclose: true, todayHighlight: true });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".lihat").colorbox({rel:'lihat', transition:"none", width:"75%", height:"75%"});
+    });
 </script>
  <script type="text/javascript">
     $('.auto').autoNumeric('init');
