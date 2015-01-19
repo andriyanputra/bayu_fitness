@@ -1,6 +1,7 @@
 <?php
 	@session_start();
     if($_SESSION[NIP_PEGAWAI]==115623210) {
+        $hari_ini=date("Y-m-d");
 ?>
 <section class="content-header">
     <h1>
@@ -23,7 +24,7 @@
                     <h3 class="box-title">Transaksi Pembelian Barang</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" action="index?page=inv_barang" method="post">
+                <form role="form" action="index?page=inv_beli_form" method="post">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -36,7 +37,7 @@
                                 <div class="form-group">
                                 <label for="">Tanggal Pembelian: </label>
                                     <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
-                                        <input class="form-control" type="text" name="date" placeholder="Pilih Tanggal">
+                                        <input class="form-control" type="text" name="date" placeholder="Pilih Tanggal" value="<?php echo $hari_ini; ?>">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>

@@ -12,4 +12,5 @@ if($koneksi){
 	$err=oci_error();
 	echo "Gagal tersambung ke ORACLE". $err['text'];
 }
+
 ?>

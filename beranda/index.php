@@ -1,5 +1,6 @@
 <?php
 	include "../config/koneksi.php";
+    //include "../config/function.php";
     @session_start();
 	if(isset($_SESSION['NIP_PEGAWAI']) && !empty($_SESSION['NIP_PEGAWAI'])) {
 		$query = oci_parse($koneksi, "SELECT * FROM PEGAWAI INNER JOIN LEVEL_LOGIN ON (PEGAWAI.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL)

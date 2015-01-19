@@ -58,6 +58,8 @@
 </script>
 <script type="text/javascript">
     $("#data_supplier").dataTable();
+    $("#data_pembelian").dataTable();
+    $("#stock_barang").dataTable();
 </script>
 <script type="text/javascript">
     //options method for call datepicker
