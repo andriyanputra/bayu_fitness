@@ -33,74 +33,14 @@ if($_POST['signin'] == 'Sign In'){
   $data_2 = oci_execute($hasil, OCI_DEFAULT);
   $row_2 = oci_fetch_array($hasil);
   $db_nip2 = $row_2['NIP_PEGAWAI'];
-  //while($row_1 = oci_fetch_array($cek)){
-  //  $db_nip1 = $row_1['NIP_PEGAWAI'];
-  //}
-
-  if($nip == $db_nip2){
-    $db_password = $row_2['PASS_PEGAWAI']; //this will store that password on a variable
-    $db_level = $row_2['ID_LEVEL'];
-    //echo $nip."<br>".$db_level."<br> sukses";
-    if ($pass == $db_password) {   
-      //echo $db_nip."<br>".$nip;
-      if($db_level == 1){
-        $_SESSION["NIP_PEGAWAI"]=$nip;
-        $_SESSION["ID_LEVEL"]=$db_level;
-        ?>
-          <script type="text/javascript">
-            setTimeout(function() {
-                swal({
-                      title:"Good job!",   
-                      text: "Selamat Datang di Sistem Informasi New Comando Fitness",   
-                      type: "success",
-                      showCancelButton: false
-                }, function(){
-                    document.location = '../beranda/index?msg=log_in&id=<?php echo $db_level; ?>';
-                })
-            }, 200);
-          </script>
-        <?php
-      }else{
-        $_SESSION["NIP_PEGAWAI"]=$nip;
-        $_SESSION["ID_LEVEL"]=$db_level;
-        ?>
-          <script type="text/javascript">
-            setTimeout(function() {
-                swal({
-                      title:"Good job!",   
-                      text: "Selamat Datang di Sistem Informasi New Comando Fitness",   
-                      type: "success",
-                      showCancelButton: false
-                }, function(){
-                    document.location = '../beranda/index?msg=log_in&id=<?php echo $db_level; ?>';
-                })
-            }, 200);
-          </script>
-        <?php
-      }
-    } else if ($pass != $db_password) {
-        ?>
-          <script type="text/javascript">
-            setTimeout(function() {
-                swal({
-                      title:"Oopss!",   
-                      text: "Maaf PASSWORD Anda salah. Silahkan untuk mengulangi !",   
-                      type: "warning",
-                      showCancelButton: false
-                }, function(){
-                    document.location = '../index';
-                })
-            }, 200);
-          </script>
-        <?php
-    }
-  }else{
+  $db_status = $row_2['STATUS_PEGAWAI'];
+  if($db_status == 0){
     ?>
       <script type="text/javascript">
         setTimeout(function() {
             swal({
                   title:"Oopss!",   
-                  text: "Maaf data Anda tidak ditemukan. Silahkan menghubungi Admin !",   
+                  text: "Masa aktif Anda telah habis. Silahkan menghubungi Administrator sistem!",   
                   type: "warning",
                   showCancelButton: false
             }, function(){
@@ -109,6 +49,81 @@ if($_POST['signin'] == 'Sign In'){
         }, 200);
       </script>
     <?php
+  }else{
+    if($nip == $db_nip2){
+      $db_password = $row_2['PASS_PEGAWAI']; //this will store that password on a variable
+      $db_level = $row_2['ID_LEVEL'];
+      //echo $nip."<br>".$db_level."<br> sukses";
+      if ($pass == $db_password) {   
+        //echo $db_nip."<br>".$nip;
+        if($db_level == 1){
+          $_SESSION["NIP_PEGAWAI"]=$nip;
+          $_SESSION["ID_LEVEL"]=$db_level;
+          //$_SESSION["NIP_PEGAWAI"]=$nip;
+          ?>
+            <script type="text/javascript">
+              setTimeout(function() {
+                  swal({
+                        title:"Good job!",   
+                        text: "Selamat Datang di Sistem Informasi New Comando Fitness",   
+                        type: "success",
+                        showCancelButton: false
+                  }, function(){
+                      document.location = '../beranda/index?msg=log_in&id=<?php echo $_SESSION[ID_LEVEL]; ?>';
+                  })
+              }, 200);
+            </script>
+          <?php
+        }else{
+          $_SESSION["NIP_PEGAWAI"]=$nip;
+          $_SESSION["ID_LEVEL"]=$db_level;
+          ?>
+            <script type="text/javascript">
+              setTimeout(function() {
+                  swal({
+                        title:"Good job!",   
+                        text: "Selamat Datang di Sistem Informasi New Comando Fitness",   
+                        type: "success",
+                        showCancelButton: false
+                  }, function(){
+                      document.location = '../beranda/index?msg=log_in&id=<?php echo $_SESSION[ID_LEVEL]; ?>';
+                  })
+              }, 200);
+            </script>
+          <?php
+        }
+      } else if ($pass != $db_password) {
+          ?>
+            <script type="text/javascript">
+              setTimeout(function() {
+                  swal({
+                        title:"Oopss!",   
+                        text: "Maaf PASSWORD Anda salah. Silahkan untuk mengulangi !",   
+                        type: "warning",
+                        showCancelButton: false
+                  }, function(){
+                      document.location = '../index';
+                  })
+              }, 200);
+            </script>
+          <?php
+      }
+    }else{
+      ?>
+        <script type="text/javascript">
+          setTimeout(function() {
+              swal({
+                    title:"Oopss!",   
+                    text: "Maaf data Anda tidak ditemukan. Silahkan menghubungi Admin !",   
+                    type: "warning",
+                    showCancelButton: false
+              }, function(){
+                  document.location = '../index';
+              })
+          }, 200);
+        </script>
+      <?php
+    }
   }
 }
 ?>

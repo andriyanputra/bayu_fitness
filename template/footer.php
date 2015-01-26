@@ -6,6 +6,8 @@
 <script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
 <!--Colorbox-->
 <script src="../assets/js/plugins/colorbox/jquery.colorbox.js" type="text/javascript"></script>
+<!-- Modal.js -->
+<script src="../assets/frontend/js/modal.js" type="text/javascript"></script>
 <!-- iCheck -->
 <script src="../assets/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 <!-- DATA TABES SCRIPT -->
@@ -60,12 +62,20 @@
     $("#data_supplier").dataTable();
     $("#data_pembelian").dataTable();
     $("#stock_barang").dataTable();
+    $("#user").dataTable();
+    $("#anggota").dataTable();
 </script>
 <script type="text/javascript">
+    $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
+        checkboxClass: 'icheckbox_flat-blue',
+        radioClass: 'iradio_flat-blue'
+    });
     //options method for call datepicker
     $(".input-group.date").datepicker({ autoclose: true, todayHighlight: true });
 </script>
 <script type="text/javascript">
+    $("#add_user").modal("hide");
+    $("#add_member").modal("hide");
     $(document).ready(function(){
         $(".lihat").colorbox({rel:'lihat', transition:"none", width:"75%", height:"75%"});
     });
@@ -89,4 +99,38 @@
     $("#preview_gambar").change(function(){
         bacaGambar(this);
     });
+</script>
+<script type="text/javascript">
+    function showDiv(elem){
+        if(elem.value == 'tambah'){
+            document.getElementById('jabatan_baru').style.display = "block";
+        }else{
+            document.getElementById('jabatan_baru').style.display = "none";
+        }
+    }
+</script>
+<script type="text/javascript">
+function hideshow(which){
+if (!document.getElementById)
+    return
+if (which.style.display=="block")
+    which.style.display="none"
+else
+    which.style.display="block"
+}
+</script>
+<script type="text/javascript">
+var password = document.getElementById("password")
+  , confirm_password = document.getElementById("conf_password");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Tidak Cocok");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
 </script>

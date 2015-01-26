@@ -24,7 +24,7 @@
 		                  type: "warning",
 		                  showCancelButton: false
 		            }, function(){
-		                 document.location = 'index?page=inv_pembelian';
+		                 document.location = 'index?fold=inv&page=inv_pembelian';
 		            })
 		        }, 200);
 		      </script>
@@ -65,7 +65,7 @@
 	                      type: "warning",
 	                      showCancelButton: false
 	                }, function(){
-	                    window.history.back();
+	                    document.location = 'index?fold=inv&page=inv_beli_form';
 	                })
 	            }, 200);
 	          </script>
@@ -81,7 +81,7 @@
 	                      type: "warning",
 	                      showCancelButton: false
 	                }, function(){
-	                    window.history.back();
+	                    document.location = 'index?fold=inv&page=inv_beli_form';
 	                })
 	            }, 200);
 	          </script>
@@ -100,7 +100,7 @@
 		                      type: "success",
 		                      showCancelButton: false
 		                }, function(){
-		                    document.location = 'index?page=inv_beli_form&date=<?php echo $tgl_beli; ?>';
+		                    document.location = 'index?fold=inv&page=inv_beli_form&date=<?php echo $tgl_beli; ?>';
 		                })
 		            }, 200);
 		          </script>
@@ -115,7 +115,7 @@
 			                  type: "warning",
 			                  showCancelButton: false
 			            }, function(){
-			                document.location = 'index?page=inv_pembelian';
+			                document.location = 'index?fold=inv&page=inv_pembelian';
 			            })
 			        }, 200);
 			      </script>

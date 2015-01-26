@@ -12,7 +12,7 @@
 		                    type: "success",
 		                    showCancelButton: false
 		                }, function(){
-		                    document.location = '../beranda/index?page=inv_barang';
+		                    document.location = '../beranda/index?fold=inv&page=inv_barang';
 		                })
 		            }, 200);
 		          </script>
@@ -27,7 +27,7 @@
 		                    type: "warning",
 		                    showCancelButton: false
 		                }, function(){
-		                    document.location = '../beranda/index?page=inv_barang';
+		                    document.location = '../beranda/index?fold=inv&page=inv_barang';
 		                })
 		            }, 200);
 		          </script>

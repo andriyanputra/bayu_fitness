@@ -30,7 +30,8 @@ $koneksi = oci_connect("andriyan","andriyan","//localhost/XE");
                 swal({
                       title:"Good bye!",   
                       text: "Terima kasih atas kerja samanya",   
-                      type: "success",
+                      imageUrl: '../assets/img/bye.gif',
+                      //imageSize: '215 x 215',
                       showCancelButton: false
                 }, function(){
                     document.location = '../index';

@@ -1,16 +1,17 @@
 <?php
 	@session_start();
     if($_SESSION[NIP_PEGAWAI]==115623210) {
+        $hari_ini=date("Y-m-d");
 ?>
 <section class="content-header">
     <h1>
-        Data Barang
+        Pembelian
         <small>Overview</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li>Dashboard</li>
-		<li class="active">Data Barang</li>
+		<li class="active">Pembelian</li>
     </ol>
 </section>
 
@@ -20,46 +21,39 @@
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header">
-                    <h3 class="box-title">Transaksi Penambahan Barang</h3>
+                    <h3 class="box-title">Transaksi Pembelian Barang</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" action="index?page=inv_barang_form" method="post">
+                <form role="form" action="index?fold=inv&page=inv_beli_form" method="post">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                Untuk melakukan transaksi, silahkan pilih supplier pada kolom yang disediakan.
+                                Untuk melakukan transaksi pembelian barang, silahkan tentukan tanggal pembelian barang.
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-xs-3">
                                 <div class="form-group">
-                                <label for="">Nama Supplier: </label>
-                                    <select name="kd_supplier" class="form-control" required>
-                                    <option value="">Pilih Supplier</option>}
-                                    option
-                                    <?php
-                                        $supp=oci_parse($koneksi,"select ID_SUPPLIER, NM_SUPPLIER from SUPPLIER");
-                                        oci_execute($supp);
-                                        while ($db_=oci_fetch_array($supp)) {
-                                            echo "<option value=\"$db_[ID_SUPPLIER]\"/>$db_[NM_SUPPLIER]";
-                                        }
-                                    ?>
-                                    </select>
+                                <label for="">Tanggal Pembelian: </label>
+                                    <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd">
+                                        <input class="form-control" type="text" name="date" placeholder="Pilih Tanggal" value="<?php echo $hari_ini; ?>">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div><!-- /.box-body -->
-
                     <div class="box-footer">
                         <div class="text-right">
-                            <input type="submit" name="simpan" class="btn btn-primary" value="Next" />
+                            <input type="submit" name="simpan" class="btn btn-primary" value="Submit" />
                         </div>
                     </div>
                 </form>
             </div><!-- /.box -->
         </div>
     </div>
+    <?php //include "inv_supp_view.php"; ?>
 </section>
 <?php 
     }else{

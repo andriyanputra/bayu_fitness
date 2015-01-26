@@ -41,7 +41,7 @@
                                     <td><?php echo $data[JML_TRANSAKSI]; ?></td>
                                     <td><?php echo "Rp. ".rupiah($data[HARGA_BARANG],2); ?></td>
                                     <td>
-                                        <a href="javascript:confirmDelete('index?page=inv_beli_hapus&id=<?php echo $data[ID_TRANSAKSI]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
+                                        <a href="javascript:confirmDelete('index?fold=inv&page=inv_beli_hapus&id=<?php echo $data[ID_TRANSAKSI]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             <?php

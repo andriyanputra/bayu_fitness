@@ -22,6 +22,8 @@
         <!--sweet alert-->
         <script src="../assets/frontend/js/sweet-alert.js"></script>
         <link rel="stylesheet" href="../assets/frontend/css/sweet-alert.css" />
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link href="../assets/css/iCheck/all.css" rel="stylesheet" type="text/css" />
         <!--colorbox-->
         <link rel="stylesheet" href="../assets/css/colorbox/colorbox.css" type="text/css" />
         <!-- bootstrap 3.0.2 -->
@@ -81,7 +83,7 @@
                                         <li><!-- start message -->
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <img src="../assets/img/avatar3.png" class="img-circle" alt="User Image"/>
+                                                    <img src="../assets/img/pegawai/<?php echo $row['FOTO_PEGAWAI']; ?>" class="img-circle" alt="User Image"/>
                                                 </div>
                                                 <h4>
                                                     Support Team
@@ -153,7 +155,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="../assets/img/avatar3.png" class="img-circle" alt="User Image" />
+                                    <img src="../assets/img/pegawai/<?php echo $row['FOTO_PEGAWAI']; ?>" class="img-circle" alt="User Image" />
                                     <p>
                                         <?php echo $row['NM_PEGAWAI']." - ".$row['NM_JABATAN']; ?>
                                     </p>
@@ -161,7 +163,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="index?fold=user&page=user_profile&id=<?php echo $row[NIP_PEGAWAI]; ?>" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="../config/signout" class="btn btn-default btn-flat">Sign out</a>
@@ -181,7 +183,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="../assets/img/avatar3.png" class="img-circle" alt="User Image" />
+                            <img src="../assets/img/pegawai/<?php echo $row['FOTO_PEGAWAI']; ?>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                         <?php $nama = $row['NM_PEGAWAI']; $first_nama = explode(' ',trim($nama)); ?>
@@ -216,12 +218,43 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <?php 
-                    if(!empty($_GET['page'])){
+                    if(!empty($_GET['fold']) && !empty($_GET['page'])){
+                        if(file_exists("../content/$_GET[fold]/$_GET[page].php")){
+                            include("../content/$_GET[fold]/$_GET[page].php");
+                        }else{
+                ?>
+                            <script type="text/javascript">
+                                setTimeout(function() {
+                                    swal({
+                                          title:"Oopss!",   
+                                          text: "Maaf, halaman tidak tersedia !!.",   
+                                          type: "warning",
+                                          showCancelButton: false
+                                    }, function(){
+                                        document.location = 'index';
+                                    })
+                                }, 200);
+                            </script>
+                <?php
+                        }
+                    }else if(!empty($_GET['page'])){
                         if(file_exists("../content/$_GET[page].php")){
                             include("../content/$_GET[page].php");
                         }else{
                 ?>
-                            <br>
+                          <script type="text/javascript">
+                            setTimeout(function() {
+                                swal({
+                                      title:"Oopss!",   
+                                      text: "Maaf, halaman tidak tersedia !!.",   
+                                      type: "warning",
+                                      showCancelButton: false
+                                }, function(){
+                                    document.location = 'index';
+                                })
+                            }, 200);
+                          </script>
+                            <!--<br>
                             <div class="row">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="alert alert-danger alert-dismissable">
@@ -230,7 +263,7 @@
                                         <p>Maaf, halaman tidak tersedia !!.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                 <?php
                         }
                     }else{

@@ -22,7 +22,7 @@
 			                  type: "warning",
 			                  showCancelButton: false
 			            }, function(){
-			                 document.location = 'index?page=inv_barang';
+			                 document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -50,7 +50,7 @@
 			                  type: "error",
 			                  showCancelButton: false
 			            }, function(){
-			                 document.location = 'index?page=inv_barang';
+			                 document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -67,7 +67,7 @@
 			                  type: "error",
 			                  showCancelButton: false
 			            }, function(){
-			                document.location = 'index?page=inv_barang';
+			                document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -84,7 +84,7 @@
 			                  type: "error",
 			                  showCancelButton: false
 			            }, function(){
-			                 document.location = 'index?page=inv_barang';
+			                 document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -104,7 +104,7 @@
 			                      type: "success",
 			                      showCancelButton: false
 			                }, function(){
-			                    document.location = 'index?page=inv_barang';
+			                    document.location = 'index?fold=inv&page=inv_barang';
 			                })
 			            }, 200);
 			          </script>
@@ -119,7 +119,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                document.location = 'index?page=inv_barang';
+				                document.location = 'index?fold=inv&page=inv_barang';
 				            })
 				        }, 200);
 				      </script>
@@ -135,7 +135,7 @@
 			                  type: "error",
 			                  showCancelButton: false
 			            }, function(){
-			                document.location = 'index?page=inv_barang';
+			                document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -162,7 +162,7 @@
 			                  type: "warning",
 			                  showCancelButton: false
 			            }, function(){
-			                 document.location = 'index?page=inv_barang';
+			                 document.location = 'index?fold=inv&page=inv_barang';
 			            })
 			        }, 200);
 			      </script>
@@ -191,7 +191,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                 document.location = 'index?page=inv_barang';
+				                 document.location = 'index?fold=inv&page=inv_barang';
 				            })
 				        }, 200);
 				      </script>
@@ -208,7 +208,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                document.location = 'index?page=inv_barang';
+				                document.location = 'index?fold=inv&page=inv_barang';
 				            })
 				        }, 200);
 				      </script>
@@ -225,7 +225,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                 document.location = 'index?page=inv_barang';
+				                 document.location = 'index?fold=inv&page=inv_barang';
 				            })
 				        }, 200);
 				      </script>
@@ -253,7 +253,7 @@
 					                      type: "success",
 					                      showCancelButton: false
 					                }, function(){
-					                    document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+					                    document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 					                })
 					            }, 200);
 					          </script>
@@ -268,7 +268,7 @@
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
-						                document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+						                document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 						            })
 						        }, 200);
 						      </script>
@@ -284,7 +284,7 @@
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
-					                document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+					                document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 					            })
 					        }, 200);
 					      </script>
@@ -300,7 +300,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+				                document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 				            })
 				        }, 200);
 				      </script>
@@ -324,7 +324,7 @@
 			                      type: "success",
 			                      showCancelButton: false
 			                }, function(){
-			                    document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+			                    document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 			                })
 			            }, 200);
 			          </script>
@@ -339,7 +339,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                document.location = 'index?page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
+				                document.location = 'index?fold=inv&page=inv_barang_form&id=<?php echo $kd_supplier; ?>';
 				            })
 				        }, 200);
 				      </script>

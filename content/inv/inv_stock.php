@@ -23,7 +23,7 @@
             <div class="box-body table-responsive">
                 <div class="row">
                     <div class="col-md-12">
-                        <!--<table id="stock_barang" class="table table-bordered table-striped">
+                        <table id="stock_barang" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th rowspan="2">No.</th>
@@ -37,7 +37,7 @@
                                     <th>Sisa ((M-K) + R)</th>
                                 </tr>
                             </thead>
-                            <tbody>-->
+                            <tbody>
                                 <?php
                                     function jml_barang($kode_barang,$status){
                                         $jml_brng = oci_parse($koneksi, "SELECT SUM(JML_TRANSAKSI) AS jumlah FROM TRANSAKSI WHERE ID_BARANG='$kode_barang' AND STATUS_TRANSAKSI='$status' AND JML_TRANSAKSI>0");
@@ -81,27 +81,26 @@
                                             }else{
                                                 $nm_barang = "$db[NM_BARANG] - $db[NM_SUPPLIER]";
                                             }
-                                
-                                            $total_masuk=$total_masuk+jml_barang($db[ID_BARANG],'M');
-                                            $total_retur=$total_retur+jml_retur($db[ID_BARANG]);
-                                            $total_keluar=$total_keluar+jml_barang($db[ID_BARANG],'K');
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $no; ?></td>
+                                                    <td><?php echo $nm_barang; ?></td>
+                                                    <td><?php echo jml_barang($db[ID_BARANG], 'M'); ?></td>
+                                                    <td><?php echo $keluar ?></td>
+                                                    <td><?php echo jml_retur($db[ID_BARANG]); ?></td><!-- null -->
+                                                    <td><?php echo $sisa; ?></td>
+                                                </tr>
+                                            <?php
+                                            //$total_masuk=$total_masuk+jml_barang($db[ID_BARANG],'M');
+                                            //$total_retur=$total_retur+jml_retur($db[ID_BARANG]);
+                                            //$total_keluar=$total_keluar+jml_barang($db[ID_BARANG],'K');
                                         }
-                                        ?>
-                                    <tr>
-                                        <td><?php echo $no; ?></td>
-                                        <td><?php echo $nm_barang; ?></td>
-                                        <td><?php echo jml_barang($db[ID_BARANG], 'M'); ?></td>
-                                        <td><?php echo $keluar ?></td>
-                                        <td><?php echo jml_retur($db[ID_BARANG]); ?></td><!-- null -->
-                                        <td><?php echo $sisa; ?></td>
-                                    </tr>
-                                <?php
-                                        $total = ($total_masuk+$total_retur)-$total_keluar;
+                                       // $total = ($total_masuk+$total_retur)-$total_keluar;
                                     }
                                 ?>
                                 
-                            <!--</tbody>
-                        </table>-->
+                            </tbody>
+                        </table>
                     </div>
                 </div>    
             </div><!-- /.box-body -->

@@ -439,8 +439,8 @@ header ("location:index.php");
         <form action="config/check.php" method="post">
           <div class="modal-body">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" name="nip" class="form-control" placeholder="Nomor Induk Pegawai" required pattern="[0-9]{9}">
-            <input type="password" name="pass" class="form-control" placeholder="Password" required >
+            <input type="text" autocomplete="off" name="nip" class="form-control" placeholder="Nomor Induk Pegawai" required pattern="[0-9]{9}">
+            <input type="password" autocomplete="off" name="pass" class="form-control" placeholder="Password" required >
             <h3>Lupa password ?</h3>
             <p>no worries, klik <a href="#lupaPass" id="lupa" data-toggle="modal" role="button">disini</a> untuk reset passwordmu.</p>
           </div>
@@ -465,9 +465,9 @@ header ("location:index.php");
           <div class="modal-body">
             <h4 class="form-signin-heading">Mohon untuk mengisi pertanyaan berikut</h4>
             <p>Siapakah nama orang tua (Laki-laki) Anda ?</p>
-            <input type="text" name="lupa_ortu" class="form-control" required >
+            <input type="text" autocomplete="on" name="lupa_ortu" class="form-control" required >
             <p>Nomor Induk Pegawai: </p>
-            <input type="text" name="lupa_nip" class="form-control" required pattern="[0-9]{9}">
+            <input type="text" autocomplete="on" name="lupa_nip" class="form-control" required pattern="[0-9]{9}">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

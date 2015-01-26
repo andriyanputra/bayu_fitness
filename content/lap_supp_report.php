@@ -1,6 +1,6 @@
 <?php
 	@session_start();
-    if($_SESSION[NIP_PEGAWAI]==115623210) {
+    if($_SESSION[ID_LEVEL]==1) {
 ?>
 <section class="content-header">
     <h1>

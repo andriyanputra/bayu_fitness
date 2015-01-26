@@ -32,7 +32,7 @@
                     <h3 class="box-title">Transaksi Pembelian Barang</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" action="index?page=inv_beli_save" method="post" enctype="multipart/form-data">
+                <form role="form" action="index?fold=inv&page=inv_beli_save" method="post" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">

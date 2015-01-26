@@ -33,8 +33,8 @@
                             <td><?php echo $data[NM_SUPPLIER]; ?></td>
                             <td><?php echo $data[ALAMAT_SUPPLIER]; ?></td>
                             <td>
-                                <a href="index?page=inv_supp_edit&id=<?php echo $data[ID_SUPPLIER]; ?>" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                <a href="javascript:confirmDelete('index?page=inv_supp_hapus&id=<?php echo $data[ID_SUPPLIER]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
+                                <a href="index?fold=inv&page=inv_supp_edit&id=<?php echo $data[ID_SUPPLIER]; ?>" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                <a href="javascript:confirmDelete('index?fold=inv&page=inv_supp_hapus&id=<?php echo $data[ID_SUPPLIER]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                     <?php

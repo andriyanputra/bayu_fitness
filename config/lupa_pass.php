@@ -25,14 +25,30 @@ $koneksi = oci_connect("andriyan","andriyan","//localhost/XE");
         $lupa_ortu = $_POST['lupa_ortu'];
         $lupa_nip = $_POST['lupa_nip'];
 
-        $cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI");
-        $data = oci_execute($cek);
-        while($row = oci_fetch_array($cek)){
-            $db_lupa = $row['ASK_PEGAWAI'];
-            $db_nip = $row['NIP_PEGAWAI'];
-        }
-        if(($lupa_ortu == $db_lupa) && ($lupa_nip == $db_nip)){
-            echo "sama";
+        $cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI WHERE NIP_PEGAWAI = $lupa_nip");
+        if(oci_execute($cek)){
+            while($row = oci_fetch_array($cek)){
+                $db_lupa = $row['ASK_PEGAWAI'];
+                $db_nip = $row['NIP_PEGAWAI'];
+            }
+            if(($lupa_ortu == $db_lupa) && ($lupa_nip == $db_nip)){
+                echo "sama";
+            }else{
+                ?>
+                  <script type="text/javascript">
+                    setTimeout(function() {
+                        swal({
+                              title:"Oopss!",   
+                              text: "Maaf jawaban Anda salah! Silahkan mencoba kembali.",   
+                              type: "warning",
+                              showCancelButton: false
+                        }, function(){
+                            document.location = '../index';
+                        })
+                    }, 200);
+                  </script>
+                <?php
+            }
         }else{
             ?>
               <script type="text/javascript">

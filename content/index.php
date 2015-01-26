@@ -1,5 +1,7 @@
-<?php @session_start(); ?>
-<?php if($_SESSION['NIP_PEGAWAI'] == 115623210){ ?>
+<?php 
+@session_start();
+    if($_SESSION[ID_LEVEL]==1) { 
+    	?>
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	    <h1>
@@ -110,7 +112,7 @@
 	                    <div class="icon">
 	                        <i class="fa fa-cogs"></i>
 	                    </div>
-	                    <a href="#" class="small-box-footer">
+	                    <a href="index?fold=user&page=index" class="small-box-footer">
 	                        More info <i class="fa fa-arrow-circle-right"></i>
 	                    </a>
 	                </div>
@@ -137,7 +139,7 @@
 	        </div>
 	    </div><!-- /.row -->
 	</section><!-- /.content -->
-<?php } else if($_SESSION['NIP_PEGAWAI'] == 115623204){ ?>
+<?php } else if($_SESSION[ID_LEVEL]==2){ ?>
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	    <h1>
@@ -252,8 +254,8 @@
 	        </div>
 	    </div>
 	</section><!-- /.content -->
-<?php } else { ?>
-	<div class="row">
+<?php //} else { ?>
+	<!--<div class="row">
 	    <div class="col-md-10 col-md-offset-1">
 		    <div class="alert alert-danger alert-dismissable">
 		        <i class="fa fa-ban"></i>
@@ -261,5 +263,23 @@
 		        <p>Maaf, halaman tidak tersedia !!.</p>
 		    </div>
 	    </div>
-	</div>
-<?php } ?>
+	</div>-->
+<?php //} ?>
+<?php 
+    }else{
+        ?>
+          <script type="text/javascript">
+            setTimeout(function() {
+                swal({
+                      title:"Oopss!",   
+                      text: "Maaf, halaman tidak tersedia !!.",   
+                      type: "warning",
+                      showCancelButton: false
+                }, function(){
+                    document.location = 'beranda/index';
+                })
+            }, 200);
+          </script>
+        <?php
+    }
+?>

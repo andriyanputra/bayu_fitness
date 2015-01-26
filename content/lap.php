@@ -1,6 +1,6 @@
 <?php
 	@session_start();
-    if($_SESSION[NIP_PEGAWAI]==115623210) {
+    if($_SESSION[ID_LEVEL]==1) {
     	$hitung_supplier=oci_parse($koneksi,"SELECT count(*) FROM SUPPLIER"); oci_execute($hitung_supplier); $count_supp = oci_fetch_array($hitung_supplier);
 ?>
 <section class="content-header">

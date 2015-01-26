@@ -23,7 +23,7 @@
                     <h3 class="box-title">Tambah Data Supplier</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" action="index?page=inv_supp_save" method="post">
+                <form role="form" action="index?fold=inv&page=inv_supp_save" method="post">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-xs-3">

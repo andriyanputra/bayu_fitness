@@ -1,5 +1,5 @@
 <?php @session_start(); ?>
-<?php if($_SESSION['NIP_PEGAWAI'] == 115623210){ ?>
+<?php if($_SESSION[ID_LEVEL]==1){ ?>
 <ul class="sidebar-menu">
     <li class="active">
         <a href="index">
@@ -9,14 +9,12 @@
     <li class="treeview">
         <a href="#">
             <i class="fa fa-user"></i>
-            <span>Data Anggota</span>
+            <span>Data Member</span>
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="../index?page=anggota"><i class="fa fa-angle-double-right"></i> Daftar Anggota</a></li>
-            <li><a href="../index?page=anggota_cek"><i class="fa fa-angle-double-right"></i> Cetak Kartu Anggota</a></li>
-            <li><a href="../index?page=anggota_sewa"><i class="fa fa-angle-double-right"></i> Sewa Peralatan</a></li>
-            <li><a href="../index?page=anggota_laporan"><i class="fa fa-angle-double-right"></i> Laporan Anggota</a></li>
+            <li><a href="../beranda/index?fold=ang&page=anggota"><i class="fa fa-angle-double-right"></i> Daftar Member</a></li>
+            <li><a href="../beranda/index?fold=ang&page=anggota_laporan"><i class="fa fa-angle-double-right"></i> Laporan Member</a></li>
         </ul>
     </li>
     <li class="treeview">
@@ -26,11 +24,11 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="../beranda/index?page=inv_supp"><i class="fa fa-angle-double-right"></i> Input Supplier</a></li>
-            <li><a href="../beranda/index?page=inv_barang"><i class="fa fa-angle-double-right"></i> Input Barang</a></li>
-            <li><a href="../beranda/index?page=inv_pembelian"><i class="fa fa-angle-double-right"></i> Pembelian</a></li>
-            <li><a href="../beranda/index?page=inv_penjualan"><i class="fa fa-angle-double-right"></i> Penjualan</a></li>
-            <li><a href="../beranda/index?page=inv_stock"><i class="fa fa-angle-double-right"></i> Stock Barang</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_supp"><i class="fa fa-angle-double-right"></i> Input Supplier</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_barang"><i class="fa fa-angle-double-right"></i> Input Barang</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_pembelian"><i class="fa fa-angle-double-right"></i> Pembelian</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_penjualan"><i class="fa fa-angle-double-right"></i> Penjualan</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_stock"><i class="fa fa-angle-double-right"></i> Stock Barang</a></li>
         </ul>
     </li>
     <li class="treeview">
@@ -50,7 +48,7 @@
         </ul>
     </li>
     <li>
-        <a href="#">
+        <a href="../beranda/index?fold=user&page=index">
             <i class="fa fa-users"></i> <span>User Management</span>
         </a>                        
     </li>
@@ -65,7 +63,7 @@
         </ul>
     </li>
 </ul>
-<?php } else if($_SESSION['NIP_PEGAWAI'] == 115623204){ ?>
+<?php } else if($_SESSION[ID_LEVEL]==2){ ?>
 <ul class="sidebar-menu">
     <li class="active">
         <a href="index">

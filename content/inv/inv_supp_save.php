@@ -48,7 +48,7 @@
 			                      type: "success",
 			                      showCancelButton: false
 			                }, function(){
-			                    document.location = '../beranda/index?page=inv_supp';
+			                    document.location = '../beranda/index?fold=inv&page=inv_supp';
 			                })
 			            }, 200);
 			          </script>
@@ -128,7 +128,7 @@
 		                      type: "success",
 		                      showCancelButton: false
 		                }, function(){
-		                    document.location = '../beranda/index?page=inv_supp';
+		                    document.location = '../beranda/index?fold=inv&page=inv_supp';
 		                })
 		            }, 200);
 		          </script>
