@@ -1,11 +1,11 @@
 <?php 
 	if($_SESSION[ID_LEVEL]==1){
 		if($_GET['id']){
-			$foto = oci_parse($koneksi, "SELECT FOTO_PEGAWAI FROM PEGAWAI WHERE NIP_PEGAWAI = $_GET[id]"); oci_execute($foto);
-			$db = oci_fetch_array($foto); $foto_lama = $db['FOTO_PEGAWAI'];
-			$target_dir = "../assets/img/pegawai/";
+			$foto = oci_parse($koneksi, "SELECT FOTO_MEMBER FROM MEMBER WHERE ID_MEMBER = '$_GET[id]'"); oci_execute($foto);
+			$db = oci_fetch_array($foto); $foto_lama = $db['FOTO_MEMBER'];
+			$target_dir = "../assets/img/member/";
 			unlink($target_dir . "" . $foto_lama);
-			$hapus = oci_parse($koneksi, "DELETE FROM PEGAWAI WHERE NIP_PEGAWAI = $_GET[id]");
+			$hapus = oci_parse($koneksi, "DELETE FROM MEMBER WHERE ID_MEMBER = '$_GET[id]'");
 			if(oci_execute($hapus)){
 				?>
 		          <script type="text/javascript">
@@ -16,7 +16,7 @@
 		                    type: "success",
 		                    showCancelButton: false
 		                }, function(){
-		                    document.location = '../beranda/index?fold=user&page=index';
+		                    document.location = '../beranda/index?fold=ang&page=anggota';
 		                })
 		            }, 200);
 		          </script>
@@ -31,7 +31,7 @@
 		                    type: "warning",
 		                    showCancelButton: false
 		                }, function(){
-		                    document.location = '../beranda/index?fold=user&page=index';
+		                    document.location = '../beranda/index?fold=ang&page=anggota';
 		                })
 		            }, 200);
 		          </script>

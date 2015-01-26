@@ -44,49 +44,46 @@
                               <thead>
                                   <tr>
                                       <th>No.</th>
-                                      <th>NIP Pegawai</th>
+                                      <th>ID Member</th>
                                       <th>Nama</th>
                                       <th>No. Telp</th>
                                       <th>Alamat</th>
-                                      <th>Jabatan</th>
-                                      <th>Status</th>
+                                      <th>Tgl Daftar</th>
+                                      <th>Masa Aktif</th>
                                       <th>Foto</th>
                                       <th>Action</th>
                                   </tr>
                               </thead>
                               <tbody>
                                 <?php
-                                    $select=oci_parse($koneksi,"SELECT * FROM PEGAWAI INNER JOIN LEVEL_LOGIN ON (PEGAWAI.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL)
-                                                                INNER JOIN JABATAN ON (PEGAWAI.ID_JABATAN = JABATAN.ID_JABATAN) ORDER BY NIP_PEGAWAI ASC");
+                                    //$select=oci_parse($koneksi,"SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, nonaktif_member, FOTO_MEMBER FROM MEMBER INNER JOIN LEVEL_LOGIN ON (MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL) ORDER BY ID_MEMBER ASC");
+                                	$select = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, (nonaktif_member-current_date)+1 as selisih, FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
                                     oci_execute($select);
                                     $no = 0;
                                     while ($data=oci_fetch_array($select)) {
-                                        $no++;
-                                        if($data[STATUS_PEGAWAI] == 0){
-                                          $status = "Tidak Aktif";
-                                        }else{
-                                          $status = "Aktif";
-                                        }
+                                    	$no++;
+                                    	$data[AKTIF_MEMBER]=strtotime($data[AKTIF_MEMBER]);
                                 ?>
                                     <tr>
                                         <td><?php echo $no; ?></td>
-                                        <td><?php echo $data[NIP_PEGAWAI]; ?></td>
-                                        <td><?php echo $data[NM_PEGAWAI]; ?></td>
-                                        <td><?php echo $data[TELP_PEGAWAI]; ?></td>
-                                        <td><?php echo $data[ALAMAT_PEGAWAI]; ?></td>
-                                        <td><?php echo $data[NM_JABATAN]; ?></td>
-                                        <td><?php echo $status; ?></td>
+                                        <td><?php echo $data[ID_MEMBER]; ?></td>
+                                        <td><?php echo $data[NM_MEMBER]; ?></td>
+                                        <td><?php echo $data[TELP_MEMBER]; ?></td>
+                                        <td><?php echo $data[ALAMAT_MEMBER]; ?></td>
+                                        <td><?php echo date('D d-m-Y', $data[AKTIF_MEMBER]); ?></td>
+                                        <td><?php echo "Kurang ".round($data[SELISIH])." hari."; ?></td>
                                         <td>
-                                          <?php if(!empty($data[FOTO_PEGAWAI])){ ?>
-                                            <a href="../assets/img/pegawai/<?php echo $data[FOTO_PEGAWAI]; ?>" class="lihat" title="<?php echo $data[NM_PEGAWAI]; ?>"><i class="fa fa-picture-o"></i></a>
+                                          <?php if(!empty($data[FOTO_MEMBER])){ ?>
+                                            <a href="../assets/img/member/<?php echo $data[FOTO_MEMBER]; ?>" class="lihat" title="<?php echo $data[NM_MEMBER]; ?>"><i class="fa fa-picture-o"></i></a>
                                           <?php }else{ ?>
-                                            <a href="../assets/img/pegawai/empty.gif" class="lihat" title="<?php echo $data[NM_PEGAWAI]; ?>"><i class="fa fa-picture-o"></i></a>
+                                            <a href="../assets/img/pegawai/empty.gif" class="lihat" title="<?php echo $data[NM_MEMBER]; ?>"><i class="fa fa-picture-o"></i></a>
                                           <?php } ?>
                                         </td>
                                         <td>
-                                            <a href="index?fold=user&page=user_profile&id=<?php echo $data[NIP_PEGAWAI]; ?>" data-toggle="tooltip" title="Lihat Profile"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                            <a href="index?fold=user&page=user_edit&id=<?php echo $data[NIP_PEGAWAI]; ?>" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                                            <a href="javascript:confirmDelete('index?fold=user&page=user_hapus&id=<?php echo $data[NIP_PEGAWAI]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>
+                                            <a href="index?fold=ang&page=anggota_profile&id=<?php echo $data[ID_MEMBER]; ?>" data-toggle="tooltip" title="Lihat Profile"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                                            <a href="index?fold=ang&page=anggota_edit&id=<?php echo $data[ID_MEMBER]; ?>" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                            <a href="javascript:confirmDelete('index?fold=ang&page=anggota_hapus&id=<?php echo $data[ID_MEMBER]; ?>')" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash-o"></i></a>&nbsp;&nbsp;
+                                            <a href="index?fold=ang&page=anggota_cetak&id=<?php echo $data[ID_MEMBER]; ?>" data-toggle="tooltip" title="Cetak Kartu Member"><i class="fa fa-print"></i></a>
                                         </td>
                                     </tr>
                                 <?php
@@ -174,7 +171,7 @@
                 <div class="col-xs-6">
                 	<div class="form-group">
                 		<label for="">Tanggal Mendaftar :</label>
-                		<input type="text" readonly value="<?php echo date('D m.d.Y'); ?>" class="form-control">
+                		<input type="text" readonly value="<?php echo date('D d/m/Y H:i:s'); ?>" name="date" class="form-control">
                 	</div>	
                   	<div class="form-group">
 	                    <label for="preview_gambar">Foto Member&nbsp;<span class="text-red"><b>**</b></span>:</label>
@@ -183,7 +180,7 @@
                   	<img src="" id="gambar_nodin" width="200" alt="" />
                   	<div class="form-group">
                     	<label for="">Password&nbsp;<span class="text-red"><b>*</b></span>:</label>
-                      	<input type="password" id="password" name="pass_pegawai" placeholder="Password" required class="form-control">
+                      	<input type="password" id="password" name="pass_member" placeholder="Password" required class="form-control">
                   	</div>
                   	<div class="form-group">
                     	<label for="">Confirm Password&nbsp;<span class="text-red"><b>*</b></span>:</label>

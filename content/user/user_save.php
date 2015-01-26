@@ -299,7 +299,7 @@
     			if(!empty($_FILES['ft_pegawai_baru']['name'])){
     				$foto_lama = $_POST['ft_pegawai_lama'];
 	    			$foto = $nip."_".$_FILES['ft_pegawai_baru'] ['name']; // Mendapatkan nama gambar
-		            $type = $_FILES['ft_pegawai_baruft_pegawai_baru']['type'];
+		            $type = $_FILES['ft_pegawai_baru']['type'];
 		            $ukuran = $_FILES['ft_pegawai_baru']['size'];
 		    		$target_dir = "../assets/img/pegawai/";
 					$target_file = $target_dir . basename($foto);
