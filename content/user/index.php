@@ -33,7 +33,7 @@
                         <div class="col-md-12">
                           <div class="col-md-10"></div>
                           <div class="col-md-2 pull-right">
-                            <a href="#" data-toggle="modal" data-target="#add_user" class="btn btn-block btn-primary" data-toggle="tooltip" title="Tambah User"><i class="fa fa-plus"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#add_user" class="btn btn-block btn-primary" data-toggle="tooltip" title="Tambah User"><i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah User</a>
                           </div>
                         </div>
                     </div>
@@ -63,9 +63,9 @@
                                     while ($data=oci_fetch_array($select)) {
                                         $no++;
                                         if($data[STATUS_PEGAWAI] == 0){
-                                          $status = "Tidak Aktif";
+                                          $status = "<div class=text-red><b>Tidak Aktif</b></div>";
                                         }else{
-                                          $status = "Aktif";
+                                          $status = "<div class=text-green><b>Aktif</b></div>";
                                         }
                                 ?>
                                     <tr>

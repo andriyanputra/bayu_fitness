@@ -31,7 +31,7 @@
                     <br>
                    	<div class="row">
                         <div class="col-md-12">
-                        	<iframe src="../pdf/supplier.php" width="890" height="550"></iframe>
+                        	<iframe src="../pdf/anggota_cetak.php" width="890" height="500"></iframe>
                         </div>
                     </div>
                 </div><!-- /.box-body -->

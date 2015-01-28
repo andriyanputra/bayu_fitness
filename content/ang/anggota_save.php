@@ -32,6 +32,7 @@
             $date_dftr = date('mdY');
             $pass = md5($_POST['pass_member']);
             $level = 3;
+            $tgl_habis = date('mdY', strtotime("+1 month"));
             //foto
             if(!empty($_FILES['ft_member'] ['name'])){
               $foto = $id."_".$_FILES['ft_member'] ['name']; // Mendapatkan nama gambar
@@ -92,7 +93,6 @@
                 <?php
               }
 
-              $tgl_habis = date('mdY', strtotime("+1 month"));
               if(move_uploaded_file($_FILES["ft_member"]["tmp_name"], $target_file)){
                 $insert = oci_parse($koneksi, "INSERT INTO MEMBER VALUES ('$id', '$nm', '$alamat', '$telp', TO_DATE('$date_dftr', 'MM/DD/YYYY'), TO_DATE('$tgl_habis', 'MM/DD/YYYY'), '$pass', '$jk', '$ask', '$foto', $level)");
                 if(oci_execute($insert)){

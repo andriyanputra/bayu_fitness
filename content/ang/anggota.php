@@ -33,7 +33,7 @@
                         <div class="col-md-12">
                           <div class="col-md-10"></div>
                           <div class="col-md-2 pull-right">
-                            <a href="#" data-toggle="modal" data-target="#add_member" class="btn btn-block btn-primary" data-toggle="tooltip" title="Tambah Member"><i class="fa fa-plus"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#add_member" class="btn btn-block btn-primary" data-toggle="tooltip" title="Tambah Member"><i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah Member</a>
                           </div>
                         </div>
                     </div>
@@ -55,14 +55,18 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                <?php
-                                    //$select=oci_parse($koneksi,"SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, nonaktif_member, FOTO_MEMBER FROM MEMBER INNER JOIN LEVEL_LOGIN ON (MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL) ORDER BY ID_MEMBER ASC");
-                                	$select = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, (nonaktif_member-current_date)+1 as selisih, FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
-                                    oci_execute($select);
-                                    $no = 0;
-                                    while ($data=oci_fetch_array($select)) {
-                                    	$no++;
-                                    	$data[AKTIF_MEMBER]=strtotime($data[AKTIF_MEMBER]);
+                              <?php
+                                /* script menentukan hari */  
+                                $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+                                $array_bln = array(1=>"Jan","Feb","Mar", "Apr", "Mei","Jun","Jul","Agt","Sep","Okt", "Nov","Des");
+
+                                $select = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, nonaktif_member-current_date as selisih, FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
+                                oci_execute($select);
+                                $no = 0;
+                                while ($data=oci_fetch_array($select)) {
+                                	$no++; $selisih = $data[SELISIH]+1;
+                                	$data[AKTIF_MEMBER]=strtotime($data[AKTIF_MEMBER]);
+                                  $hr = $array_hr[date('N', $data[AKTIF_MEMBER])];$bln = $array_bln[date('n', $data[AKTIF_MEMBER])];
                                 ?>
                                     <tr>
                                         <td><?php echo $no; ?></td>
@@ -70,8 +74,32 @@
                                         <td><?php echo $data[NM_MEMBER]; ?></td>
                                         <td><?php echo $data[TELP_MEMBER]; ?></td>
                                         <td><?php echo $data[ALAMAT_MEMBER]; ?></td>
-                                        <td><?php echo date('D d-m-Y', $data[AKTIF_MEMBER]); ?></td>
-                                        <td><?php echo "Kurang ".round($data[SELISIH])." hari."; ?></td>
+                                        <td><?php echo $hr.", ".date('d', $data[AKTIF_MEMBER])." ".$bln." ".date('Y', $data[AKTIF_MEMBER]); ?></td>
+                                        <?php if($selisih>31){ $selisih_ = $selisih-1; ?>
+                                        <?php if((round($selisih_) <= 4) && (round($selisih_) > 0)){ ?>
+                                        <td class="text-yellow"><?php echo "<b>Kurang ".round($selisih_)." hari.</b>"; ?></td>
+                                        <?php }else if((round($selisih_) <= 0) && round($selisih_) >= -7){ ?>
+                                        <script type="text/javascript">
+                                          setTimeout(function() {
+                                            swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                          }, 200);
+                                        </script>
+                                        <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih_))." hari.</b>"; ?></td>
+                                        <?php }else{ ?>
+                                        <td class="text-green"><?php echo "<b>Kurang ".round($selisih_)." hari.</b>"; ?></td>
+                                        <?php } } else{ ?>
+                                        <?php if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
+                                        <td class="text-yellow"><?php echo "<b>Kurang ".round($selisih)." hari.</b>"; ?></td>
+                                        <?php }else if((round($selisih) <= 0) && round($selisih) >= -7){ ?>
+                                        <script type="text/javascript">
+                                          setTimeout(function() {
+                                            swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                          }, 200);
+                                        </script>
+                                        <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih))." hari.</b>"; ?></td>
+                                        <?php }else{ ?>
+                                        <td class="text-green"><?php echo "<b>Kurang ".round($selisih)." hari.</b>"; ?></td>
+                                        <?php } } ?>
                                         <td>
                                           <?php if(!empty($data[FOTO_MEMBER])){ ?>
                                             <a href="../assets/img/member/<?php echo $data[FOTO_MEMBER]; ?>" class="lihat" title="<?php echo $data[NM_MEMBER]; ?>"><i class="fa fa-picture-o"></i></a>
@@ -135,8 +163,21 @@
                 <div class="col-xs-6">
 	                <?php 
 	                	$hitung = oci_parse($koneksi, "SELECT COUNT(*) FROM MEMBER"); oci_execute($hitung);
-	                	$count = oci_fetch_array($hitung);
-	                	if($count[0] == 0){$id=$count[0]+1;}else{$id=$count[0];}
+	                	$count = oci_fetch_array($hitung); $cek_ = oci_parse($koneksi, "SELECT ID_MEMBER FROM MEMBER");
+                    oci_execute($cek_);
+	                	if($count[0] != 0){
+                      $no = 0;
+                      while($db = oci_fetch_array($cek_)){
+                        $no++; $id_ = $db['ID_MEMBER']; $id_sub = substr($id_, 1, -12);
+                        if($id_sub != $no){
+                          $id = $no;
+                        }else{
+                          $id = $id_sub + 1;
+                        }
+                      }
+                    }else{
+                      $id = $count[0]+1;
+                    }
 	                ?>
                     <div class="form-group">
                       <label for="">ID Member : </label>
@@ -170,8 +211,8 @@
                 </div>
                 <div class="col-xs-6">
                 	<div class="form-group">
-                		<label for="">Tanggal Mendaftar :</label>
-                		<input type="text" readonly value="<?php echo date('D d/m/Y H:i:s'); ?>" name="date" class="form-control">
+                		<label for="">Tanggal Mendaftar :</label><?php $hr = $array_hr[date('N')]; $bln = $array_bln[date('n')]; ?>
+                		<input type="text" readonly value="<?php echo $hr.', '.date('j').' '.$bln.' '.date('Y'); ?>" name="date" class="form-control">
                 	</div>	
                   	<div class="form-group">
 	                    <label for="preview_gambar">Foto Member&nbsp;<span class="text-red"><b>**</b></span>:</label>
