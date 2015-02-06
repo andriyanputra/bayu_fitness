@@ -46,9 +46,9 @@
                                       <th>No.</th>
                                       <th>ID Member</th>
                                       <th>Nama</th>
-                                      <th>No. Telp</th>
                                       <th>Alamat</th>
                                       <th>Tgl Daftar</th>
+                                      <th>Tgl Habis</th>
                                       <th>Masa Aktif</th>
                                       <th>Foto</th>
                                       <th>Action</th>
@@ -56,50 +56,68 @@
                               </thead>
                               <tbody>
                               <?php
-                                /* script menentukan hari */  
+                                /* script menentukan hari */
                                 $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
                                 $array_bln = array(1=>"Jan","Feb","Mar", "Apr", "Mei","Jun","Jul","Agt","Sep","Okt", "Nov","Des");
 
-                                $select = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, TELP_MEMBER, ALAMAT_MEMBER, AKTIF_MEMBER, nonaktif_member-current_date as selisih, FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
-                                oci_execute($select);
+                                $select = oci_parse($koneksi, "SELECT ID_MEMBER, PERPANJANG, Months_between(NONAKTIF_MEMBER, PERPANJANG) BULAN,
+																 										NM_MEMBER, ALAMAT_MEMBER, NONAKTIF_MEMBER - AKTIF_MEMBER as sel, NONAKTIF_MEMBER - PERPANJANG AS beda,
+																										AKTIF_MEMBER, NONAKTIF_MEMBER, nonaktif_member-current_date as selisih,
+																										FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
+                                oci_execute($select); $bulan = date('m');
                                 $no = 0;
                                 while ($data=oci_fetch_array($select)) {
-                                	$no++; $selisih = $data[SELISIH]+1;
-                                	$data[AKTIF_MEMBER]=strtotime($data[AKTIF_MEMBER]);
-                                  $hr = $array_hr[date('N', $data[AKTIF_MEMBER])];$bln = $array_bln[date('n', $data[AKTIF_MEMBER])];
+                                	$no++;
+                                  $aktif=strtotime($data[AKTIF_MEMBER]); $nonaktif=strtotime($data[NONAKTIF_MEMBER]); $perpanjang=strtotime($data[PERPANJANG]);
+                                  $hr = $array_hr[date('N', $aktif)];$bln = $array_bln[date('n', $aktif)];
+                                  $h = $array_hr[date('N', $nonaktif)];$b = $array_bln[date('n', $nonaktif)];
                                 ?>
                                     <tr>
                                         <td><?php echo $no; ?></td>
                                         <td><?php echo $data[ID_MEMBER]; ?></td>
                                         <td><?php echo $data[NM_MEMBER]; ?></td>
-                                        <td><?php echo $data[TELP_MEMBER]; ?></td>
                                         <td><?php echo $data[ALAMAT_MEMBER]; ?></td>
-                                        <td><?php echo $hr.", ".date('d', $data[AKTIF_MEMBER])." ".$bln." ".date('Y', $data[AKTIF_MEMBER]); ?></td>
-                                        <?php if($selisih>31){ $selisih_ = $selisih-1; ?>
-                                        <?php if((round($selisih_) <= 4) && (round($selisih_) > 0)){ ?>
-                                        <td class="text-yellow"><?php echo "<b>Kurang ".round($selisih_)." hari.</b>"; ?></td>
-                                        <?php }else if((round($selisih_) <= 0) && round($selisih_) >= -7){ ?>
-                                        <script type="text/javascript">
-                                          setTimeout(function() {
-                                            swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
-                                          }, 200);
-                                        </script>
-                                        <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih_))." hari.</b>"; ?></td>
-                                        <?php }else{ ?>
-                                        <td class="text-green"><?php echo "<b>Kurang ".round($selisih_)." hari.</b>"; ?></td>
-                                        <?php } } else{ ?>
-                                        <?php if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
-                                        <td class="text-yellow"><?php echo "<b>Kurang ".round($selisih)." hari.</b>"; ?></td>
-                                        <?php }else if((round($selisih) <= 0) && round($selisih) >= -7){ ?>
-                                        <script type="text/javascript">
-                                          setTimeout(function() {
-                                            swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
-                                          }, 200);
-                                        </script>
-                                        <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih))." hari.</b>"; ?></td>
-                                        <?php }else{ ?>
-                                        <td class="text-green"><?php echo "<b>Kurang ".round($selisih)." hari.</b>"; ?></td>
-                                        <?php } } ?>
+                                        <td><?php echo $hr.", ".date('d', $aktif)." ".$bln." ".date('Y', $aktif); ?></td>
+                                        <td><?php echo $h.", ".date('d', $nonaktif)." ".$b." ".date('Y', $nonaktif); ?></td>
+																				<?php
+																				if(!empty($data[PERPANJANG]) && round($data[BULAN]) != 1){ $selisih = $data[BULAN];
+																					echo "<td class='text-green'><b>Kurang ".round($selisih)." bulan.</b></td>";
+																				}else if((empty($data[PERPANJANG]) || round($data[BULAN]) == 1)){ $selisih = $data[SELISIH];
+                                         if($bulan == date('m', $nonaktif) || $bulan == date('m', $aktif) || $bulan == date('m', $perpanjang)){
+																					if($selisih>31){ $selisih_ = $selisih-1;
+																						if((round($selisih_) <= 4) && (round($selisih_) > 0)){
+                                              echo "<td class='text-yellow'><b>Kurang ".round($selisih_)." hari.</b></td>";
+                                            }else if((round($selisih_) <= 0) && round($selisih_) > -7){ ?>
+                                              <script type="text/javascript">
+                                                setTimeout(function() {
+                                                  swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                                }, 200);
+                                              </script>
+                                              <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih_))." hari.</b>"; ?></td>
+                                            <?php }else{
+                                              			echo "<td class='text-green'><b>Kurang ".round($selisih_)." hari.</b></td>";
+                                             			}
+                                          } else {
+                                            if((round($selisih) <= 4) && (round($selisih) > 0)){
+                                            	echo "<td class='text-yellow'><b>Kurang ".round($selisih)." hari.</b></td>";
+                                            } else if((round($selisih) <= 0) && round($selisih) > -7){ ?>
+                                              <script type="text/javascript">
+                                                setTimeout(function() {
+                                                  swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                                }, 200);
+                                              </script>
+                                              <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih))." hari.</b>"; ?></td>
+                                      <?php }else{
+                                              echo "<td class='text-green'><b>Kurang ".round($selisih)." hari.</b></td>";
+                                             } }
+                                        }else if($bulan > date('m', $nonaktif)){
+                                          echo "<td class='text-red'><b>Jatuh Tempo (-31)</b></td>";
+                                        }else if($data[SEL] > 31){ $selisih = $data[BEDA];
+                                          echo "<td class='text-green'><b>Kurang ".$selisih." hari.</b></td>";
+                                        }else{ $selisih = $data[SEL];
+																					echo "<td class='text-green'><b>Kurang ".$selisih." hari.</b></td>";
+																				}
+																				} ?>
                                         <td>
                                           <?php if(!empty($data[FOTO_MEMBER])){ ?>
                                             <a href="../assets/img/member/<?php echo $data[FOTO_MEMBER]; ?>" class="lihat" title="<?php echo $data[NM_MEMBER]; ?>"><i class="fa fa-picture-o"></i></a>
@@ -161,7 +179,7 @@
           <div class="modal-body">
             <div class="row">
                 <div class="col-xs-6">
-	                <?php 
+	                <?php
 	                	$hitung = oci_parse($koneksi, "SELECT COUNT(*) FROM MEMBER"); oci_execute($hitung);
 	                	$count = oci_fetch_array($hitung); $cek_ = oci_parse($koneksi, "SELECT ID_MEMBER FROM MEMBER");
                     oci_execute($cek_);
@@ -213,7 +231,7 @@
                 	<div class="form-group">
                 		<label for="">Tanggal Mendaftar :</label><?php $hr = $array_hr[date('N')]; $bln = $array_bln[date('n')]; ?>
                 		<input type="text" readonly value="<?php echo $hr.', '.date('j').' '.$bln.' '.date('Y'); ?>" name="date" class="form-control">
-                	</div>	
+                	</div>
                   	<div class="form-group">
 	                    <label for="preview_gambar">Foto Member&nbsp;<span class="text-red"><b>**</b></span>:</label>
 	                    <input type="file" name="ft_member" id="preview_gambar" class="filestyle" data-buttonName="bg-blue">
@@ -250,14 +268,14 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<?php 
+<?php
     }else{
         ?>
           <script type="text/javascript">
             setTimeout(function() {
                 swal({
-                      title:"Oopss!",   
-                      text: "Restricted Page !",   
+                      title:"Oopss!",
+                      text: "Restricted Page !",
                       type: "warning",
                       showCancelButton: false
                 }, function(){

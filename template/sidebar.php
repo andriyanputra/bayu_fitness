@@ -87,4 +87,23 @@
         </ul>
     </li>
 </ul>
+<?php } else if($_SESSION[ID_LEVEL]==3){ ?>
+<ul class="sidebar-menu">
+    <li class="active">
+        <a href="index">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-user"></i>
+            <span>Data Member</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="../beranda/index?fold=ang&page=anggota_profile&id=<?php echo $row[ID_MEMBER]; ?>"><i class="fa fa-angle-double-right"></i> Profile Member</a></li>
+            <li><a href="../beranda/index?fold=ang&page=anggota_edit&id=<?php echo $row[ID_MEMBER]; ?>"><i class="fa fa-angle-double-right"></i> Edit Data Member</a></li>
+        </ul>
+    </li>
+</ul>
 <?php } ?>

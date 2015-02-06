@@ -28,9 +28,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-10"></div>
-                                <div class="col-md-2 pull-right">
-                                    <a href="index?fold=user&page=user_edit&id=<?php echo $db[NIP_PEGAWAI]; ?>" class="btn btn-block btn-primary" data-toggle="tooltip" title="Edit User"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit User</a>
-                                </div>
+                            <div class="col-md-2 pull-right">
+                                <a href="index?fold=user&page=user_edit&id=<?php echo $db[NIP_PEGAWAI]; ?>" class="btn btn-block btn-primary" data-toggle="tooltip" title="Edit User"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit User</a>
+                            </div>
                         </div>
                     </div>
                     <br>

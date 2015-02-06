@@ -19,21 +19,21 @@
     		$level = $_POST['level'];
 
     		$foto = $nip."_".$_FILES['ft_pegawai'] ['name']; // Mendapatkan nama gambar
-            $type = $_FILES['ft_pegawai']['type'];
-            $ukuran = $_FILES['ft_pegawai']['size'];
+        $type = $_FILES['ft_pegawai']['type'];
+        $ukuran = $_FILES['ft_pegawai']['size'];
 
-            $target_dir = "../assets/img/pegawai/";
-			$target_file = $target_dir . basename($foto);
-			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        $target_dir = "../assets/img/pegawai/";
+				$target_file = $target_dir . basename($foto);
+				$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-            $check = @getimagesize($_FILES["ft_pegawai"]["tmp_name"]);//Cek type file
+        $check = @getimagesize($_FILES["ft_pegawai"]["tmp_name"]);//Cek type file
 		    if($check === false) {
 		        ?>
 			      <script type="text/javascript">
 			        setTimeout(function() {
 			            swal({
-			                  title:"Oopss!",   
-			                  text: "File is not an image !",   
+			                  title:"Oopss!",
+			                  text: "File is not an image !",
 			                  type: "error",
 			                  showCancelButton: false
 			            }, function(){
@@ -44,39 +44,39 @@
 				<?php
 		    }
 		    // Check if file already exists
-			if (file_exists($target_file)) {
-			    ?>
-			      <script type="text/javascript">
-			        setTimeout(function() {
-			            swal({
-			                  title:"Oopss!",   
-			                  text: "File already exists! Mohon untuk melakukan update!",   
-			                  type: "error",
-			                  showCancelButton: false
-			            }, function(){
-			                document.location = 'index?fold=user&page=index';
-			            })
-			        }, 200);
-			      </script>
-				<?php
-			}
-			//cek ukuran gambar
-            if($_FILES['ft_pegawai']['size'] > 2097152){
-            	?>
-			      <script type="text/javascript">
-			        setTimeout(function() {
-			            swal({
-			                  title:"Oopss!",   
-			                  text: "Ukuran foto terlalu besar! Max: 2Mb !",   
-			                  type: "error",
-			                  showCancelButton: false
-			            }, function(){
-			                 document.location = 'index?fold=user&page=index';
-			            })
-			        }, 200);
-			      </script>
-				<?php
-            }
+				if (file_exists($target_file)) {
+				    ?>
+				      <script type="text/javascript">
+				        setTimeout(function() {
+				            swal({
+				                  title:"Oopss!",
+				                  text: "File already exists! Mohon untuk melakukan update!",
+				                  type: "error",
+				                  showCancelButton: false
+				            }, function(){
+				                document.location = 'index?fold=user&page=index';
+				            })
+				        }, 200);
+				      </script>
+					<?php
+				}
+				//cek ukuran gambar
+        if($_FILES['ft_pegawai']['size'] > 2097152){
+        	?>
+		      <script type="text/javascript">
+		        setTimeout(function() {
+		            swal({
+		                  title:"Oopss!",
+		                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
+		                  type: "error",
+		                  showCancelButton: false
+		            }, function(){
+		                 document.location = 'index?fold=user&page=index';
+		            })
+		        }, 200);
+		      </script>
+					<?php
+        }
 
             if(!empty($_FILES['ft_pegawai'] ['name'])){
             	if(move_uploaded_file($_FILES["ft_pegawai"]["tmp_name"], $target_file)){
@@ -90,8 +90,8 @@
 						          <script type="text/javascript">
 						            setTimeout(function() {
 						                swal({
-						                      title:"Success!",   
-						                      text: "Biodata user berhasil disimpan",   
+						                      title:"Success!",
+						                      text: "Biodata user berhasil disimpan",
 						                      type: "success",
 						                      showCancelButton: false
 						                }, function(){
@@ -105,8 +105,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Biodata user gagal tersimpan !",   
+							                  title:"Oopss!",
+							                  text: "Biodata user gagal tersimpan !",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -121,8 +121,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+						                  title:"Oopss!",
+						                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -139,8 +139,8 @@
 					          <script type="text/javascript">
 					            setTimeout(function() {
 					                swal({
-					                      title:"Success!",   
-					                      text: "Biodata user berhasil disimpan",   
+					                      title:"Success!",
+					                      text: "Biodata user berhasil disimpan",
 					                      type: "success",
 					                      showCancelButton: false
 					                }, function(){
@@ -154,8 +154,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Biodata user gagal tersimpan !",   
+						                  title:"Oopss!",
+						                  text: "Biodata user gagal tersimpan !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -171,8 +171,8 @@
 				      <script type="text/javascript">
 				        setTimeout(function() {
 				            swal({
-				                  title:"Oopss!",   
-				                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+				                  title:"Oopss!",
+				                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
@@ -186,8 +186,8 @@
             	if(!empty($_POST['jabatan_baru'])){
             		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
             		if(oci_execute($in_jab)){
-            			$id_jab = oci_parse($koneksi, "select * from (select id_jabatan from jabatan order by id_jabatan desc) where rownum <= 1"); 
-            			oci_execute($id_jab); 
+            			$id_jab = oci_parse($koneksi, "select * from (select id_jabatan from jabatan order by id_jabatan desc) where rownum <= 1");
+            			oci_execute($id_jab);
             			$id_jabatan = oci_fetch_array($id_jab);
             			$id = $id_jabatan['ID_JABATAN'];
             			$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$id', '', '$alamat', '$telp', 1, '$jk')");
@@ -196,8 +196,8 @@
 					          <script type="text/javascript">
 					            setTimeout(function() {
 					                swal({
-					                      title:"Success!",   
-					                      text: "Biodata user berhasil disimpan",   
+					                      title:"Success!",
+					                      text: "Biodata user berhasil disimpan",
 					                      type: "success",
 					                      showCancelButton: false
 					                }, function(){
@@ -211,8 +211,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Biodata user gagal tersimpan !",   
+						                  title:"Oopss!",
+						                  text: "Biodata user gagal tersimpan !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -227,8 +227,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+					                  title:"Oopss!",
+					                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -245,8 +245,8 @@
 				          <script type="text/javascript">
 				            setTimeout(function() {
 				                swal({
-				                      title:"Success!",   
-				                      text: "Biodata user berhasil disimpan",   
+				                      title:"Success!",
+				                      text: "Biodata user berhasil disimpan",
 				                      type: "success",
 				                      showCancelButton: false
 				                }, function(){
@@ -260,8 +260,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "Biodata user gagal tersimpan !",   
+					                  title:"Oopss!",
+					                  text: "Biodata user gagal tersimpan !",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -311,8 +311,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "File is not an image !",   
+					                  title:"Oopss!",
+					                  text: "File is not an image !",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -328,8 +328,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "File already exists! Mohon untuk melakukan update!",   
+					                  title:"Oopss!",
+					                  text: "File already exists! Mohon untuk melakukan update!",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -345,8 +345,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "Ukuran foto terlalu besar! Max: 2Mb !",   
+					                  title:"Oopss!",
+					                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -357,12 +357,12 @@
 						<?php
 		            }
 		            if(unlink($target_dir . "" . $foto_lama)){
-						if(move_uploaded_file($_FILES["ft_pegawai_baru"]["tmp_name"], $target_file)){
+									if(move_uploaded_file($_FILES["ft_pegawai_baru"]["tmp_name"], $target_file)){
 			            	if(!empty($_POST['jabatan_baru']) && !empty($_POST['pass_pegawai_baru'])){
 			            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 			            		if(oci_execute($in_jab)){
 			            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-			            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+			            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 			            											NM_PEGAWAI = '$nm',
 			            											PASS_PEGAWAI = '$pass',
 			            											ID_LEVEL = '$level',
@@ -378,8 +378,8 @@
 								          <script type="text/javascript">
 								            setTimeout(function() {
 								                swal({
-								                      title:"Success!",   
-								                      text: "Biodata user berhasil diperbaharui",   
+								                      title:"Success!",
+								                      text: "Biodata user berhasil diperbaharui",
 								                      type: "success",
 								                      showCancelButton: false
 								                }, function(){
@@ -393,8 +393,8 @@
 									      <script type="text/javascript">
 									        setTimeout(function() {
 									            swal({
-									                  title:"Oopss!",   
-									                  text: "Biodata user gagal diperbaharui !",   
+									                  title:"Oopss!",
+									                  text: "Biodata user gagal diperbaharui !",
 									                  type: "error",
 									                  showCancelButton: false
 									            }, function(){
@@ -409,8 +409,8 @@
 								      <script type="text/javascript">
 								        setTimeout(function() {
 								            swal({
-								                  title:"Oopss!",   
-								                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+								                  title:"Oopss!",
+								                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 								                  type: "error",
 								                  showCancelButton: false
 								            }, function(){
@@ -421,7 +421,7 @@
 								    <?php
 			            		}
 			            	}else{
-			            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+			            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 			            											NM_PEGAWAI = '$nm',
 			            											ID_LEVEL = '$level',
 			            											ASK_PEGAWAI = '$ask',
@@ -435,8 +435,8 @@
 							          <script type="text/javascript">
 							            setTimeout(function() {
 							                swal({
-							                      title:"Success!",   
-							                      text: "Biodata user berhasil diperbaharui",   
+							                      title:"Success!",
+							                      text: "Biodata user berhasil diperbaharui",
 							                      type: "success",
 							                      showCancelButton: false
 							                }, function(){
@@ -450,8 +450,8 @@
 								      <script type="text/javascript">
 								        setTimeout(function() {
 								            swal({
-								                  title:"Oopss!",   
-								                  text: "Biodata user gagal diperbaharui !",   
+								                  title:"Oopss!",
+								                  text: "Biodata user gagal diperbaharui !",
 								                  type: "error",
 								                  showCancelButton: false
 								            }, function(){
@@ -467,8 +467,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+						                  title:"Oopss!",
+						                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -483,8 +483,8 @@
 					      <script type="text/javascript">
 					        setTimeout(function() {
 					            swal({
-					                  title:"Oopss!",   
-					                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+					                  title:"Oopss!",
+					                  text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 					                  type: "error",
 					                  showCancelButton: false
 					            }, function(){
@@ -499,7 +499,7 @@
 	            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 	            		if(oci_execute($in_jab)){
 	            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-	            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+	            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 	            											NM_PEGAWAI = '$nm',
 	            											PASS_PEGAWAI = '$pass',
 	            											ID_LEVEL = '$level',
@@ -514,8 +514,8 @@
 						          <script type="text/javascript">
 						            setTimeout(function() {
 						                swal({
-						                      title:"Success!",   
-						                      text: "Biodata user berhasil diperbaharui",   
+						                      title:"Success!",
+						                      text: "Biodata user berhasil diperbaharui",
 						                      type: "success",
 						                      showCancelButton: false
 						                }, function(){
@@ -529,8 +529,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Biodata user gagal diperbaharui !",   
+							                  title:"Oopss!",
+							                  text: "Biodata user gagal diperbaharui !",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -545,8 +545,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+						                  title:"Oopss!",
+						                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -557,7 +557,7 @@
 						    <?php
 	            		}
 	            	}else{
-	            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+	            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 	            											NM_PEGAWAI = '$nm',
 	            											ID_LEVEL = '$level',
 	            											ASK_PEGAWAI = '$ask',
@@ -570,8 +570,8 @@
 					          <script type="text/javascript">
 					            setTimeout(function() {
 					                swal({
-					                      title:"Success!",   
-					                      text: "Biodata user berhasil diperbaharui",   
+					                      title:"Success!",
+					                      text: "Biodata user berhasil diperbaharui",
 					                      type: "success",
 					                      showCancelButton: false
 					                }, function(){
@@ -585,8 +585,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Biodata user gagal diperbaharui !",   
+						                  title:"Oopss!",
+						                  text: "Biodata user gagal diperbaharui !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -616,8 +616,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "File is not an image !",   
+						                  title:"Oopss!",
+						                  text: "File is not an image !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -633,8 +633,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "File already exists! Mohon untuk melakukan update!",   
+						                  title:"Oopss!",
+						                  text: "File already exists! Mohon untuk melakukan update!",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -650,8 +650,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Ukuran foto terlalu besar! Max: 2Mb !",   
+						                  title:"Oopss!",
+						                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -667,7 +667,7 @@
 				            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 				            		if(oci_execute($in_jab)){
 				            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-				            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+				            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 				            											NM_PEGAWAI = '$nm',
 				            											PASS_PEGAWAI = '$pass',
 				            											ID_LEVEL = '$level',
@@ -685,8 +685,8 @@
 									          <script type="text/javascript">
 									            setTimeout(function() {
 									                swal({
-									                      title:"Success!",   
-									                      text: "Biodata user berhasil diperbaharui",   
+									                      title:"Success!",
+									                      text: "Biodata user berhasil diperbaharui",
 									                      type: "success",
 									                      showCancelButton: false
 									                }, function(){
@@ -700,8 +700,8 @@
 										      <script type="text/javascript">
 										        setTimeout(function() {
 										            swal({
-										                  title:"Oopss!",   
-										                  text: "Biodata user gagal diperbaharui !",   
+										                  title:"Oopss!",
+										                  text: "Biodata user gagal diperbaharui !",
 										                  type: "error",
 										                  showCancelButton: false
 										            }, function(){
@@ -716,8 +716,8 @@
 									      <script type="text/javascript">
 									        setTimeout(function() {
 									            swal({
-									                  title:"Oopss!",   
-									                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+									                  title:"Oopss!",
+									                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 									                  type: "error",
 									                  showCancelButton: false
 									            }, function(){
@@ -728,7 +728,7 @@
 									    <?php
 				            		}
 				            	}else{
-				            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+				            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 				            											NM_PEGAWAI = '$nm',
 				            											ID_LEVEL = '$level',
 				            											ASK_PEGAWAI = '$ask',
@@ -744,8 +744,8 @@
 								          <script type="text/javascript">
 								            setTimeout(function() {
 								                swal({
-								                      title:"Success!",   
-								                      text: "Biodata user berhasil diperbaharui",   
+								                      title:"Success!",
+								                      text: "Biodata user berhasil diperbaharui",
 								                      type: "success",
 								                      showCancelButton: false
 								                }, function(){
@@ -759,8 +759,8 @@
 									      <script type="text/javascript">
 									        setTimeout(function() {
 									            swal({
-									                  title:"Oopss!",   
-									                  text: "Biodata user gagal diperbaharui !",   
+									                  title:"Oopss!",
+									                  text: "Biodata user gagal diperbaharui !",
 									                  type: "error",
 									                  showCancelButton: false
 									            }, function(){
@@ -776,8 +776,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Maaf, 1 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+							                  title:"Oopss!",
+							                  text: "Maaf, 1 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -792,8 +792,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Maaf, 2 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+						                  title:"Oopss!",
+						                  text: "Maaf, 2 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -808,7 +808,7 @@
 		            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 		            		if(oci_execute($in_jab)){
 		            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-		            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+		            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 		            											NM_PEGAWAI = '$nm',
 		            											PASS_PEGAWAI = '$pass',
 		            											ID_LEVEL = '$level',
@@ -825,8 +825,8 @@
 							          <script type="text/javascript">
 							            setTimeout(function() {
 							                swal({
-							                      title:"Success!",   
-							                      text: "Biodata user berhasil diperbaharui",   
+							                      title:"Success!",
+							                      text: "Biodata user berhasil diperbaharui",
 							                      type: "success",
 							                      showCancelButton: false
 							                }, function(){
@@ -840,8 +840,8 @@
 								      <script type="text/javascript">
 								        setTimeout(function() {
 								            swal({
-								                  title:"Oopss!",   
-								                  text: "Biodata user gagal diperbaharui !",   
+								                  title:"Oopss!",
+								                  text: "Biodata user gagal diperbaharui !",
 								                  type: "error",
 								                  showCancelButton: false
 								            }, function(){
@@ -856,8 +856,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+							                  title:"Oopss!",
+							                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -868,7 +868,7 @@
 							    <?php
 		            		}
 		            	}else{
-		            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+		            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 		            											NM_PEGAWAI = '$nm',
 		            											ID_LEVEL = '$level',
 		            											ASK_PEGAWAI = '$ask',
@@ -883,8 +883,8 @@
 						          <script type="text/javascript">
 						            setTimeout(function() {
 						                swal({
-						                      title:"Success!",   
-						                      text: "Biodata user berhasil diperbaharui",   
+						                      title:"Success!",
+						                      text: "Biodata user berhasil diperbaharui",
 						                      type: "success",
 						                      showCancelButton: false
 						                }, function(){
@@ -898,8 +898,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Biodata user gagal diperbaharui !",   
+							                  title:"Oopss!",
+							                  text: "Biodata user gagal diperbaharui !",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -927,8 +927,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "File is not an image !",   
+						                  title:"Oopss!",
+						                  text: "File is not an image !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -944,8 +944,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "File already exists! Mohon untuk melakukan update!",   
+						                  title:"Oopss!",
+						                  text: "File already exists! Mohon untuk melakukan update!",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -961,8 +961,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Ukuran foto terlalu besar! Max: 2Mb !",   
+						                  title:"Oopss!",
+						                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -978,7 +978,7 @@
 				            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 				            		if(oci_execute($in_jab)){
 				            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-				            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+				            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 				            											NM_PEGAWAI = '$nm',
 				            											PASS_PEGAWAI = '$pass',
 				            											ID_LEVEL = '$level',
@@ -996,8 +996,8 @@
 									          <script type="text/javascript">
 									            setTimeout(function() {
 									                swal({
-									                      title:"Success!",   
-									                      text: "Biodata user berhasil diperbaharui",   
+									                      title:"Success!",
+									                      text: "Biodata user berhasil diperbaharui",
 									                      type: "success",
 									                      showCancelButton: false
 									                }, function(){
@@ -1011,8 +1011,8 @@
 										      <script type="text/javascript">
 										        setTimeout(function() {
 										            swal({
-										                  title:"Oopss!",   
-										                  text: "Biodata user gagal diperbaharui !",   
+										                  title:"Oopss!",
+										                  text: "Biodata user gagal diperbaharui !",
 										                  type: "error",
 										                  showCancelButton: false
 										            }, function(){
@@ -1027,8 +1027,8 @@
 									      <script type="text/javascript">
 									        setTimeout(function() {
 									            swal({
-									                  title:"Oopss!",   
-									                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+									                  title:"Oopss!",
+									                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 									                  type: "error",
 									                  showCancelButton: false
 									            }, function(){
@@ -1039,7 +1039,7 @@
 									    <?php
 				            		}
 				            	}else{
-				            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+				            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 				            											NM_PEGAWAI = '$nm',
 				            											ID_LEVEL = '$level',
 				            											ASK_PEGAWAI = '$ask',
@@ -1055,8 +1055,8 @@
 								          <script type="text/javascript">
 								            setTimeout(function() {
 								                swal({
-								                      title:"Success!",   
-								                      text: "Biodata user berhasil diperbaharui",   
+								                      title:"Success!",
+								                      text: "Biodata user berhasil diperbaharui",
 								                      type: "success",
 								                      showCancelButton: false
 								                }, function(){
@@ -1070,8 +1070,8 @@
 									      <script type="text/javascript">
 									        setTimeout(function() {
 									            swal({
-									                  title:"Oopss!",   
-									                  text: "Biodata user gagal diperbaharui !",   
+									                  title:"Oopss!",
+									                  text: "Biodata user gagal diperbaharui !",
 									                  type: "error",
 									                  showCancelButton: false
 									            }, function(){
@@ -1087,8 +1087,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Maaf, 1 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+							                  title:"Oopss!",
+							                  text: "Maaf, 1 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -1103,8 +1103,8 @@
 						      <script type="text/javascript">
 						        setTimeout(function() {
 						            swal({
-						                  title:"Oopss!",   
-						                  text: "Maaf, 2 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",   
+						                  title:"Oopss!",
+						                  text: "Maaf, 2 terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
 						                  type: "error",
 						                  showCancelButton: false
 						            }, function(){
@@ -1119,7 +1119,7 @@
 		            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 		            		if(oci_execute($in_jab)){
 		            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-		            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+		            			$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 		            											NM_PEGAWAI = '$nm',
 		            											PASS_PEGAWAI = '$pass',
 		            											ID_LEVEL = '$level',
@@ -1136,8 +1136,8 @@
 							          <script type="text/javascript">
 							            setTimeout(function() {
 							                swal({
-							                      title:"Success!",   
-							                      text: "Biodata user berhasil diperbaharui",   
+							                      title:"Success!",
+							                      text: "Biodata user berhasil diperbaharui",
 							                      type: "success",
 							                      showCancelButton: false
 							                }, function(){
@@ -1151,8 +1151,8 @@
 								      <script type="text/javascript">
 								        setTimeout(function() {
 								            swal({
-								                  title:"Oopss!",   
-								                  text: "Biodata user gagal diperbaharui !",   
+								                  title:"Oopss!",
+								                  text: "Biodata user gagal diperbaharui !",
 								                  type: "error",
 								                  showCancelButton: false
 								            }, function(){
@@ -1167,8 +1167,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",   
+							                  title:"Oopss!",
+							                  text: "Data jabatan baru gagal tersimpan! Silahkan diulangi.",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -1179,7 +1179,7 @@
 							    <?php
 		            		}
 		            	}else{
-		            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET 
+		            		$update = oci_parse($koneksi, "UPDATE PEGAWAI SET
 		            											NM_PEGAWAI = '$nm',
 		            											ID_LEVEL = '$level',
 		            											ASK_PEGAWAI = '$ask',
@@ -1194,8 +1194,8 @@
 						          <script type="text/javascript">
 						            setTimeout(function() {
 						                swal({
-						                      title:"Success!",   
-						                      text: "Biodata user berhasil diperbaharui",   
+						                      title:"Success!",
+						                      text: "Biodata user berhasil diperbaharui",
 						                      type: "success",
 						                      showCancelButton: false
 						                }, function(){
@@ -1209,8 +1209,8 @@
 							      <script type="text/javascript">
 							        setTimeout(function() {
 							            swal({
-							                  title:"Oopss!",   
-							                  text: "Biodata user gagal diperbaharui !",   
+							                  title:"Oopss!",
+							                  text: "Biodata user gagal diperbaharui !",
 							                  type: "error",
 							                  showCancelButton: false
 							            }, function(){
@@ -1232,8 +1232,8 @@
           <script type="text/javascript">
             setTimeout(function() {
                 swal({
-                      title:"Oopss!",   
-                      text: "Restricted Page !",   
+                      title:"Oopss!",
+                      text: "Restricted Page !",
                       type: "warning",
                       showCancelButton: false
                 }, function(){

@@ -13,9 +13,7 @@
 	        <li class="active">Dashboard</li>
 	    </ol>
 	</section>
-
 	<br>
-
 	<div class="row">
 	    <div class="col-md-10 col-md-offset-1">
 	        <?php
@@ -39,19 +37,22 @@
 	        <div class="col-md-10 col-md-offset-1">
 	            <div class="col-lg-4 col-xs-4">
 	                <!-- small box -->
-	                <div class="small-box bg-aqua" data-toggle="tooltip" title="Data Anggota">
+	                <div class="small-box bg-aqua" data-toggle="tooltip" title="Data Member">
 	                    <div class="inner">
 	                        <h3>
-	                            150
+	                        <?php 
+	                        	$hitung = oci_parse($koneksi, "SELECT COUNT(*) AS jml FROM MEMBER"); oci_execute($hitung); $count = oci_fetch_array($hitung); 
+	                        	echo $count[JML];
+	                        ?>    
 	                        </h3>
 	                        <p>
-	                            Data Anggota
+	                            Data Member
 	                        </p>
 	                    </div>
 	                    <div class="icon">
 	                        <i class="fa fa-user"></i>
 	                    </div>
-	                    <a href="#" class="small-box-footer">
+	                    <a href="index?fold=ang&page=anggota" class="small-box-footer">
 	                        More info <i class="fa fa-arrow-circle-right"></i>
 	                    </a>
 	                </div>
@@ -151,9 +152,7 @@
 	        <li class="active">Dashboard</li>
 	    </ol>
 	</section>
-
 	<br>
-
 	<div class="row">
 	    <div class="col-md-10 col-md-offset-1">
 	        <?php
@@ -169,7 +168,6 @@
 	        <?php }} ?>
 	    </div>
 	</div>
-
 	<!-- Main content -->
 	<section class="content">
 	    <!-- Small boxes (Stat box) -->
@@ -254,17 +252,123 @@
 	        </div>
 	    </div>
 	</section><!-- /.content -->
-<?php //} else { ?>
-	<!--<div class="row">
+<?php } else if($_SESSION[ID_LEVEL]==3){ ?>
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+	    <h1>
+	        Dashboard
+	        <small>Control panel</small>
+	    </h1>
+	    <ol class="breadcrumb">
+	        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+	        <li class="active">Dashboard</li>
+	    </ol>
+	</section>
+	<br>
+	<div class="row">
 	    <div class="col-md-10 col-md-offset-1">
-		    <div class="alert alert-danger alert-dismissable">
-		        <i class="fa fa-ban"></i>
-		        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		        <p>Maaf, halaman tidak tersedia !!.</p>
-		    </div>
+	        <?php
+	            if (isset($_GET['msg'])) {
+	                if ($_GET['msg'] == 'log_in') {
+	                    ?>
+	            <div class="alert alert-success alert-dismissable">
+	                <i class="fa fa-check"></i>
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	                <p>Selamat datang,
+	                <?php echo "<b>".$row['NM_MEMBER']."</b>";?> dalam Sistem Informasi New Comando Fitness Center.</p>
+	            </div>
+	        <?php }} 
+	        if(date('m') == date('m', $nonaktif) || date('m') == date('m', $aktif)){ $selisih = $row[SELISIH];
+	        	if($selisih>31){ $selisih_ = $selisih-1;
+					if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
+		    			<div class="alert alert-warning alert-dismissable">
+			                <i class="fa fa-check"></i>
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-meh-o"></i></p>
+			            </div>
+		    			<?php
+	    			}else{
+		    			?>
+		    			<div class="alert alert-success alert-dismissable">
+			                <i class="fa fa-check"></i>
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
+			            </div>
+		    			<?php
+	    			}
+	    		}else{
+	    			if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
+		    			<div class="alert alert-warning alert-dismissable">
+			                <i class="fa fa-check"></i>
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-meh-o"></i></p>
+			            </div>
+		    			<?php
+	    			}else{
+		    			?>
+		    			<div class="alert alert-success alert-dismissable">
+			                <i class="fa fa-check"></i>
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
+			            </div>
+		    			<?php
+	    			}
+	        	} 
+	        }else{ $selisih = $data[SEL];?>
+				<div class="alert alert-success alert-dismissable">
+	                <i class="fa fa-check"></i>
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".$selisih." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
+	            </div>
+	        <?php } ?>
 	    </div>
-	</div>-->
-<?php //} ?>
+	</div>
+	<!-- Main content -->
+	<section class="content">
+	    <!-- Small boxes (Stat box) -->
+	    <div class="row">
+	        <div class="col-md-8 col-md-offset-2">
+	            <div class=" col-xs-6">
+	                <!-- small box -->
+	                <div class="small-box bg-aqua" data-toggle="tooltip" title="Artikel">
+	                    <div class="inner">
+	                        <h3>
+	                            <i class="fa fa-user"></i>
+	                        </h3>
+	                        <p>
+	                            Profile Member
+	                        </p>
+	                    </div>
+	                    <div class="icon">
+	                        <i class="fa fa-user"></i>
+	                    </div>
+	                    <a href="index?fold=ang&page=anggota_profile&id=<?php echo $row[ID_MEMBER]; ?>" class="small-box-footer">
+	                        More info <i class="fa fa-arrow-circle-right"></i>
+	                    </a>
+	                </div>
+	            </div><!-- ./col -->
+	            <div class=" col-xs-6">
+	                <!-- small box -->
+	                <div class="small-box bg-red" data-toggle="tooltip" title="Pemberitahuan">
+	                    <div class="inner">
+	                        <h3>
+	                            3
+	                        </h3>
+	                        <p>
+	                            Pemberitahuan
+	                        </p>
+	                    </div>
+	                    <div class="icon">
+	                        <i class="fa fa-exclamation-circle"></i>
+	                    </div>
+	                    <a href="index?page=notif" class="small-box-footer">
+	                        More info <i class="fa fa-arrow-circle-right"></i>
+	                    </a>
+	                </div>
+	            </div><!-- ./col -->
+	        </div>
+	    </div>
+	</section><!-- /.content -->
 <?php 
     }else{
         ?>

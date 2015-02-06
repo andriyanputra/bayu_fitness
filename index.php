@@ -28,7 +28,7 @@ header ("location:index.php");
 <!--[if lte IE 8]>
 		<script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
 	<![endif]--> 
-  <link rel="shortcut icon" href="assets/img/favicon.png"> 
+<link rel="shortcut icon" href="assets/img/favicon.png"> 
 <link rel="stylesheet" href="assets/frontend/css/sweet-alert.css" />
 <link rel="stylesheet" href="assets/frontend/css/bootstrap.css" />
 <link rel="stylesheet" href="assets/frontend/css/bootstrap.min.css" />
@@ -439,7 +439,7 @@ header ("location:index.php");
         <form action="config/check.php" method="post">
           <div class="modal-body">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" autocomplete="off" name="nip" class="form-control" placeholder="Nomor Induk Pegawai" required pattern="[0-9]{9}">
+            <input type="text" autocomplete="off" name="nip" class="form-control" placeholder="Nomor Induk Pegawai atau ID Member" required>
             <input type="password" autocomplete="off" name="pass" class="form-control" placeholder="Password" required >
             <h3>Lupa password ?</h3>
             <p>no worries, klik <a href="#lupaPass" id="lupa" data-toggle="modal" role="button">disini</a> untuk reset passwordmu.</p>
