@@ -19,14 +19,14 @@
     		$level = $_POST['level'];
 
     		$foto = $nip."_".$_FILES['ft_pegawai'] ['name']; // Mendapatkan nama gambar
-        $type = $_FILES['ft_pegawai']['type'];
-        $ukuran = $_FILES['ft_pegawai']['size'];
+	        $type = $_FILES['ft_pegawai']['type'];
+	        $ukuran = $_FILES['ft_pegawai']['size'];
 
-        $target_dir = "../assets/img/pegawai/";
-				$target_file = $target_dir . basename($foto);
-				$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	        $target_dir = "../assets/img/pegawai/";
+			$target_file = $target_dir . basename($foto);
+			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
-        $check = @getimagesize($_FILES["ft_pegawai"]["tmp_name"]);//Cek type file
+        	$check = @getimagesize($_FILES["ft_pegawai"]["tmp_name"]);//Cek type file
 		    if($check === false) {
 		        ?>
 			      <script type="text/javascript">
@@ -44,39 +44,39 @@
 				<?php
 		    }
 		    // Check if file already exists
-				if (file_exists($target_file)) {
-				    ?>
-				      <script type="text/javascript">
-				        setTimeout(function() {
-				            swal({
-				                  title:"Oopss!",
-				                  text: "File already exists! Mohon untuk melakukan update!",
-				                  type: "error",
-				                  showCancelButton: false
-				            }, function(){
-				                document.location = 'index?fold=user&page=index';
-				            })
-				        }, 200);
-				      </script>
-					<?php
-				}
-				//cek ukuran gambar
-        if($_FILES['ft_pegawai']['size'] > 2097152){
-        	?>
-		      <script type="text/javascript">
-		        setTimeout(function() {
-		            swal({
-		                  title:"Oopss!",
-		                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
-		                  type: "error",
-		                  showCancelButton: false
-		            }, function(){
-		                 document.location = 'index?fold=user&page=index';
-		            })
-		        }, 200);
-		      </script>
-					<?php
-        }
+			if (file_exists($target_file)) {
+			    ?>
+			      <script type="text/javascript">
+			        setTimeout(function() {
+			            swal({
+			                  title:"Oopss!",
+			                  text: "File already exists! Mohon untuk melakukan update!",
+			                  type: "error",
+			                  showCancelButton: false
+			            }, function(){
+			                document.location = 'index?fold=user&page=index';
+			            })
+			        }, 200);
+			      </script>
+				<?php
+			}
+			//cek ukuran gambar
+	        if($_FILES['ft_pegawai']['size'] > 2097152){
+	        	?>
+			      <script type="text/javascript">
+			        setTimeout(function() {
+			            swal({
+			                  title:"Oopss!",
+			                  text: "Ukuran foto terlalu besar! Max: 2Mb !",
+			                  type: "error",
+			                  showCancelButton: false
+			            }, function(){
+			                 document.location = 'index?fold=user&page=index';
+			            })
+			        }, 200);
+			      </script>
+						<?php
+	        }
 
             if(!empty($_FILES['ft_pegawai'] ['name'])){
             	if(move_uploaded_file($_FILES["ft_pegawai"]["tmp_name"], $target_file)){
@@ -84,7 +84,7 @@
 	            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 	            		if(oci_execute($in_jab)){
 	            			$id_jab = oci_parse($koneksi, "SELECT ID_JABATAN FROM JABATAN ORDER BY ID_JABATAN DESC LIMIT 1"); oci_execute($id_jab); $id_jabatan = oci_fetch_array($id_jab); $id = $id_jabatan['ID_JABATAN'];
-	            			$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$id', '$foto', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '')");
+	            			$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$id', '$foto', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '', 1, current_timestamp)");
 	            			if(oci_execute($insert)){
 	            				?>
 						          <script type="text/javascript">
@@ -133,7 +133,7 @@
 						    <?php
 	            		}
 	            	}else{
-	            		$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$jabatan', '$foto', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '')");
+	            		$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$jabatan', '$foto', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '', 1, current_timestamp)");
 	        			if(oci_execute($insert)){
 	        				?>
 					          <script type="text/javascript">
@@ -190,7 +190,7 @@
             			oci_execute($id_jab);
             			$id_jabatan = oci_fetch_array($id_jab);
             			$id = $id_jabatan['ID_JABATAN'];
-            			$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$id', '', '$alamat', '$telp', 1, '$jk')");
+            			$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$id', '', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '', 1, current_timestamp)");
             			if(oci_execute($insert)){
             				?>
 					          <script type="text/javascript">
@@ -239,7 +239,7 @@
 					    <?php
             		}
             	}else{
-            		$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$jabatan', '$foto', '$alamat', '$telp', 1, '$jk')");
+            		$insert = oci_parse($koneksi, "INSERT INTO PEGAWAI VALUES ('$nip', '$nm', '$pass', '$level', '$ask', '$jabatan', '$foto', '$alamat', '$telp', 1, '$jk', TO_DATE('$date_aktif', 'MM/DD/YYYY'), '', 1, current_timestamp)");
         			if(oci_execute($insert)){
         				?>
 				          <script type="text/javascript">
@@ -357,7 +357,7 @@
 						<?php
 		            }
 		            if(unlink($target_dir . "" . $foto_lama)){
-									if(move_uploaded_file($_FILES["ft_pegawai_baru"]["tmp_name"], $target_file)){
+						if(move_uploaded_file($_FILES["ft_pegawai_baru"]["tmp_name"], $target_file)){
 			            	if(!empty($_POST['jabatan_baru']) && !empty($_POST['pass_pegawai_baru'])){
 			            		$in_jab = oci_parse($koneksi, "INSERT INTO JABATAN (NM_JABATAN) VALUES ('$jabatan')");
 			            		if(oci_execute($in_jab)){
@@ -371,7 +371,9 @@
 			            											FOTO_PEGAWAI = '$foto',
 			            											ALAMAT_PEGAWAI = '$alamat',
 			            											TELP_PEGAWAI = '$telp',
-			            											JK_PEGAWAI = '$jk'
+			            											JK_PEGAWAI = '$jk',
+			            											NOTIF_PEGAWAI = 2,
+			            											LOG = current_timestamp
 			            											WHERE NIP_PEGAWAI = $nip");
 			            			if(oci_execute($update)){
 			            				?>
@@ -428,7 +430,9 @@
 			            											FOTO_PEGAWAI = '$foto',
 			            											ALAMAT_PEGAWAI = '$alamat',
 			            											TELP_PEGAWAI = '$telp',
-			            											JK_PEGAWAI = '$jk'
+			            											JK_PEGAWAI = '$jk',
+			            											NOTIF_PEGAWAI = 2,
+			            											LOG = current_timestamp
 			            											WHERE NIP_PEGAWAI = $nip");
 			        			if(oci_execute($update)){
 			        				?>
@@ -507,7 +511,9 @@
 	            											ID_JABATAN = '$id',
 	            											ALAMAT_PEGAWAI = '$alamat',
 	            											TELP_PEGAWAI = '$telp',
-	            											JK_PEGAWAI = '$jk'
+	            											JK_PEGAWAI = '$jk',
+	            											NOTIF_PEGAWAI = 2,
+			            									LOG = current_timestamp
 	            											WHERE NIP_PEGAWAI = $nip");
 	            			if(oci_execute($update)){
 	            				?>
@@ -563,7 +569,9 @@
 	            											ASK_PEGAWAI = '$ask',
 	            											ALAMAT_PEGAWAI = '$alamat',
 	            											TELP_PEGAWAI = '$telp',
-	            											JK_PEGAWAI = '$jk'
+	            											JK_PEGAWAI = '$jk',
+	            											NOTIF_PEGAWAI = 2,
+			            									LOG = current_timestamp
 	            											WHERE NIP_PEGAWAI = $nip");
 	        			if(oci_execute($update)){
 	        				?>
@@ -678,7 +686,9 @@
 				            											TELP_PEGAWAI = '$telp',
 				            											STATUS_PEGAWAI = $status,
 				            											JK_PEGAWAI = '$jk',
-				            											DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+				            											DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+				            											NOTIF_PEGAWAI = 2,
+			            												LOG = current_timestamp
 				            											WHERE NIP_PEGAWAI = $nip");
 				            			if(oci_execute($update)){
 				            				?>
@@ -737,7 +747,9 @@
 				            											TELP_PEGAWAI = '$telp',
 				            											STATUS_PEGAWAI = $status,
 				            											JK_PEGAWAI = '$jk',
-				            											DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+				            											DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+				            											NOTIF_PEGAWAI = 2,
+			            												LOG = current_timestamp
 				            											WHERE NIP_PEGAWAI = $nip");
 				        			if(oci_execute($update)){
 				        				?>
@@ -818,7 +830,9 @@
 		            											TELP_PEGAWAI = '$telp',
 		            											STATUS_PEGAWAI = $status,
 			            										JK_PEGAWAI = '$jk',
-			            										DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+			            										DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            										NOTIF_PEGAWAI = 2,
+			            										LOG = current_timestamp
 		            											WHERE NIP_PEGAWAI = $nip");
 		            			if(oci_execute($update)){
 		            				?>
@@ -876,7 +890,9 @@
 		            											TELP_PEGAWAI = '$telp',
 		            											STATUS_PEGAWAI = $status,
 			            										JK_PEGAWAI = '$jk',
-			            										DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+			            										DATE_AKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            										NOTIF_PEGAWAI = 2,
+			            										LOG = current_timestamp
 		            											WHERE NIP_PEGAWAI = $nip");
 		        			if(oci_execute($update)){
 		        				?>
@@ -989,7 +1005,9 @@
 				            											TELP_PEGAWAI = '$telp',
 				            											STATUS_PEGAWAI = $status,
 				            											JK_PEGAWAI = '$jk',
-				            											DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+				            											DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            												NOTIF_PEGAWAI = 2,
+			            												LOG = current_timestamp
 				            											WHERE NIP_PEGAWAI = $nip");
 				            			if(oci_execute($update)){
 				            				?>
@@ -1048,7 +1066,9 @@
 				            											TELP_PEGAWAI = '$telp',
 				            											STATUS_PEGAWAI = $status,
 				            											JK_PEGAWAI = '$jk',
-				            											DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+				            											DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            												NOTIF_PEGAWAI = 2,
+			            												LOG = current_timestamp
 				            											WHERE NIP_PEGAWAI = $nip");
 				        			if(oci_execute($update)){
 				        				?>
@@ -1129,7 +1149,9 @@
 		            											TELP_PEGAWAI = '$telp',
 		            											STATUS_PEGAWAI = $status,
 			            										JK_PEGAWAI = '$jk',
-			            										DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+			            										DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            										NOTIF_PEGAWAI = 2,
+			            										LOG = current_timestamp
 		            											WHERE NIP_PEGAWAI = $nip");
 		            			if(oci_execute($update)){
 		            				?>
@@ -1187,7 +1209,9 @@
 		            											TELP_PEGAWAI = '$telp',
 		            											STATUS_PEGAWAI = $status,
 			            										JK_PEGAWAI = '$jk',
-			            										DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY')
+			            										DATE_NONAKTIF = TO_DATE('$date_nonaktif', 'MM/DD/YYYY'),
+			            										NOTIF_PEGAWAI = 2,
+			            										LOG = current_timestamp
 		            											WHERE NIP_PEGAWAI = $nip");
 		        			if(oci_execute($update)){
 		        				?>

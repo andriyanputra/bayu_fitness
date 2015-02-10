@@ -6,6 +6,10 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
     </li>
+    <li>
+        <a href="../beranda/index?fold=notif&page=index"><i class="fa fa-warning"></i> <span>Pemberitahuan</span>
+        <small class="badge pull-right bg-red" data-toggle="tooltip" title="<?php echo $emp_[0]+$mem_[0]; ?> Pemberitahuan" data-placement="right"><?php echo $emp_[0]+$mem_[0]; ?></small></a>
+    </li>
     <li class="treeview">
         <a href="#">
             <i class="fa fa-user"></i>
@@ -41,10 +45,6 @@
             <li><a href="../beranda/index?page=artikel"><i class="fa fa-angle-double-right"></i> Artikel</a></li>
             <li><a href="../beranda/index?page=kegiatan"><i class="fa fa-angle-double-right"></i> Kegiatan</a></li>
             <li><a href="../beranda/index?page=unggah"><i class="fa fa-angle-double-right"></i> Unggah Video</a></li>
-            <li>
-                <a href="../beranda/index?page=notif"><i class="fa fa-angle-double-right"></i> <span>Pemberitahuan</span>
-                <small class="badge pull-right bg-red" data-toggle="tooltip" title="3 Pemberitahuan" data-placement="right">3</small></a>
-            </li>
         </ul>
     </li>
     <li>
@@ -70,6 +70,10 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
     </li>
+    <li>
+        <a href="../beranda/index?page=notif"><i class="fa fa-warning"></i> <span>Pemberitahuan</span>
+        <small class="badge pull-right bg-red" data-toggle="tooltip" title="3 Pemberitahuan" data-placement="right">3</small></a>
+    </li>
     <li class="treeview active">
         <a href="#">
             <i class="fa fa-cog"></i>
@@ -80,10 +84,6 @@
             <li><a href="index?page=artikel"><i class="fa fa-angle-double-right"></i> Artikel</a></li>
             <li><a href="index?page=kegiatan"><i class="fa fa-angle-double-right"></i> Kegiatan</a></li>
             <li><a href="index?page=unggah"><i class="fa fa-angle-double-right"></i> Unggah Video</a></li>
-            <li>
-                <a href="index?page=notif"><i class="fa fa-angle-double-right"></i> <span>Pemberitahuan</span>
-                <small class="badge pull-right bg-red" data-toggle="tooltip" title="3 Pemberitahuan" data-placement="right">3</small></a>
-            </li>
         </ul>
     </li>
 </ul>

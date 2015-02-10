@@ -94,7 +94,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
             }
 
             if (move_uploaded_file($_FILES["ft_member"]["tmp_name"], $target_file)) {
-                $insert = oci_parse($koneksi, "INSERT INTO MEMBER VALUES ('$id', '$nm', '$alamat', '$telp', TO_DATE('$date_dftr', 'MM/DD/YYYY'), TO_DATE('$tgl_habis', 'MM/DD/YYYY'), '$pass', '$jk', '$ask', '$foto', $level,'', 1)");
+                $insert = oci_parse($koneksi, "INSERT INTO MEMBER VALUES ('$id', '$nm', '$alamat', '$telp', TO_DATE('$date_dftr', 'MM/DD/YYYY'), TO_DATE('$tgl_habis', 'MM/DD/YYYY'), '$pass', '$jk', '$ask', '$foto', $level,'', 1, current_timestamp)");
                 if (oci_execute($insert)) {
                     ?>
                     <script type="text/javascript">
@@ -145,7 +145,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
 
             //echo "ID:".$id."<br>Nama:".$nm."<br>Telp:".$telp."<br>Alamat:".$alamat."<br>Jenis Kelamin:".$jk."<br>Ask:".$ask."<br>Tanggal Daftar(save):".date('d/m/Y H:i:s')."<br>Tanggal Daftar(post):".$date_dftr."<br>Pass:".$pass."<br>Level:".$level."<br>Foto:".$foto."<br>1bulan kedepan:".$tgl_habis;
         } else {
-            $insert = oci_parse($koneksi, "INSERT INTO MEMBER VALUES ('$id', '$nm', '$alamat', '$telp', TO_DATE('$date_dftr', 'mm/dd/yyyy hh24:mi:ss'), TO_DATE('$tgl_habis', 'mm/dd/yyyy hh24:mi:ss'), '$pass', '$jk', '$ask', '', $level,'', 1)");
+            $insert = oci_parse($koneksi, "INSERT INTO MEMBER VALUES ('$id', '$nm', '$alamat', '$telp', TO_DATE('$date_dftr', 'mm/dd/yyyy hh24:mi:ss'), TO_DATE('$tgl_habis', 'mm/dd/yyyy hh24:mi:ss'), '$pass', '$jk', '$ask', '', $level,'', 1, current_timestamp)");
             if (oci_execute($insert)) {
                 ?>
                 <script type="text/javascript">
@@ -186,168 +186,92 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
         $alamat = $_POST['alamat_member'];
         $jk = $_POST['jk_kelamin'];
         $ask = $_POST['ask_member'];
-        if (!empty($_POST['perpanjang'])) {//jika diperpanjang masa aktifnya
+
+        if(!empty($_FILES['ft_member_baru']['name']) && empty($_POST['ft_member_lama'])){
+          if (!empty($_POST['perpanjang'])) {//jika diperpanjang masa aktifnya
             $perpanjang = $_POST['perpanjang'];
             $i = 0;
             while ($i < 12) {
-                $i++;
-                if ($i == $perpanjang) {
-                    $tgl_habis = date('m/d/Y', strtotime("+$i month"));
-                }
+              $i++;
+              if ($i == $perpanjang) {
+                  $tgl_habis = date('m/d/Y', strtotime("+$i month"));
+              }
             }
-
-            if (!empty($_POST['pass_member_baru'])) {//ganti password baru
-                $pass = md5($_POST['pass_member_baru']);
-                if (!empty($_POST['ft_member_baru']['name'])) {//jika terdapat foto baru
-                    $foto_lama = $_POST['ft_member_lama'];
-                    $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
-                    $type = $_FILES['ft_member_baru']['type'];
-                    $ukuran = $_FILES['ft_member_baru']['size'];
-                    $target_dir = "../assets/img/member/";
-                    $target_file = $target_dir . basename($foto);
-                    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-                    $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
-                    if ($check === false) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File is not an image !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    // Check if file already exists
-                    if (file_exists($target_file)) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File already exists! Mohon untuk melakukan update!",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    //cek ukuran gambar
-                    if ($_FILES['ft_member_baru']['size'] > 2097152) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Ukuran foto terlalu besar! Max: 2Mb !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    if (unlink($target_dir . "" . $foto_lama)) {
-                        if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
-                            $update = oci_parse($koneksi, "UPDATE MEMBER SET
-																				NM_MEMBER = '$nm',
-																				ALAMAT_MEMBER = '$alamat',
-																				TELP_MEMBER = '$telp',
-																				NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
-																				PASS_MEMBER = '$pass',
-																				JK_KELAMIN = '$jk',
-																				ASK_MEMBER = '$ask',
-																				FOTO_MEMBER = '$foto',
-																				PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
-																				NOTIF_MEMBER = 2
-																				WHERE ID_MEMBER = '$id'");
-                            if (oci_execute($update)) {
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Success!",
-                                            text: "Data member berhasil diperbaharui",
-                                            type: "success",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            } else {//gagal update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Oopss!",
-                                            text: "Data member gagal diperbaharui !",
-                                            type: "error",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            }
-                        } else {//gagal upload
-                            ?>
-                            <script type="text/javascript">
-                                setTimeout(function () {
-                                    swal({
-                                        title: "Oopss!",
-                                        text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                        type: "error",
-                                        showCancelButton: false
-                                    }, function () {
-                                        document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                    })
-                                }, 200);
-                            </script>
-                            <?php
-                        }
-                    } else {//gagal menghapus link gambar lama
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                } else {//jika tidak terdapat foto baru
-                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
-																		NM_MEMBER = '$nm',
-																		ALAMAT_MEMBER = '$alamat',
-																		TELP_MEMBER = '$telp',
-																		NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
-																		PASS_MEMBER = '$pass',
-																		JK_KELAMIN = '$jk',
-																		ASK_MEMBER = '$ask',
-																		PERPANJANG = TO_DATE('$tgl', 'MM/DD/YYYY'),
-																		NOTIF_MEMBER = 2
-																		WHERE ID_MEMBER = '$id'");
-                    if (oci_execute($update)) {//proses update
-                        ?>
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                  $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                NM_MEMBER = '$nm',
+                                                ALAMAT_MEMBER = '$alamat',
+                                                TELP_MEMBER = '$telp',
+                                                NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                                PASS_MEMBER = '$pass',
+                                                JK_KELAMIN = '$jk',
+                                                ASK_MEMBER = '$ask',
+                                                FOTO_MEMBER = '$foto',
+                                                PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                NOTIF_MEMBER = 2,
+                                                LOG = current_timestamp
+                                                WHERE ID_MEMBER = '$id'");
+                  if (oci_execute($update)) {//proses update
+                      ?>
                         <script type="text/javascript">
                             setTimeout(function () {
                                 swal({
@@ -360,173 +284,112 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                 })
                             }, 200);
                         </script>
-                        <?php
-                    } else {//gagal update
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Data member gagal diperbaharui !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                }
-            } else {//tidak ganti password baru
-                if (!empty($_POST['ft_member_baru']['name'])) {//jika terdapat foto baru
-                    $foto_lama = $_POST['ft_member_lama'];
-                    $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
-                    $type = $_FILES['ft_member_baru']['type'];
-                    $ukuran = $_FILES['ft_member_baru']['size'];
-                    $target_dir = "../assets/img/member/";
-                    $target_file = $target_dir . basename($foto);
-                    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-                    $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
-                    if ($check === false) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File is not an image !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    // Check if file already exists
-                    if (file_exists($target_file)) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File already exists! Mohon untuk melakukan update!",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    //cek ukuran gambar
-                    if ($_FILES['ft_member_baru']['size'] > 2097152) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Ukuran foto terlalu besar! Max: 2Mb !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    if (unlink($target_dir . "" . $foto_lama)) {
-                        if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
-                            $update = oci_parse($koneksi, "UPDATE MEMBER SET
-																				NM_MEMBER = '$nm',
-																				ALAMAT_MEMBER = '$alamat',
-																				TELP_MEMBER = '$telp',
-																				NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
-																				JK_KELAMIN = '$jk',
-																				ASK_MEMBER = '$ask',
-																				FOTO_MEMBER = '$foto',
-																				PERPANJANG = TO_DATE('$tgl', 'MM/DD/YYYY'),
-																				NOTIF_MEMBER = 2
-																				WHERE ID_MEMBER = '$id'");
-                            if (oci_execute($update)) {
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Success!",
-                                            text: "Data member berhasil diperbaharui",
-                                            type: "success",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            } else {//gagal update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Oopss!",
-                                            text: "Data member gagal diperbaharui !",
-                                            type: "error",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            }
-                        } else {//gagal upload
-                            ?>
-                            <script type="text/javascript">
-                                setTimeout(function () {
-                                    swal({
-                                        title: "Oopss!",
-                                        text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                        type: "error",
-                                        showCancelButton: false
-                                    }, function () {
-                                        document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                    })
-                                }, 200);
-                            </script>
-                            <?php
-                        }
-                    } else {//gagal menghapus link gambar lama
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                } else {//jika tidak terdapat foto baru
-                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
-						NM_MEMBER = '$nm',
-						ALAMAT_MEMBER = '$alamat',
-						TELP_MEMBER = '$telp',
-						NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
-						JK_KELAMIN = '$jk',
-						ASK_MEMBER = '$ask',
-						PERPANJANG = TO_DATE('$tgl', 'MM/DD/YYYY'),
-						NOTIF_MEMBER = 2
-						WHERE ID_MEMBER = '$id'");
-                    if (oci_execute($update)) {//proses update
-                        ?>
+                      <?php
+                  } else {//gagal update
+                    ?>
+                      <script type="text/javascript">
+                          setTimeout(function () {
+                              swal({
+                                  title: "Oopss!",
+                                  text: "Data member gagal diperbaharui !",
+                                  type: "error",
+                                  showCancelButton: false
+                              }, function () {
+                                  document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                              })
+                          }, 200);
+                      </script>
+                    <?php
+                  }
+              } else {//gagal upload
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }else{
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                  $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                NM_MEMBER = '$nm',
+                                                ALAMAT_MEMBER = '$alamat',
+                                                TELP_MEMBER = '$telp',
+                                                NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                                JK_KELAMIN = '$jk',
+                                                ASK_MEMBER = '$ask',
+                                                FOTO_MEMBER = '$foto',
+                                                PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                NOTIF_MEMBER = 2,
+                                                LOG = current_timestamp
+                                                WHERE ID_MEMBER = '$id'");
+                  if (oci_execute($update)) {//proses update
+                      ?>
                         <script type="text/javascript">
                             setTimeout(function () {
                                 swal({
@@ -539,174 +402,114 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                 })
                             }, 200);
                         </script>
-                        <?php
-                    } else {//gagal update
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Data member gagal diperbaharui !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                }
+                      <?php
+                  } else {//gagal update
+                    ?>
+                      <script type="text/javascript">
+                          setTimeout(function () {
+                              swal({
+                                  title: "Oopss!",
+                                  text: "Data member gagal diperbaharui !",
+                                  type: "error",
+                                  showCancelButton: false
+                              }, function () {
+                                  document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                              })
+                          }, 200);
+                      </script>
+                    <?php
+                  }
+              } else {//gagal upload
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
             }
-        } else {//jika tidak diperpanjang masa aktifnya
-            if (!empty($_POST['pass_member_baru'])) {//ganti password baru
-                $pass = md5($_POST['pass_member_baru']);
-                if (!empty($_POST['ft_member_baru']['name'])) {//jika terdapat foto baru
-                    $foto_lama = $_POST['ft_member_lama'];
-                    $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
-                    $type = $_FILES['ft_member_baru']['type'];
-                    $ukuran = $_FILES['ft_member_baru']['size'];
-                    $target_dir = "../assets/img/member/";
-                    $target_file = $target_dir . basename($foto);
-                    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-                    $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
-                    if ($check === false) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File is not an image !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    // Check if file already exists
-                    if (file_exists($target_file)) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File already exists! Mohon untuk melakukan update!",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    //cek ukuran gambar
-                    if ($_FILES['ft_member_baru']['size'] > 2097152) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Ukuran foto terlalu besar! Max: 2Mb !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    if (unlink($target_dir . "" . $foto_lama)) {
-                        if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
-                            $update = oci_parse($koneksi, "UPDATE MEMBER SET
-							NM_MEMBER = '$nm',
-							ALAMAT_MEMBER = '$alamat',
-							TELP_MEMBER = '$telp',
-							PASS_MEMBER = '$pass',
-							JK_KELAMIN = '$jk',
-							ASK_MEMBER = '$ask',
-							FOTO_MEMBER = '$foto',
-							NOTIF_MEMBER = 2
-							WHERE ID_MEMBER = '$id'");
-                            if (oci_execute($update)) {//proses update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Success!",
-                                            text: "Data member berhasil diperbaharui",
-                                            type: "success",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            } else {//gagal update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Oopss!",
-                                            text: "Data member gagal diperbaharui !",
-                                            type: "error",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            }
-                        } else {//gagal upload
-                            ?>
-                            <script type="text/javascript">
-                                setTimeout(function () {
-                                    swal({
-                                        title: "Oopss!",
-                                        text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                        type: "error",
-                                        showCancelButton: false
-                                    }, function () {
-                                        document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                    })
-                                }, 200);
-                            </script>
-                            <?php
-                        }
-                    } else {//gagal menghapus link gambar lama
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                } else {//jika tidak terdapat foto baru
-                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
-						NM_MEMBER = '$nm',
-						ALAMAT_MEMBER = '$alamat',
-						TELP_MEMBER = '$telp',
-						PASS_MEMBER = '$pass',
-						JK_KELAMIN = '$jk',
-						ASK_MEMBER = '$ask',
-						NOTIF_MEMBER = 2
-						WHERE ID_MEMBER = '$id'");
-                    if (oci_execute($update)) {//proses update
-                        ?>
+          }else{//jika tidak perpanjang masa aktif
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                  $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                NM_MEMBER = '$nm',
+                                                ALAMAT_MEMBER = '$alamat',
+                                                TELP_MEMBER = '$telp',
+                                                PASS_MEMBER = '$pass',
+                                                JK_KELAMIN = '$jk',
+                                                ASK_MEMBER = '$ask',
+                                                FOTO_MEMBER = '$foto',
+                                                NOTIF_MEMBER = 2,
+                                                LOG = current_timestamp
+                                                WHERE ID_MEMBER = '$id'");
+                  if (oci_execute($update)) {//proses update
+                      ?>
                         <script type="text/javascript">
                             setTimeout(function () {
                                 swal({
@@ -719,169 +522,110 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                 })
                             }, 200);
                         </script>
-                        <?php
-                    } else {//gagal update
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Data member gagal diperbaharui !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                }
-            } else {//tidak ganti password baru
-                if (!empty($_POST['ft_member_baru']['name'])) {//jika terdapat foto baru
-                    $foto_lama = $_POST['ft_member_lama'];
-                    $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
-                    $type = $_FILES['ft_member_baru']['type'];
-                    $ukuran = $_FILES['ft_member_baru']['size'];
-                    $target_dir = "../assets/img/member/";
-                    $target_file = $target_dir . basename($foto);
-                    $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-                    $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
-                    if ($check === false) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File is not an image !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    // Check if file already exists
-                    if (file_exists($target_file)) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "File already exists! Mohon untuk melakukan update!",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    //cek ukuran gambar
-                    if ($_FILES['ft_member_baru']['size'] > 2097152) {
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Ukuran foto terlalu besar! Max: 2Mb !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                    if (unlink($target_dir . "" . $foto_lama)) {
-                        if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
-                            $update = oci_parse($koneksi, "UPDATE MEMBER SET
-							NM_MEMBER = '$nm',
-							ALAMAT_MEMBER = '$alamat',
-							TELP_MEMBER = '$telp',
-							JK_KELAMIN = '$jk',
-							ASK_MEMBER = '$ask',
-							FOTO_MEMBER = '$foto',
-							NOTIF_MEMBER = 2
-							WHERE ID_MEMBER = '$id'");
-                            if (oci_execute($update)) {//proses update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Success!",
-                                            text: "Data member berhasil diperbaharui",
-                                            type: "success",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            } else {//gagal update
-                                ?>
-                                <script type="text/javascript">
-                                    setTimeout(function () {
-                                        swal({
-                                            title: "Oopss!",
-                                            text: "Data member gagal diperbaharui !",
-                                            type: "error",
-                                            showCancelButton: false
-                                        }, function () {
-                                            document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                        })
-                                    }, 200);
-                                </script>
-                                <?php
-                            }
-                        } else {//gagal upload
-                            ?>
-                            <script type="text/javascript">
-                                setTimeout(function () {
-                                    swal({
-                                        title: "Oopss!",
-                                        text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                        type: "error",
-                                        showCancelButton: false
-                                    }, function () {
-                                        document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                    })
-                                }, 200);
-                            </script>
-                            <?php
-                        }
-                    } else {//gagal menghapus link gambar lama
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                } else {//jika tidak terdapat foto baru
-                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
-						NM_MEMBER = '$nm',
-						ALAMAT_MEMBER = '$alamat',
-						TELP_MEMBER = '$telp',
-						JK_KELAMIN = '$jk',
-						ASK_MEMBER = '$ask',
-						NOTIF_MEMBER = 2
-						WHERE ID_MEMBER = '$id'");
-                    if (oci_execute($update)) {//proses update
-                        ?>
+                      <?php
+                  } else {//gagal update
+                    ?>
+                      <script type="text/javascript">
+                          setTimeout(function () {
+                              swal({
+                                  title: "Oopss!",
+                                  text: "Data member gagal diperbaharui !",
+                                  type: "error",
+                                  showCancelButton: false
+                              }, function () {
+                                  document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                              })
+                          }, 200);
+                      </script>
+                    <?php
+                  }
+              } else {//gagal upload
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }else{
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                  $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                NM_MEMBER = '$nm',
+                                                ALAMAT_MEMBER = '$alamat',
+                                                TELP_MEMBER = '$telp',
+                                                JK_KELAMIN = '$jk',
+                                                ASK_MEMBER = '$ask',
+                                                FOTO_MEMBER = '$foto',
+                                                NOTIF_MEMBER = 2,
+                                                LOG = current_timestamp
+                                                WHERE ID_MEMBER = '$id'");
+                  if (oci_execute($update)) {//proses update
+                      ?>
                         <script type="text/javascript">
                             setTimeout(function () {
                                 swal({
@@ -894,25 +638,783 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                 })
                             }, 200);
                         </script>
-                        <?php
-                    } else {//gagal update
-                        ?>
-                        <script type="text/javascript">
-                            setTimeout(function () {
-                                swal({
-                                    title: "Oopss!",
-                                    text: "Data member gagal diperbaharui !",
-                                    type: "error",
-                                    showCancelButton: false
-                                }, function () {
-                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
-                                })
-                            }, 200);
-                        </script>
-                        <?php
-                    }
-                }
+                      <?php
+                  } else {//gagal update
+                    ?>
+                      <script type="text/javascript">
+                          setTimeout(function () {
+                              swal({
+                                  title: "Oopss!",
+                                  text: "Data member gagal diperbaharui !",
+                                  type: "error",
+                                  showCancelButton: false
+                              }, function () {
+                                  document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                              })
+                          }, 200);
+                      </script>
+                    <?php
+                  }
+              } else {//gagal upload
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
             }
+          }
+        }else if(!empty($_FILES['ft_member_baru']['name']) && !empty($_POST['ft_member_lama'])){
+          $foto_lama = $_POST['ft_member_lama'];
+          if (!empty($_POST['perpanjang'])) {//jika diperpanjang masa aktifnya
+            $perpanjang = $_POST['perpanjang'];
+            $i = 0;
+            while ($i < 12) {
+              $i++;
+              if ($i == $perpanjang) {
+                  $tgl_habis = date('m/d/Y', strtotime("+$i month"));
+              }
+            }
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (unlink($target_dir . "" . $foto_lama)) {
+                if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                  NM_MEMBER = '$nm',
+                                                  ALAMAT_MEMBER = '$alamat',
+                                                  TELP_MEMBER = '$telp',
+                                                  NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                                  PASS_MEMBER = '$pass',
+                                                  JK_KELAMIN = '$jk',
+                                                  ASK_MEMBER = '$ask',
+                                                  FOTO_MEMBER = '$foto',
+                                                  PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                  NOTIF_MEMBER = 2,
+                                                  LOG = current_timestamp
+                                                  WHERE ID_MEMBER = '$id'");
+                    if (oci_execute($update)) {//proses update
+                        ?>
+                          <script type="text/javascript">
+                              setTimeout(function () {
+                                  swal({
+                                      title: "Success!",
+                                      text: "Data member berhasil diperbaharui",
+                                      type: "success",
+                                      showCancelButton: false
+                                  }, function () {
+                                      document.location = 'index?fold=ang&page=anggota';
+                                  })
+                              }, 200);
+                          </script>
+                        <?php
+                    } else {//gagal update
+                      ?>
+                        <script type="text/javascript">
+                            setTimeout(function () {
+                                swal({
+                                    title: "Oopss!",
+                                    text: "Data member gagal diperbaharui !",
+                                    type: "error",
+                                    showCancelButton: false
+                                }, function () {
+                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                                })
+                            }, 200);
+                        </script>
+                      <?php
+                    }
+                } else {//gagal upload
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Oopss!",
+                                text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                                type: "error",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+                }
+              } else {//gagal menghapus link gambar lama
+                  ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                  <?php
+              }
+            }else{
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (unlink($target_dir . "" . $foto_lama)) {
+                if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                  NM_MEMBER = '$nm',
+                                                  ALAMAT_MEMBER = '$alamat',
+                                                  TELP_MEMBER = '$telp',
+                                                  NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                                  JK_KELAMIN = '$jk',
+                                                  ASK_MEMBER = '$ask',
+                                                  FOTO_MEMBER = '$foto',
+                                                  PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                  NOTIF_MEMBER = 2,
+                                                  LOG = current_timestamp
+                                                  WHERE ID_MEMBER = '$id'");
+                    if (oci_execute($update)) {//proses update
+                        ?>
+                          <script type="text/javascript">
+                              setTimeout(function () {
+                                  swal({
+                                      title: "Success!",
+                                      text: "Data member berhasil diperbaharui",
+                                      type: "success",
+                                      showCancelButton: false
+                                  }, function () {
+                                      document.location = 'index?fold=ang&page=anggota';
+                                  })
+                              }, 200);
+                          </script>
+                        <?php
+                    } else {//gagal update
+                      ?>
+                        <script type="text/javascript">
+                            setTimeout(function () {
+                                swal({
+                                    title: "Oopss!",
+                                    text: "Data member gagal diperbaharui !",
+                                    type: "error",
+                                    showCancelButton: false
+                                }, function () {
+                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                                })
+                            }, 200);
+                        </script>
+                      <?php
+                    }
+                } else {//gagal upload
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Oopss!",
+                                text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                                type: "error",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+                }
+              } else {//gagal menghapus link gambar lama
+                  ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                  <?php
+              }
+            }
+          }else{//jika tidak perpanjang masa aktif
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (unlink($target_dir . "" . $foto_lama)) {
+                if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                  NM_MEMBER = '$nm',
+                                                  ALAMAT_MEMBER = '$alamat',
+                                                  TELP_MEMBER = '$telp',
+                                                  PASS_MEMBER = '$pass',
+                                                  JK_KELAMIN = '$jk',
+                                                  ASK_MEMBER = '$ask',
+                                                  FOTO_MEMBER = '$foto',
+                                                  NOTIF_MEMBER = 2,
+                                                  LOG = current_timestamp
+                                                  WHERE ID_MEMBER = '$id'");
+                    if (oci_execute($update)) {//proses update
+                        ?>
+                          <script type="text/javascript">
+                              setTimeout(function () {
+                                  swal({
+                                      title: "Success!",
+                                      text: "Data member berhasil diperbaharui",
+                                      type: "success",
+                                      showCancelButton: false
+                                  }, function () {
+                                      document.location = 'index?fold=ang&page=anggota';
+                                  })
+                              }, 200);
+                          </script>
+                        <?php
+                    } else {//gagal update
+                      ?>
+                        <script type="text/javascript">
+                            setTimeout(function () {
+                                swal({
+                                    title: "Oopss!",
+                                    text: "Data member gagal diperbaharui !",
+                                    type: "error",
+                                    showCancelButton: false
+                                }, function () {
+                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                                })
+                            }, 200);
+                        </script>
+                      <?php
+                    }
+                } else {//gagal upload
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Oopss!",
+                                text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                                type: "error",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+                }
+              } else {//gagal menghapus link gambar lama
+                  ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                  <?php
+              }
+            }else{
+              $foto = $id . "_" . $_FILES['ft_member_baru'] ['name']; // Mendapatkan nama gambar
+              $type = $_FILES['ft_member_baru']['type'];
+              $ukuran = $_FILES['ft_member_baru']['size'];
+              $target_dir = "../assets/img/member/";
+              $target_file = $target_dir . basename($foto);
+              $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+              $check = @getimagesize($_FILES["ft_member_baru"]["tmp_name"]); //Cek type file
+              if ($check === false) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File is not an image !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "File already exists! Mohon untuk melakukan update!",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              //cek ukuran gambar
+              if ($_FILES['ft_member_baru']['size'] > 2097152) {
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Ukuran foto terlalu besar! Max: 2Mb !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+              if (unlink($target_dir . "" . $foto_lama)) {
+                if (move_uploaded_file($_FILES['ft_member_baru']['tmp_name'], $target_file)) {
+                    $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                                  NM_MEMBER = '$nm',
+                                                  ALAMAT_MEMBER = '$alamat',
+                                                  TELP_MEMBER = '$telp',
+                                                  JK_KELAMIN = '$jk',
+                                                  ASK_MEMBER = '$ask',
+                                                  FOTO_MEMBER = '$foto',
+                                                  NOTIF_MEMBER = 2,
+                                                  LOG = current_timestamp
+                                                  WHERE ID_MEMBER = '$id'");
+                    if (oci_execute($update)) {//proses update
+                        ?>
+                          <script type="text/javascript">
+                              setTimeout(function () {
+                                  swal({
+                                      title: "Success!",
+                                      text: "Data member berhasil diperbaharui",
+                                      type: "success",
+                                      showCancelButton: false
+                                  }, function () {
+                                      document.location = 'index?fold=ang&page=anggota';
+                                  })
+                              }, 200);
+                          </script>
+                        <?php
+                    } else {//gagal update
+                      ?>
+                        <script type="text/javascript">
+                            setTimeout(function () {
+                                swal({
+                                    title: "Oopss!",
+                                    text: "Data member gagal diperbaharui !",
+                                    type: "error",
+                                    showCancelButton: false
+                                }, function () {
+                                    document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                                })
+                            }, 200);
+                        </script>
+                      <?php
+                    }
+                } else {//gagal upload
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Oopss!",
+                                text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                                type: "error",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+                }
+              } else {//gagal menghapus link gambar lama
+                  ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Maaf, terjadi kesalahan unggah foto! Mohon untuk mengulanginya.",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                  <?php
+              }
+            }
+          }
+        }else{
+          //echo "Foto baru kosong, tapi foto lama tidak kosong <br> ATAU <br> Tidak terjadi perubahan terhadap foto";
+          if (!empty($_POST['perpanjang'])) {//jika diperpanjang masa aktifnya
+            $perpanjang = $_POST['perpanjang'];
+            $i = 0;
+            while ($i < 12) {
+              $i++;
+              if ($i == $perpanjang) {
+                  $tgl_habis = date('m/d/Y', strtotime("+$i month"));
+              }
+            }
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                            NM_MEMBER = '$nm',
+                                            ALAMAT_MEMBER = '$alamat',
+                                            TELP_MEMBER = '$telp',
+                                            NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                            PASS_MEMBER = '$pass',
+                                            JK_KELAMIN = '$jk',
+                                            ASK_MEMBER = '$ask',
+                                            PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                            NOTIF_MEMBER = 2,
+                                            LOG = current_timestamp
+                                            WHERE ID_MEMBER = '$id'");
+              if (oci_execute($update)) {//proses update
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Success!",
+                                text: "Data member berhasil diperbaharui",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+              } else {//gagal update
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Data member gagal diperbaharui !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }else{
+              $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                            NM_MEMBER = '$nm',
+                                            ALAMAT_MEMBER = '$alamat',
+                                            TELP_MEMBER = '$telp',
+                                            NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
+                                            JK_KELAMIN = '$jk',
+                                            ASK_MEMBER = '$ask',
+                                            PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                            NOTIF_MEMBER = 2,
+                                            LOG = current_timestamp
+                                            WHERE ID_MEMBER = '$id'");
+              if (oci_execute($update)) {//proses update
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Success!",
+                                text: "Data member berhasil diperbaharui",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+              } else {//gagal update
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Data member gagal diperbaharui !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }
+          }else{//jika tidak perpanjang masa aktif
+            if (!empty($_POST['pass_member_baru'])) {
+              $pass = md5($_POST['pass_member_baru']);
+              $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                            NM_MEMBER = '$nm',
+                                            ALAMAT_MEMBER = '$alamat',
+                                            TELP_MEMBER = '$telp',
+                                            PASS_MEMBER = '$pass',
+                                            JK_KELAMIN = '$jk',
+                                            ASK_MEMBER = '$ask',
+                                            NOTIF_MEMBER = 2,
+                                            LOG = current_timestamp
+                                            WHERE ID_MEMBER = '$id'");
+              if (oci_execute($update)) {//proses update
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Success!",
+                                text: "Data member berhasil diperbaharui",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+              } else {//gagal update
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Data member gagal diperbaharui !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }else{
+              $update = oci_parse($koneksi, "UPDATE MEMBER SET
+                                            NM_MEMBER = '$nm',
+                                            ALAMAT_MEMBER = '$alamat',
+                                            TELP_MEMBER = '$telp',
+                                            JK_KELAMIN = '$jk',
+                                            ASK_MEMBER = '$ask',
+                                            NOTIF_MEMBER = 2,
+                                            LOG = current_timestamp
+                                            WHERE ID_MEMBER = '$id'");
+              if (oci_execute($update)) {//proses update
+                  ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Success!",
+                                text: "Data member berhasil diperbaharui",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota';
+                            })
+                        }, 200);
+                    </script>
+                  <?php
+              } else {//gagal update
+                ?>
+                  <script type="text/javascript">
+                      setTimeout(function () {
+                          swal({
+                              title: "Oopss!",
+                              text: "Data member gagal diperbaharui !",
+                              type: "error",
+                              showCancelButton: false
+                          }, function () {
+                              document.location = 'index?fold=ang&page=anggota_edit&id=<?php echo $id; ?>';
+                          })
+                      }, 200);
+                  </script>
+                <?php
+              }
+            }
+          }
         }
 
         //echo "ID:".$id."<br>Nama:".$nm."<br>Telp:".$telp."<br>Alamat:".$alamat."<br>Jenis Kelamin:".$jk."<br>Ask:".$ask."<br>lama perpanjang:".$perpanjang."<br>Tanggal stlah perpanjang:".$tgl_habis."<br>Pass:".$pass."<br>Level:".$level."<br>Foto:".$foto;

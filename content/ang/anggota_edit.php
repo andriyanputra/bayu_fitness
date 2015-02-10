@@ -9,6 +9,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
     $db = oci_fetch_array($cek);
     $db[AKTIF_MEMBER] = strtotime($db[AKTIF_MEMBER]);
     $db[NONAKTIF_MEMBER] = strtotime($db[NONAKTIF_MEMBER]);
+    $db[PERPANJANG] = strtotime($db[PERPANJANG]);
     /* script menentukan hari */
     $array_hr = array(1 => "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu");
     $array_bln = array(1 => "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des");
@@ -16,6 +17,8 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
     $bln_a = $array_bln[date('n', $db[AKTIF_MEMBER])];
     $hr_n = $array_hr[date('N', $db[NONAKTIF_MEMBER])];
     $bln_n = $array_bln[date('n', $db[NONAKTIF_MEMBER])];
+    $hr_p =$array_hr[date('N', $db[PERPANJANG])];
+    $bln_p =$array_bln[date('n', $db[PERPANJANG])];
     ?>
     <section class="content-header">
         <h1>
@@ -72,12 +75,12 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                     Laki-laki&nbsp;
                                                     <input type="radio" name="jk_kelamin" class="flat-blue" value="Perempuan"/>
                                                     Perempuan
-    <?php } else { ?>
+                                                    <?php } else { ?>
                                                     <input type="radio" name="jk_kelamin" class="flat-blue" value="Laki-laki"/>
                                                     Laki-laki&nbsp;
                                                     <input type="radio" name="jk_kelamin" class="flat-blue" value="Perempuan" checked />
                                                     Perempuan
-    <?php } ?>
+                                                    <?php } ?>
                                             </label>
                                         </div>
                                     </div>
@@ -93,10 +96,10 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                     </div>
                                     <div class="form-group">
                                         <label for="">Tanggal Memperpanjang: </label><?php if ($db[PERPANJANG] == '') {
-        $perpanjang = '-';
-    } else {
-        $perpanjang = $db[PERPANJANG];
-    } ?>
+                                            $perpanjang = '-';
+                                        } else {
+                                            $perpanjang = $hr_p . ", " . date('d', $db[PERPANJANG]) . " " . $bln_p . " " . date('Y', $db[PERPANJANG]);;
+                                        } ?>
                                         <input class="form-control" type="text" readonly value="<?php echo $perpanjang; ?>">
                                     </div>
                                     <div class="form-group">
@@ -105,8 +108,8 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                     </div>
                                     <div class="form-group">
                                         <label for="">Masa Aktif:</label><?php $selisih = $db[SELISIH];
-    if ($selisih > 31) {
-        $selisih_ = $selisih - 1; ?>
+                                            if ($selisih > 31) {
+                                                $selisih_ = $selisih - 1; ?>
                                             <?php if ((round($selisih_) <= 4) && (round($selisih_) > 0)) { ?>
                                                 <label class="form-control text-yellow"><?php echo 'Kurang ' . round($selisih_) . ' hari.'; ?></label>
                                             <?php } else if ((round($selisih_) <= 0) && round($selisih_) >= -7) { ?>
@@ -116,7 +119,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                     }, 200);
                                                 </script>
                                                 <label class="form-control text-red"><?php echo 'Lewat ' . abs(round($selisih_)) . ' hari.'; ?></label>
-        <?php } else { ?>
+                                                <?php } else { ?>
                                                 <label class="form-control text-green"><?php echo 'Kurang ' . abs(round($selisih_)) . ' hari.'; ?></label>
                                             <?php }
                                         } else { ?>
@@ -148,33 +151,34 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                             <?php } ?>
                                                 </select>
                                             </div>
-        <?php } else if ((round($selisih) <= 0 || round($selisih_) >= -7)) { ?>
+                                            <?php } else if ((round($selisih) <= 0 || round($selisih_) >= -7)) { ?>
                                             <div class="form-group">
                                                 <label for="">Perpanjang Masa Aktif&nbsp;<span class="text-red"><b>*</b></span>:</label>
                                                 <select class="form-control" name="perpanjang" required>
                                                     <option value="">Pilih Lama</option>
-            <?php $i = 0;
-            while ($i < 12) {
-                $i++; ?>
+                                                    <?php $i = 0;
+                                                    while ($i < 12) {
+                                                        $i++; ?>
                                                         <option value="<?php echo $i ?>"><?php echo $i . " bulan" ?></option>
-                                            <?php } ?>
+                                                        <?php } ?>
                                                 </select>
                                             </div>
-        <?php }
-    }
-    ?>
+                                            <?php }
+                                        }
+                                        ?>
                                 </div>
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label for="preview_gambar">Foto Member&nbsp;<span class="text-red"><b>**</b></span>:</label>
                                         <input type="file" name="ft_member_baru" id="preview_gambar" class="filestyle" data-buttonName="bg-blue">
                                     </div>
-    <?php if (!empty($db[FOTO_MEMBER])) { ?>
+                                    <?php if (!empty($db[FOTO_MEMBER])) { ?>
                                         <input type="hidden" name="ft_member_lama" value="<?php echo $db[FOTO_MEMBER]; ?>">
                                         <img src="../assets/img/member/<?php echo $db[FOTO_MEMBER]; ?>" id="gambar_nodin" width="200" alt="" />
-    <?php } else { ?>
+                                        <?php } else { ?>
+                                        <input type="hidden" name="ft_member_lama" value="">
                                         <img src="../assets/img/pegawai/empty.gif" id="gambar_nodin" width="200" alt="" />
-    <?php } ?><br><br>
+                                        <?php } ?><br><br>
 
                                     <div class="form-group">
                                         <label for="">Ganti Password ? Klik <a href="javascript:hideshow(document.getElementById('pass'))">Disini</a></label>

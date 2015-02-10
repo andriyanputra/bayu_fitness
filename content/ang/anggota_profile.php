@@ -1,13 +1,32 @@
 <?php
 	@session_start();
     if($_SESSION[ID_LEVEL]==1 || $_SESSION[ID_LEVEL]==2 || $_SESSION[ID_LEVEL]==3) {
-        $cek = oci_parse($koneksi, "SELECT ID_MEMBER,NM_MEMBER, ALAMAT_MEMBER, TELP_MEMBER, JK_KELAMIN, FOTO_MEMBER, PERPANJANG, AKTIF_MEMBER, NONAKTIF_MEMBER,
+        $cek = oci_parse($koneksi, "SELECT NOTIF_MEMBER, ID_MEMBER,NM_MEMBER, ALAMAT_MEMBER, TELP_MEMBER, JK_KELAMIN, FOTO_MEMBER, PERPANJANG, AKTIF_MEMBER, NONAKTIF_MEMBER,
 														Months_between(NONAKTIF_MEMBER, PERPANJANG) BULAN, ASK_MEMBER,
 														NONAKTIF_MEMBER - AKTIF_MEMBER as sel, NONAKTIF_MEMBER - PERPANJANG AS beda,
 														nonaktif_member-current_date as selisih,
 														FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL AND MEMBER.ID_MEMBER = '$_GET[id]'");
         oci_execute($cek);
         $db = oci_fetch_array($cek);
+        if($db[0] != 0){
+            $terbaca = oci_parse($koneksi, "UPDATE MEMBER SET NOTIF_MEMBER = 0 WHERE ID_MEMBER = '$_GET[id]'"); 
+            if(oci_execute($terbaca)){
+                ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Pengecekkan Selesai!",
+                                text: "Terima kasih atas waktunya !",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=ang&page=anggota_profile&id=<?php echo $_GET[id]; ?>';
+                            })
+                        }, 200);
+                    </script>
+                <?php
+            }
+        }
         $db[AKTIF_MEMBER]=strtotime($db[AKTIF_MEMBER]); $db[NONAKTIF_MEMBER]=strtotime($db[NONAKTIF_MEMBER]);
         /* script menentukan hari */
         $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");

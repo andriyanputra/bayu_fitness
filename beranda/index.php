@@ -1,5 +1,6 @@
 <?php
 	include "../config/koneksi.php";
+    include "../config/pukul.php";
     //include "../config/function.php";
     @session_start();
 	if(isset($_SESSION['NIP_PEGAWAI']) && !empty($_SESSION['NIP_PEGAWAI'])) {
@@ -71,78 +72,84 @@
                     <ul class="nav navbar-nav">
                         <!-- Messages: style can be found in dropdown.less-->
                         <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope"></i>
-                                <span class="label label-success">4</span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-toggle="tooltip" title="<?php echo $emp_[0]+$mem_[0]; ?> Pemberitahuan">
+                                <i class="fa fa-warning"></i>
+                                <span class="label label-danger"><?php echo $emp_[0]+$mem_[0]; ?></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
+                                <li class="header">Kamu memiliki <?php echo $emp_[0]+$mem_[0]; ?> pemberitahuan</li>
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
+                                    <?php 
+                                        while($emp = oci_fetch_array($notif_pegawai)){ 
+                                    ?>
                                         <li><!-- start message -->
-                                            <a href="#">
+                                            <a href="index?fold=user&page=user_profile&id=<?php echo $emp[0]; ?>">
                                                 <div class="pull-left">
-                                                    <img src="../assets/img/pegawai/<?php echo $row['FOTO_PEGAWAI']; ?>" class="img-circle" alt="User Image"/>
+                                                    <?php 
+                                                        if(!empty($emp[3])){
+                                                            echo "<img src='../assets/img/pegawai/$emp[3]' class='img-circle'/>";
+                                                        }else{
+                                                            echo "<img src='../assets/img/pegawai/empty.gif' class='img-circle'/>";
+                                                        }
+                                                    ?>
                                                 </div>
-                                                <h4>
-                                                    Support Team
-                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                <h4> 
+                                                    <?php 
+                                                        $nama_ = $emp[1]; $nama = explode(' ',trim($nama_));
+                                                        echo $nama[0]." ".$nama[1];
+                                                    ?>
+                                                    <small><i class="fa fa-clock-o"></i> <?php echo $emp[4]; ?></small>
                                                 </h4>
-                                                <p>Why not buy a new awesome theme?</p>
+                                                <p><?php 
+                                                        if($emp[2] == 1){
+                                                            echo "Telah terjadi penambahan data pegawai.";
+                                                        }else{
+                                                            echo "Telah terjadi perubahan data pegawai";
+                                                        }
+                                                    ?></p>
                                             </a>
                                         </li><!-- end message -->
-                                        <li>
-                                            <a href="#">
+                                    <?php 
+                                        } 
+                                    ?>
+                                    <?php 
+                                        while($mem = oci_fetch_array($notif_member)){ 
+                                    ?>
+                                        <li><!-- start message -->
+                                            <a href="index?fold=ang&page=anggota_profile&id=<?php echo $mem[0]; ?>">
                                                 <div class="pull-left">
-                                                    <img src="../assets/img/avatar2.png" class="img-circle" alt="user image"/>
+                                                    <?php 
+                                                        if(!empty($mem[3])){
+                                                            echo "<img src='../assets/img/member/$mem[3]' class='img-circle'/>";
+                                                        }else{
+                                                            echo "<img src='../assets/img/pegawai/empty.gif' class='img-circle'/>";
+                                                        }
+                                                    ?>
                                                 </div>
                                                 <h4>
-                                                    AdminLTE Design Team
-                                                    <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                    <?php 
+                                                        $nama_ = $mem[1]; $nama = explode(' ',trim($nama_));
+                                                        echo $nama[0]." ".$nama[1];
+                                                    ?>
+                                                    <small><i class="fa fa-clock-o"></i> <?php echo $mem[4]; ?></small>
                                                 </h4>
-                                                <p>Why not buy a new awesome theme?</p>
+                                                <p><?php 
+                                                        if($mem[2] == 1){
+                                                            echo "Telah terjadi penambahan member baru.";
+                                                        }else{
+                                                            echo "Telah terjadi perubahan data member.";
+                                                        }
+                                                    ?></p>
                                             </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="../assets/img/avatar.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Developers
-                                                    <small><i class="fa fa-clock-o"></i> Today</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="../assets/img/avatar2.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Sales Department
-                                                    <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="../assets/img/avatar.png" class="img-circle" alt="user image"/>
-                                                </div>
-                                                <h4>
-                                                    Reviewers
-                                                    <small><i class="fa fa-clock-o"></i> 2 days</small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
+                                        </li><!-- end message -->
+                                    <?php 
+                                        } 
+                                    ?>
                                     </ul>
                                 </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
+                                <li class="footer"><a href="index?fold=notif&page=index">Lihat Semua Pemberitahuan</a></li>
                             </ul>
                         </li>
                         

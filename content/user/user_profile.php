@@ -4,6 +4,25 @@
         $cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI INNER JOIN JABATAN ON (PEGAWAI.ID_JABATAN = JABATAN.ID_JABATAN) INNER JOIN LEVEL_LOGIN ON (PEGAWAI.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL) WHERE PEGAWAI.NIP_PEGAWAI = $_GET[id]");
         oci_execute($cek);
         $db = oci_fetch_array($cek);
+        if($db[NOTIF_PEGAWAI] != 0){
+            $terbaca_ = oci_parse($koneksi, "UPDATE PEGAWAI SET NOTIF_PEGAWAI = 0 WHERE NIP_PEGAWAI = '$_GET[id]'");
+            if(oci_execute($terbaca_)){
+                ?>
+                    <script type="text/javascript">
+                        setTimeout(function () {
+                            swal({
+                                title: "Pengecekkan Selesai!",
+                                text: "Terima kasih atas waktunya !",
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                document.location = 'index?fold=user&page=user_profile&id=<?php echo $_GET[id]; ?>';
+                            })
+                        }, 200);
+                    </script>
+                <?php
+            }
+        }
 ?>
 <section class="content-header">
     <h1>
