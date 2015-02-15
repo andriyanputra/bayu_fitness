@@ -187,7 +187,7 @@
 	                    <div class="icon">
 	                        <i class="fa fa-file-text-o"></i>
 	                    </div>
-	                    <a href="index?page=artikel" class="small-box-footer">
+	                    <a href="index?fold=artikel&page=index" class="small-box-footer">
 	                        More info <i class="fa fa-arrow-circle-right"></i>
 	                    </a>
 	                </div>
@@ -330,7 +330,7 @@
 	        <div class="col-md-8 col-md-offset-2">
 	            <div class=" col-xs-6">
 	                <!-- small box -->
-	                <div class="small-box bg-aqua" data-toggle="tooltip" title="Artikel">
+	                <div class="small-box bg-aqua" data-toggle="tooltip" title="Profil Member">
 	                    <div class="inner">
 	                        <h3>
 	                            <i class="fa fa-user"></i>

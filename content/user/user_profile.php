@@ -23,6 +23,11 @@
                 <?php
             }
         }
+        $db[DATE_AKTIF]=strtotime($db[DATE_AKTIF]); $db[DATE_NONAKTIF]=strtotime($db[DATE_NONAKTIF]);
+        $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+        $array_bln = array(1=>"Jan","Feb","Mar", "Apr", "Mei","Jun","Jul","Agt","Sep","Okt", "Nov","Des");
+        $hr = $array_hr[date('N', $db[DATE_AKTIF])]; $bln = $array_bln[date('n', $db[DATE_AKTIF])];
+
 ?>
 <section class="content-header">
     <h1>
@@ -107,7 +112,7 @@
                           <?php if($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 2){ $db_sts = $db[STATUS_PEGAWAI];?>
                           <div class="form-group">
                             <label for="">Status Pegawai : </label><br>
-                            <?php if($db_sts == 1){echo "Aktif";}else{echo "Tidak Aktif";} ?> tanggal: &nbsp;<?php echo $db[DATE_AKTIF]?>
+                            <?php if($db_sts == 1){echo "Aktif";}else{echo "Tidak Aktif";} ?> tanggal: &nbsp;<?php echo $hr.", ".date('d', $db[DATE_AKTIF])." ".$bln." ".date('Y', $db[DATE_AKTIF]);?>
                           </div>
                           <?php } ?>
                         </div>
@@ -116,7 +121,7 @@
 
                 <div class="box-footer">
                     <div class="text-right">
-                        <input type="submit" name="update" class="btn btn-primary" value="Update" />
+                        <button class="btn btn-primary" onclick="window.history.back();" data-toggle="tooltip" title="Kembali">Kembali</button>
                     </div>
                 </div>
             </div><!-- /.box -->

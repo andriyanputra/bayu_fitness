@@ -14,6 +14,9 @@
 	$notif_pegawai = oci_parse($koneksi, $sql_emp); oci_execute($notif_pegawai);
     $notif_member = oci_parse($koneksi, $sql_mem); oci_execute($notif_member);
 
+    $isi_p = oci_parse($koneksi, $sql_emp); oci_execute($isi_p);
+    $isi_m = oci_parse($koneksi, $sql_mem); oci_execute($isi_m);
+
     $jml_emp = oci_parse($koneksi, "SELECT COUNT(NOTIF_PEGAWAI) AS JML_EMP FROM PEGAWAI WHERE PEGAWAI.NOTIF_PEGAWAI != 0"); 
     oci_execute($jml_emp); $emp_ = oci_fetch_array($jml_emp);
     $jml_mem = oci_parse($koneksi, "SELECT COUNT(NOTIF_MEMBER) AS JML_MEM FROM MEMBER WHERE MEMBER.NOTIF_MEMBER != 0"); 

@@ -64,6 +64,7 @@
     $("#stock_barang").dataTable();
     $("#user").dataTable();
     $("#anggota").dataTable();
+    $("#notif").dataTable();
 </script>
 <script type="text/javascript">
     $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({

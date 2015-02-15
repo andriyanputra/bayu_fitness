@@ -4,6 +4,11 @@
         $cek = oci_parse($koneksi, "SELECT * FROM PEGAWAI INNER JOIN JABATAN ON (PEGAWAI.ID_JABATAN = JABATAN.ID_JABATAN) INNER JOIN LEVEL_LOGIN ON (PEGAWAI.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL) WHERE PEGAWAI.NIP_PEGAWAI = $_GET[id]");
         oci_execute($cek);
         $db = oci_fetch_array($cek);
+        $db[DATE_AKTIF]=strtotime($db[DATE_AKTIF]); $db[DATE_NONAKTIF]=strtotime($db[DATE_NONAKTIF]);
+        $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
+        $array_bln = array(1=>"Jan","Feb","Mar", "Apr", "Mei","Jun","Jul","Agt","Sep","Okt", "Nov","Des");
+        $hr = $array_hr[date('N', $db[DATE_AKTIF])]; $bln = $array_bln[date('n', $db[DATE_AKTIF])];
+
 ?>
 <section class="content-header">
     <h1>
@@ -135,7 +140,7 @@
                               <div class="form-group">
                                 <label for="">Status Pegawai&nbsp;<span class="text-red"><b>*</b></span>:</label><br>
                                 <input type="hidden" name="date" value="<?php echo $db[DATE_AKTIF]; ?>">
-                                <?php if($db_sts == 1){echo "Aktif";}else{echo "Tidak Aktif";} ?> tanggal: &nbsp;<?php echo $db[DATE_AKTIF]?>
+                                <?php if($db_sts == 1){echo "Aktif";}else{echo "Tidak Aktif";} ?> tanggal: &nbsp;<?php echo $hr.", ".date('d', $db[DATE_AKTIF])." ".$bln." ".date('Y', $db[DATE_AKTIF]);?>
                                 <select name="status" class="form-control" id="status" required>
                                     <option value="">Pilih Status</option>
                                     <option value="1">Aktif</option>

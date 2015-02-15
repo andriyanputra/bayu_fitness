@@ -67,8 +67,8 @@ var customScripts = {
                 $("html, body").animate({ scrollTop: $('#services').offset().top - 75 }, "slow"); 
                 return false;
             });
-    }, 
-    owlSlider: function () {
+    },
+    /*owlSlider: function () {
         var owl = $("#owl-demo");
         owl.owlCarousel();
         // Custom Navigation Events
@@ -78,7 +78,7 @@ var customScripts = {
         $(".prev").click(function () {
             owl.trigger('owl.prev');
         })
-    },
+    },*/
     bannerHeight: function () {
         var bHeight = $(".banner-container").height();
         $('#da-slider').height(bHeight);
@@ -102,7 +102,7 @@ var customScripts = {
         customScripts.onePageNav();
         customScripts.profile();
         customScripts.fancybox(); 
-        customScripts.owlSlider();
+        //customScripts.owlSlider();
 		customScripts.waySlide();
 		customScripts.fitText();
         customScripts.bannerHeight();
