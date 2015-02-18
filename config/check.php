@@ -10,7 +10,7 @@ $koneksi = oci_connect("andriyan","andriyan","//localhost/XE");
             <meta name="description" content="Common form elements and layouts" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <!--page specific plugin styles-->
-            <link rel="shortcut icon" href="../../assets/img/favicon.png">
+            <link rel="shortcut icon" href="../assets/img/favicon.png">
 
             <!--ace styles-->
             <script src="../assets/frontend/js/sweet-alert.js"></script>

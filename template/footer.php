@@ -22,8 +22,17 @@
 <!-- Numeric -->
 <!--<script type="text/javascript" src="http://rawgit.com/BobKnothe/autoNumeric/master/autoNumeric.js"></script>-->
 <script src="../assets/js/autoNumeric.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../assets/js/AdminLTE/demo.js" type="text/javascript"></script>
+<!-- Url Live -->
+<script src="../assets/js/url/jquery.urlive.js"></script>
+<script src="../assets/js/url/jquery.urlive.min.js"></script>
+<!-- wysihtml5 -->
+<script src="../assets/js/wysihtml5/wysihtml5-0.3.0.js"></script>
+<script src="../assets/js/wysihtml5/prettify.js"></script>
+<script src="../assets/js/wysihtml5/jquery.iframe-transport.js"></script>
+<script src="../assets/js/wysihtml5/jquery.fileupload.js"></script>
+<script src="../assets/js/wysihtml5/wysihtml5-image-upload.js"></script>
+<!-- AdminLTE for demo purposes 
+<script src="../assets/js/AdminLTE/demo.js" type="text/javascript"></script>-->
 <script type="text/javascript">
     // ========================Jam========================================== //
     function showTime() {
@@ -59,12 +68,27 @@
     // ========================Akhir Jam========================================== //
 </script>
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('.wysihtml5').wysihtml5({
+            "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+            "emphasis": true, //Italics, bold, etc. Default true
+            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+            "html": true, //Button which allows you to edit the generated HTML. Default false
+            "link": true, //Button to insert a link. Default true
+            "image": true, //Button to insert an image. Default true,
+            "color": false //Button to change color of font
+        });
+        $(prettyPrint);
+    });
+</script>
+<script type="text/javascript">
     $("#data_supplier").dataTable();
     $("#data_pembelian").dataTable();
     $("#stock_barang").dataTable();
     $("#user").dataTable();
     $("#anggota").dataTable();
     $("#notif").dataTable();
+    $("#artikel").dataTable();
 </script>
 <script type="text/javascript">
     $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
@@ -81,7 +105,7 @@
         $(".lihat").colorbox({rel:'lihat', transition:"none", width:"75%", height:"75%"});
     });
 </script>
- <script type="text/javascript">
+<script type="text/javascript">
     $('.auto').autoNumeric('init');
     $(":file").filestyle({buttonName: "btn-primary"});
     //image upload
@@ -111,27 +135,46 @@
     }
 </script>
 <script type="text/javascript">
-function hideshow(which){
-if (!document.getElementById)
-    return
-if (which.style.display=="block")
-    which.style.display="none"
-else
-    which.style.display="block"
-}
+    function hideshow(which){
+    if (!document.getElementById)
+        return
+    if (which.style.display=="block")
+        which.style.display="none"
+    else
+        which.style.display="block"
+    }
+    </script>
+    <script type="text/javascript">
+    var password = document.getElementById("password")
+      , confirm_password = document.getElementById("conf_password");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Tidak Cocok");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
 </script>
 <script type="text/javascript">
-var password = document.getElementById("password")
-  , confirm_password = document.getElementById("conf_password");
-
-function validatePassword(){
-  if(password.value != confirm_password.value) {
-    confirm_password.setCustomValidity("Passwords Tidak Cocok");
-  } else {
-    confirm_password.setCustomValidity('');
-  }
-}
-
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
+    $("#url").on("input propertychange", function () {
+        $("#url").urlive({
+            callbacks: {
+                onStart: function () {
+                    $(".loading").show();
+                    $(".urlive-container").urlive("remove");
+                },
+                onSuccess: function (data) {
+                    $(".loading").hide();
+                    $(".urlive-container").urlive("remove");
+                },
+                noData: function () {
+                    $(".loading").hide();
+                }
+            }
+        });
+    }).trigger("input");
 </script>

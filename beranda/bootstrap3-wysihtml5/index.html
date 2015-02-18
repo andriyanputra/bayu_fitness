@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="utf-8">
+
+        <title>bootstrap-wysihtml5</title>
+
+
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap3/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap3/css/bootstrap-theme.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="lib/css/prettify.css"></link>
+        <link rel="stylesheet" type="text/css" href="src/bootstrap-wysihtml5.css"></link>
+
+        <style type="text/css" media="screen">
+            .btn.jumbo {
+                font-size: 20px;
+                font-weight: normal;
+                padding: 14px 24px;
+                margin-right: 10px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                border-radius: 6px;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1 class="text-info">bootstrap-wysihtml5 
+                    <br/>
+                    <small>Simple, beautiful wysiwyg editors - for bootstrap 3</small></h1>
+            </div>
+            <textarea class="textarea" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <h2>About</h2>
+                    <p>
+                        bootstrap-wysihtml5 is a javascript plugin that makes it easy to create simple, beautiful wysiwyg editors with the help of <a href="https://github.com/xing/wysihtml5">wysihtml5</a> and <a href="https://github.com/twbs/bootstrap/releases/tag/v3.0.0">Bootstrap 3</a>
+                    </p>
+
+                    <p style="text-align:center; margin-top:20px">
+                        <a class="btn btn-large btn-primary jumbo" href="https://github.com/fabiopaiva/bootstrap3-wysihtml5">View project on Github</a>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-6" >
+                    <h2>Usage</h2>
+                    <p>
+                    <pre class="prettyprint linenums">
+$('.textarea').wysihtml5({
+    "font-styles": true, //Font styling
+    "emphasis": true, //Italics, bold, etc
+    "lists": true, //(Un)ordered lists
+    "html": true, //Allow edit HTML
+    "link": true, //Allow to insert link
+    "image": true, //Allow to insert image
+    "color": true //Change font color
+    });
+                    </pre>
+                    <a class="btn btn-primary" target="_blank" href="https://github.com/jhollingworth/bootstrap-wysihtml5/#usage">
+                        More details    
+                    </a>
+                    </p>
+                    <h3>Dependencies</h3>
+                    <p>
+                    <ul>
+                        <li><a href="https://github.com/fabiopaiva/bootstrap3-wysihtml5">wysihtml5 - for bootstrap3</a></li>
+                        <li><a href="https://github.com/twbs/bootstrap/releases/tag/v3.0.0">Twitter Bootstrap</a></li>
+                    </ul>
+                    </p> 
+                </div>
+            </div>
+        </div>
+
+
+        <script src="lib/js/wysihtml5-0.3.0.js"></script>
+        <script src="lib/js/jquery-1.10.2.min.js"></script>
+        <script src="lib/js/prettify.js"></script>
+        <script src="lib/bootstrap3/js/bootstrap.min.js"></script>
+        <script src="src/bootstrap-wysihtml5.js"></script>
+
+        <script>
+            $('.textarea').wysihtml5(
+                    {
+                        "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+                        "emphasis": true, //Italics, bold, etc. Default true
+                        "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+                        "html": true, //Button which allows you to edit the generated HTML. Default false
+                        "link": true, //Button to insert a link. Default true
+                        "image": true, //Button to insert an image. Default true,
+                        "color": true //Button to change color of font  
+                    }
+            );
+        </script>
+
+        <script type="text/javascript" charset="utf-8">
+            $(prettyPrint);
+        </script>
+
+    </body>
+</html>

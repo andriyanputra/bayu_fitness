@@ -20,6 +20,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!--page specific plugin styles-->
         <link rel="shortcut icon" href="../assets/img/favicon.png">
+        <!-- Artikel WYSIHTML5 -->
+        <link rel="stylesheet" href="../assets/css/wysihtml5/prettify.css" />
+        <link rel="stylesheet" href="../assets/css/wysihtml5/bootstrap-wysihtml5.css" />
+        <link rel="stylesheet" href="../assets/css/wysihtml5/jquery.fileupload.css" />
+        <link rel="stylesheet" href="../assets/css/wysihtml5/wysihtml5-image-upload.css" />
         <!--sweet alert-->
         <script src="../assets/frontend/js/sweet-alert.js"></script>
         <link rel="stylesheet" href="../assets/frontend/css/sweet-alert.css" />
@@ -31,7 +36,7 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- DATA TABLES -->
         <link href="../assets/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-        <!-- daterange picker -->
+        <!-- date picker -->
         <link href="../assets/css/datepicker.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
         <link href="../assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -39,7 +44,8 @@
         <link href="../assets/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
         <link href="../assets/css/AdminLTE.css" rel="stylesheet" type="text/css" />
-
+        <!-- Url Preview -->
+        <link href="../assets/js/url/jquery.urlive.css" rel="stylesheet" type="text/css" />
         <style type="text/css" media="screen">
             .footer {
                 position: relative;
@@ -47,8 +53,14 @@
                 background: #FFF;
                 color: #000;
             }
+            .urlive-container {
+                margin-top:15px;
+                padding:0 0 50px 0;
+            }
+            .loading {
+                display:none;
+            }
         </style>
-        
         <!--inline styles related to this page-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
