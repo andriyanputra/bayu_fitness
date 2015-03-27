@@ -194,7 +194,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
             while ($i < 12) {
               $i++;
               if ($i == $perpanjang) {
-                  $tgl_habis = date('m/d/Y', strtotime("+$i month"));
+                  $tgl_habis = date('mdY', strtotime("+$i month"));
               }
             }
             if (!empty($_POST['pass_member_baru'])) {
@@ -1228,7 +1228,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
               }
             }
           }
-        }else{
+        }else {
           //echo "Foto baru kosong, tapi foto lama tidak kosong <br> ATAU <br> Tidak terjadi perubahan terhadap foto";
           if (!empty($_POST['perpanjang'])) {//jika diperpanjang masa aktifnya
             $perpanjang = $_POST['perpanjang'];
@@ -1239,6 +1239,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                   $tgl_habis = date('m/d/Y', strtotime("+$i month"));
               }
             }
+            //echo $tgl_habis;
             if (!empty($_POST['pass_member_baru'])) {
               $pass = md5($_POST['pass_member_baru']);
               $update = oci_parse($koneksi, "UPDATE MEMBER SET
@@ -1292,7 +1293,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                             NONAKTIF_MEMBER = TO_DATE('$tgl_habis', 'MM/DD/YYYY'),
                                             JK_KELAMIN = '$jk',
                                             ASK_MEMBER = '$ask',
-                                            PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                            PERPANJANG = SYSDATE,
                                             NOTIF_MEMBER = 2,
                                             LOG = current_timestamp
                                             WHERE ID_MEMBER = '$id'");

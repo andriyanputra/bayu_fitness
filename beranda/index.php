@@ -308,8 +308,8 @@
 </html>
 <?php 
 	}else if(isset($_SESSION['ID_MEMBER']) && !empty($_SESSION['ID_MEMBER'])){
-        $query = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, NONAKTIF_MEMBER - AKTIF_MEMBER as sel, 
-                                    AKTIF_MEMBER, NONAKTIF_MEMBER, nonaktif_member-current_date as selisih, FOTO_MEMBER 
+        $query = oci_parse($koneksi, "SELECT ID_MEMBER, NM_MEMBER, AKTIF_MEMBER, NONAKTIF_MEMBER,
+                                    nonaktif_member-current_date as selisih, FOTO_MEMBER 
                                     FROM MEMBER, LEVEL_LOGIN, dual WHERE MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL AND MEMBER.ID_MEMBER = '$_SESSION[ID_MEMBER]'");
         $data = oci_execute($query);
         $row = oci_fetch_array($query);

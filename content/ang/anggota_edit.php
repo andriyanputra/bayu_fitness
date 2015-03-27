@@ -110,39 +110,43 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                         <label for="">Masa Aktif:</label><?php $selisih = $db[SELISIH];
                                             if ($selisih > 31) {
                                                 $selisih_ = $selisih - 1; ?>
-                                            <?php if ((round($selisih_) <= 4) && (round($selisih_) > 0)) { ?>
+                                            <?php if ((round($selisih_) < 5) && (round($selisih_) > 0)) { ?>
                                                 <label class="form-control text-yellow"><?php echo 'Kurang ' . round($selisih_) . ' hari.'; ?></label>
-                                            <?php } else if ((round($selisih_) <= 0) && round($selisih_) >= -7) { ?>
+                                            <?php } else if ((round($selisih_) <= 0) && (round($selisih_) > -32)) { ?>
                                                 <script type="text/javascript">
                                                     setTimeout(function () {
                                                         swal("Important!", "Member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
                                                     }, 200);
                                                 </script>
                                                 <label class="form-control text-red"><?php echo 'Lewat ' . abs(round($selisih_)) . ' hari.'; ?></label>
-                                                <?php } else { ?>
-                                                <label class="form-control text-green"><?php echo 'Kurang ' . abs(round($selisih_)) . ' hari.'; ?></label>
+                                                <?php }else if(round($selisih_) <= -31){
+                                                    echo "<label class='form-control text-red'>Lebih dari 31 hari.</label>";
+                                                }else { ?>
+                                                <label class="form-control text-green"><?php echo 'Kurang ' . round($selisih_) . ' hari.'; ?></label>
                                             <?php }
                                         } else { ?>
-                                            <?php if ((round($selisih) <= 4) && (round($selisih) > 0)) { ?>
+                                            <?php if ((round($selisih) < 5) && (round($selisih) > 0)) { ?>
                                                 <label class="form-control text-yellow"><?php echo 'Kurang ' . round($selisih) . ' hari.'; ?></label>
-                                        <?php } else if ((round($selisih) <= 0) && round($selisih) >= -7) { ?>
+                                        <?php } else if ((round($selisih) <= 0) && (round($selisih) > -32)) { ?>
                                                 <script type="text/javascript">
                                                     setTimeout(function () {
                                                         swal("Important!", "Member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
                                                     }, 200);
                                                 </script>
                                                 <label class="form-control text-red"><?php echo 'Lewat ' . abs(round($selisih)) . ' hari.'; ?></label>
-                                                <?php } else { ?>
-                                                <label class="form-control text-green"><?php echo 'Kurang ' . abs(round($selisih)) . ' hari.'; ?></label>
+                                                <?php }else if(round($selisih) <= -31){
+                                                    echo "<label class='form-control text-red'>Lebih dari 31 hari.</label>";
+                                                }else { ?>
+                                                <label class="form-control text-green"><?php echo 'Kurang ' . round($selisih) . ' hari.'; ?></label>
                                                 <?php }
                                             } ?>
                                     </div>
                                     <?php if ($_SESSION[ID_LEVEL] == 1) {
-                                        if ((round($selisih) > 8 || round($selisih_) > 8)) {
+                                        if ((round($selisih) <= 0) && (round($selisih) > -32)) {
                                             ?>
                                             <div class="form-group">
                                                 <label for="">Perpanjang Masa Aktif:</label>
-                                                <select class="form-control" name="perpanjang" disabled>
+                                                <select class="form-control" name="perpanjang" required>
                                                     <option value="">Pilih Lama</option>
                                                     <?php $i = 0;
                                                     while ($i < 12) {
@@ -151,16 +155,11 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                             <?php } ?>
                                                 </select>
                                             </div>
-                                            <?php } else if ((round($selisih) <= 0 || round($selisih_) >= -7)) { ?>
+                                            <?php } else { ?>
                                             <div class="form-group">
                                                 <label for="">Perpanjang Masa Aktif&nbsp;<span class="text-red"><b>*</b></span>:</label>
-                                                <select class="form-control" name="perpanjang" required>
+                                                <select class="form-control" name="perpanjang" disabled="disabled">
                                                     <option value="">Pilih Lama</option>
-                                                    <?php $i = 0;
-                                                    while ($i < 12) {
-                                                        $i++; ?>
-                                                        <option value="<?php echo $i ?>"><?php echo $i . " bulan" ?></option>
-                                                        <?php } ?>
                                                 </select>
                                             </div>
                                             <?php }

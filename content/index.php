@@ -278,13 +278,13 @@
 	                <?php echo "<b>".$row['NM_MEMBER']."</b>";?> dalam Sistem Informasi New Comando Fitness Center.</p>
 	            </div>
 	        <?php }} 
-	        if(date('m') == date('m', $nonaktif) || date('m') == date('m', $aktif)){ $selisih = $row[SELISIH];
+	        $selisih = $row[SELISIH];
 	        	if($selisih>31){ $selisih_ = $selisih-1;
-					if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
+					if((round($selisih_) < 5) && (round($selisih_) > 0)){ ?>
 		    			<div class="alert alert-warning alert-dismissable">
 			                <i class="fa fa-check"></i>
 			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-meh-o"></i></p>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih_)." hari.</b>";?>&nbsp;<i class="fa fa-meh-o"></i></p>
 			            </div>
 		    			<?php
 	    			}else{
@@ -292,12 +292,12 @@
 		    			<div class="alert alert-success alert-dismissable">
 			                <i class="fa fa-check"></i>
 			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih)." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
+			                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".round($selisih_)." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
 			            </div>
 		    			<?php
 	    			}
 	    		}else{
-	    			if((round($selisih) <= 4) && (round($selisih) > 0)){ ?>
+	    			if((round($selisih) < 5) && (round($selisih) > 0)){ ?>
 		    			<div class="alert alert-warning alert-dismissable">
 			                <i class="fa fa-check"></i>
 			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -314,13 +314,7 @@
 		    			<?php
 	    			}
 	        	} 
-	        }else{ $selisih = $data[SEL];?>
-				<div class="alert alert-success alert-dismissable">
-	                <i class="fa fa-check"></i>
-	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	                <p><b>Masa Aktif</b> Member Anda kurang <?php echo "<b>".$selisih." hari.</b>";?>&nbsp;<i class="fa fa-smile-o"></i></p>
-	            </div>
-	        <?php } ?>
+	        ?>
 	    </div>
 	</div>
 	<!-- Main content -->

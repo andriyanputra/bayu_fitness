@@ -26,13 +26,13 @@
 <script src="../assets/js/url/jquery.urlive.js"></script>
 <script src="../assets/js/url/jquery.urlive.min.js"></script>
 <!-- wysihtml5 -->
-<script src="../assets/js/wysihtml5/wysihtml5-0.3.0.js"></script>
+<!--<script src="../assets/js/wysihtml5/wysihtml5-0.3.0.js"></script>
 <script src="../assets/js/wysihtml5/prettify.js"></script>
 <script src="../assets/js/wysihtml5/jquery.iframe-transport.js"></script>
 <script src="../assets/js/wysihtml5/jquery.fileupload.js"></script>
-<script src="../assets/js/wysihtml5/wysihtml5-image-upload.js"></script>
-<!-- AdminLTE for demo purposes 
-<script src="../assets/js/AdminLTE/demo.js" type="text/javascript"></script>-->
+<script src="../assets/js/wysihtml5/wysihtml5-image-upload.js"></script>-->
+<!-- AdminLTE for demo purposes -->
+<script src="../assets/js/AdminLTE/demo.js" type="text/javascript"></script>
 <script type="text/javascript">
     // ========================Jam========================================== //
     function showTime() {
@@ -68,7 +68,7 @@
     // ========================Akhir Jam========================================== //
 </script>
 <script type="text/javascript">
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         $('.wysihtml5').wysihtml5({
             "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
             "emphasis": true, //Italics, bold, etc. Default true
@@ -79,7 +79,7 @@
             "color": false //Button to change color of font
         });
         $(prettyPrint);
-    });
+    });*/
 </script>
 <script type="text/javascript">
     $("#data_supplier").dataTable();

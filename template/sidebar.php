@@ -42,9 +42,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="../beranda/index?fold=artikel&page=index"><i class="fa fa-angle-double-right"></i> Artikel</a></li>
-            <li><a href="../beranda/index?page=kegiatan"><i class="fa fa-angle-double-right"></i> Kegiatan</a></li>
-            <li><a href="../beranda/index?page=unggah"><i class="fa fa-angle-double-right"></i> Unggah Video</a></li>
+            <li><a href="../beranda/index?fold=artikel&page=index"><i class="fa fa-angle-double-right"></i>Tambah Artikel</a></li>
+            <li><a href="../beranda/index?fold=artikel&page=artikel_daftar"><i class="fa fa-angle-double-right"></i>Daftar Artikel</a></li>
         </ul>
     </li>
     <li>
@@ -81,9 +80,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="index?fold=artikel&page=index"><i class="fa fa-angle-double-right"></i> Artikel</a></li>
-            <li><a href="index?page=kegiatan"><i class="fa fa-angle-double-right"></i> Kegiatan</a></li>
-            <li><a href="index?page=unggah"><i class="fa fa-angle-double-right"></i> Unggah Video</a></li>
+            <li><a href="../beranda/index?fold=artikel&page=index"><i class="fa fa-angle-double-right"></i>Tambah Artikel</a></li>
+            <li><a href="../beranda/index?fold=artikel&page=artikel_daftar"><i class="fa fa-angle-double-right"></i>Daftar Artikel</a></li>
         </ul>
     </li>
 </ul>

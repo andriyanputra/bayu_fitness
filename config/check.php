@@ -28,13 +28,15 @@ if($_POST['signin'] == 'Sign In'){
 
   //Pengecekan jika yang login member
   if(!is_numeric($nip)){
-    $cek = oci_parse($koneksi, "SELECT * FROM MEMBER INNER JOIN LEVEL_LOGIN ON (MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL)
-            WHERE MEMBER.ID_MEMBER='$nip'");
+    $cek = oci_parse($koneksi, "SELECT PASS_MEMBER, nonaktif_member-current_date as selisih, 
+                                ID_MEMBER, AKTIF_MEMBER, NONAKTIF_MEMBER, MEMBER.ID_LEVEL
+                                FROM MEMBER, LEVEL_LOGIN, dual
+                                WHERE MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL AND MEMBER.ID_MEMBER='$nip'");
     oci_execute($cek, OCI_DEFAULT);
     $row = oci_fetch_array($cek);
-    $db_id = $row['ID_MEMBER']; $bln = date('m');
+    $db_id = $row['ID_MEMBER']; $habis = $row[SELISIH];
     $row[AKTIF_MEMBER]=strtotime($row[AKTIF_MEMBER]); $row[NONAKTIF_MEMBER]=strtotime($row[NONAKTIF_MEMBER]);
-    if($bln > date('m', $row[NONAKTIF_MEMBER])){//jika lewat masa aktif, member tidak bisa login
+    if(($habis <= 0) && ($habis > -32)){//jika lewat masa aktif, member tidak bisa login
       ?>
         <script type="text/javascript">
           setTimeout(function() {

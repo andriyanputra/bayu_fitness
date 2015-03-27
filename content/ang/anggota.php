@@ -60,8 +60,7 @@
                                 $array_hr= array(1=>"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu");
                                 $array_bln = array(1=>"Jan","Feb","Mar", "Apr", "Mei","Jun","Jul","Agt","Sep","Okt", "Nov","Des");
 
-                                $select = oci_parse($koneksi, "SELECT ID_MEMBER, PERPANJANG, Months_between(NONAKTIF_MEMBER, PERPANJANG) BULAN,
-																 										NM_MEMBER, ALAMAT_MEMBER, NONAKTIF_MEMBER - AKTIF_MEMBER as sel, NONAKTIF_MEMBER - PERPANJANG AS beda,
+                                $select = oci_parse($koneksi, "SELECT ID_MEMBER, PERPANJANG, NM_MEMBER, ALAMAT_MEMBER, 
 																										AKTIF_MEMBER, NONAKTIF_MEMBER, nonaktif_member-current_date as selisih,
 																										FOTO_MEMBER FROM MEMBER, LEVEL_LOGIN, dual where MEMBER.ID_LEVEL = LEVEL_LOGIN.ID_LEVEL");
                                 oci_execute($select); $bulan = date('m');
@@ -79,45 +78,43 @@
                                         <td><?php echo $data[ALAMAT_MEMBER]; ?></td>
                                         <td><?php echo $hr.", ".date('d', $aktif)." ".$bln." ".date('Y', $aktif); ?></td>
                                         <td><?php echo $h.", ".date('d', $nonaktif)." ".$b." ".date('Y', $nonaktif); ?></td>
-																				<?php
-																				if(!empty($data[PERPANJANG]) && round($data[BULAN]) != 1){ $selisih = $data[BULAN];
-																					echo "<td class='text-green'><b>Kurang ".round($selisih)." bulan.</b></td>";
-																				}else if((empty($data[PERPANJANG]) || round($data[BULAN]) == 1)){ $selisih = $data[SELISIH];
-                                         if($bulan == date('m', $nonaktif) || $bulan == date('m', $aktif) || $bulan == date('m', $perpanjang)){
-																					if($selisih>31){ $selisih_ = $selisih-1;
-																						if((round($selisih_) <= 4) && (round($selisih_) > 0)){
-                                              echo "<td class='text-yellow'><b>Kurang ".round($selisih_)." hari.</b></td>";
-                                            }else if((round($selisih_) <= 0) && round($selisih_) > -7){ ?>
-                                              <script type="text/javascript">
-                                                setTimeout(function() {
-                                                  swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
-                                                }, 200);
-                                              </script>
-                                              <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih_))." hari.</b>"; ?></td>
-                                            <?php }else{
-                                              			echo "<td class='text-green'><b>Kurang ".round($selisih_)." hari.</b></td>";
-                                             			}
-                                          } else {
-                                            if((round($selisih) <= 4) && (round($selisih) > 0)){
-                                            	echo "<td class='text-yellow'><b>Kurang ".round($selisih)." hari.</b></td>";
-                                            } else if((round($selisih) <= 0) && round($selisih) > -7){ ?>
-                                              <script type="text/javascript">
-                                                setTimeout(function() {
-                                                  swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
-                                                }, 200);
-                                              </script>
-                                              <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih))." hari.</b>"; ?></td>
-                                      <?php }else{
-                                              echo "<td class='text-green'><b>Kurang ".round($selisih)." hari.</b></td>";
-                                             } }
-                                        }else if($bulan > date('m', $nonaktif)){
-                                          echo "<td class='text-red'><b>Jatuh Tempo (-31)</b></td>";
-                                        }else if($data[SEL] > 31){ $selisih = $data[BEDA];
-                                          echo "<td class='text-green'><b>Kurang ".$selisih." hari.</b></td>";
-                                        }else{ $selisih = $data[SEL];
-																					echo "<td class='text-green'><b>Kurang ".$selisih." hari.</b></td>";
-																				}
-																				} ?>
+																				
+                                          <?php $selisih = round($data[SELISIH]);
+                                            if($selisih > 31){ $selisih = $selisih_ = $selisih - 1; //hal ini dilakukan untuk mengantisipasi jika terdapat hasil pengurangan lebih dari 31
+                                              if((round($selisih_) < 5) && (round($selisih_) > 0)){
+                                                echo "<td class='text-yellow'><b>Kurang ".round($selisih_)." hari.</b></td>";
+                                              }else if((round($selisih_) <= 0) && (round($selisih_) > -32)){ ?>
+                                                <script type="text/javascript">
+                                                  setTimeout(function() {
+                                                    swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                                  }, 200);
+                                                </script>
+                                                <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih_))." hari.</b>"; ?></td>
+                                          <?php
+                                              }else if(round($selisih_) <= -31){
+                                                echo "<td class='text-red'><b>Lebih dari 31 hari.</b></td>";
+                                              }else{
+                                                echo "<td class='text-green'><b>Kurang ".round($selisih_)." hari.</b></td>";
+                                              }
+                                            }else{
+                                              if((round($selisih) < 5) && (round($selisih) > 0)){
+                                                echo "<td class='text-yellow'><b>Kurang ".round($selisih)." hari.</b></td>";
+                                              }else if((round($selisih) <= 0) && (round($selisih) > -32)){ ?>
+                                                <script type="text/javascript">
+                                                  setTimeout(function() {
+                                                    swal("Important!", "Salah satu/beberapa member lewat masa tenggang. Segera lakukan tindakan administratif !", "warning")
+                                                  }, 200);
+                                                </script>
+                                                <td class="text-red"><?php echo "<b>Lewat ".abs(round($selisih))." hari.</b>"; ?></td>
+                                          <?php
+                                              }else if(round($selisih) <= -31){
+                                                echo "<td class='text-red'><b>Lebih dari 31 hari.</b></td>";
+                                              }else{
+                                                echo "<td class='text-green'><b>Kurang ".round($selisih)." hari.</b></td>";
+                                              }
+                                            }
+                                          ?>
+                                        
                                         <td>
                                           <?php if(!empty($data[FOTO_MEMBER])){ ?>
                                             <a href="../assets/img/member/<?php echo $data[FOTO_MEMBER]; ?>" class="lihat" title="<?php echo $data[NM_MEMBER]; ?>"><i class="fa fa-picture-o"></i></a>
