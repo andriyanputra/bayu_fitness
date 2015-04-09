@@ -1,32 +1,15 @@
 <?php
-    @session_start();
     if($_SESSION[NIP_PEGAWAI]==115623210) {
 ?>
-<section class="content-header">
-    <h1>
-        Stock Barang
-        <small>Overview</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li>Dashboard</li>
-		<li class="active">Stock Barang</li>
-    </ol>
-</section>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary">
+            <div class="">
                 <div class="box-header">
-                    <h3 class="box-title text-center">Daftar Stock Barang</h3>
+                    <h3 class=" text-center">Laporan Persediaan Barang</h3>
+                    <h5 class=" text-center">New Comando Gym<br>Jl. Raya Mastrip 185 Jajartunggal<br>Surabaya</h5>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <div class="row">
-                        <div class="col-md-10"></div>
-                        <div class="col-md-2 pull-right">
-                            <a href="index?fold=inv&page=stock_report" class="btn btn-block btn-primary" data-toggle="tooltip" title="Print"><i class="fa fa-print"></i></a>
-                        </div>
-                    </div><br>
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered table-striped">
@@ -116,7 +99,11 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table><br>
+                            <p align="right"><?php echo "Surabaya, ".date('j - n - Y'); ?></p>
+                            <br>
+                            <br>
+                            <p align="right"><u>Bayu Anggoro Priyambodho</u><br>NIP. 115623210</p>
                         </div>
                     </div>    
                 </div><!-- /.box-body -->
@@ -124,6 +111,10 @@
         </div>
     </div>
 </section>
+
+<script>
+  window.print();
+</script>
 <?php 
     }else{
         ?>

@@ -266,7 +266,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                 JK_KELAMIN = '$jk',
                                                 ASK_MEMBER = '$ask',
                                                 FOTO_MEMBER = '$foto',
-                                                PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                PERPANJANG = SYSDATE,
                                                 NOTIF_MEMBER = 2,
                                                 LOG = current_timestamp
                                                 WHERE ID_MEMBER = '$id'");
@@ -384,7 +384,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                 JK_KELAMIN = '$jk',
                                                 ASK_MEMBER = '$ask',
                                                 FOTO_MEMBER = '$foto',
-                                                PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                PERPANJANG = SYSDATE,
                                                 NOTIF_MEMBER = 2,
                                                 LOG = current_timestamp
                                                 WHERE ID_MEMBER = '$id'");
@@ -754,7 +754,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                   JK_KELAMIN = '$jk',
                                                   ASK_MEMBER = '$ask',
                                                   FOTO_MEMBER = '$foto',
-                                                  PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                  PERPANJANG = SYSDATE,
                                                   NOTIF_MEMBER = 2,
                                                   LOG = current_timestamp
                                                   WHERE ID_MEMBER = '$id'");
@@ -889,7 +889,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                                   JK_KELAMIN = '$jk',
                                                   ASK_MEMBER = '$ask',
                                                   FOTO_MEMBER = '$foto',
-                                                  PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                                  PERPANJANG = SYSDATE,
                                                   NOTIF_MEMBER = 2,
                                                   LOG = current_timestamp
                                                   WHERE ID_MEMBER = '$id'");
@@ -1250,7 +1250,7 @@ if ($_SESSION[ID_LEVEL] == 1 || $_SESSION[ID_LEVEL] == 3) {
                                             PASS_MEMBER = '$pass',
                                             JK_KELAMIN = '$jk',
                                             ASK_MEMBER = '$ask',
-                                            PERPANJANG = TO_DATE('mdY', 'MM/DD/YYYY'),
+                                            PERPANJANG = SYSDATE,
                                             NOTIF_MEMBER = 2,
                                             LOG = current_timestamp
                                             WHERE ID_MEMBER = '$id'");

@@ -105,14 +105,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="row">
+                        <div class="row">
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="form-group">
                                     <label>Tulis Artikel: </label>
                                     <textarea class="form-control wysihtml5" name="tul_artikel" rows="10" placeholder="Silahkan menulikan artikel Anda di sini..."></textarea>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="">Note: &nbsp;<span class="text-red"><b>**</b></span></label><br>

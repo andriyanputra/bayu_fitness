@@ -1,7 +1,7 @@
 <?php
     @session_start();
     if($_SESSION[NIP_PEGAWAI]==115623210) {
-        $hari_ini=date("Y-m-d");
+        $hari_ini = date("m/d/Y");
 ?>
 <section class="content-header">
     <h1>
@@ -35,31 +35,41 @@
                        	<div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
-                                <label for="">Supplier Barang - Nama Barang - Sisa&nbsp;<span class="text-red"><b>*</b></span>: </label>
+                                <label for="">Nama Barang / Sisa&nbsp;<span class="text-red"><b>*</b></span>: </label>
                                     <select name="kd_jual" class="form-control" required>
 	                                    <option value="">Pilih Barang</option>}
 	                                    option
 	                                    <?php
-	                                    	function sisa_barang($kode_barang){
-												$hasil_sisa="SELECT BARANG.ID_BARANG ,(SELECT SUM(JML_TRANSAKSI) AS jml FROM TRANSAKSI WHERE STATUS_TRANSAKSI = 'M' AND ID_BARANG='$kode_barang' GROUP BY ID_BARANG)-(SELECT SUM(JML_TRANSAKSI) AS jml FROM TRANSAKSI WHERE STATUS_TRANSAKSI='K' AND ID_BARANG='$kode_barang' GROUP BY ID_BARANG) AS sisa FROM BARANG WHERE ID_BARANG='$kode_barang'";
-												$sisa = oci_parse($koneksi, $hasil_sisa);
-												oci_execute($sisa);
-												$db_ = oci_fetch_array($sisa);
-												return $db_['sisa'];
-											}
+	                                    	//function sisa_barang($kode_barang){
+											//}
 
 	                                    	function rupiah($nilai, $pecahan = 0) {
 				                                return number_format($nilai, $pecahan, ',', '.');
 				                            }
-	                                        $buy=oci_parse($koneksi,"SELECT DISTINCT ID_BARANG, NM_SUPPLIER, NM_BARANG FROM v_laporan_pembelian");
+	                                        $buy=oci_parse($koneksi,"SELECT DISTINCT BARANG.ID_BARANG, BARANG.NM_BARANG FROM BARANG, TRANSAKSI WHERE BARANG.ID_BARANG = TRANSAKSI.ID_BARANG");
 	                                        oci_execute($buy);
 	                                        while ($db_=oci_fetch_array($buy)) {
 	                                        	//mengecek apakah barang masih ada atau belum
-	                                        	if(sisa_barang($db_[ID_BARANG])<>0 || sisa_barang($db_[ID_BARANG]) == NULL){
-	                                        		echo "<option value=\"$db_[ID_BARANG]\">$db_[NM_SUPPLIER] | $db_[NM_BARANG] | ".sisa_barang($db_[ID_BARANG])."</option>";
-	                                        	}
+	                                        	//if(sisa_barang($db_[ID_BARANG])<>0 || sisa_barang($db_[ID_BARANG]) == NULL){
+	                                        	//	echo "<option value=\"$db_[ID_BARANG]\">$db_[NM_SUPPLIER] - $db_[NM_BARANG] - ".sisa_barang($db_[ID_BARANG])."</option>";
+	                                        	//}
 	                                        	//echo "Sisa Barang: ".sisa_barang($db_[ID_BARANG]);
-	                                        }
+                                                $in = oci_parse($koneksi, "SELECT DISTINCT JML_TRANSAKSI FROM TRANSAKSI WHERE STATUS_TRANSAKSI = 'M' AND ID_BARANG = '$db_[ID_BARANG]'"); oci_execute($in);
+                                                $masuk = oci_fetch_array($in);
+                                                $out = oci_parse($koneksi, "SELECT DISTINCT SUM(JML_TRANSAKSI) FROM TRANSAKSI WHERE STATUS_TRANSAKSI = 'K' AND ID_BARANG = '$db_[ID_BARANG]'"); oci_execute($out);
+                                                $keluar = oci_fetch_array($out);
+                                                $hasil_sisa="SELECT DISTINCT BARANG.ID_BARANG ,(SELECT SUM(JML_TRANSAKSI) AS jml FROM TRANSAKSI WHERE STATUS_TRANSAKSI = 'M' AND ID_BARANG='$db_[ID_BARANG]' GROUP BY ID_BARANG)-(SELECT SUM(JML_TRANSAKSI) AS jml FROM TRANSAKSI WHERE STATUS_TRANSAKSI='K' AND ID_BARANG='$db_[ID_BARANG]' GROUP BY ID_BARANG) AS sisa FROM BARANG WHERE ID_BARANG='$db_[ID_BARANG]'";
+                                                $sisa = oci_parse($koneksi, $hasil_sisa);
+                                                oci_execute($sisa);
+                                                $d = oci_fetch_array($sisa);
+                                                if(!empty($d[SISA])){
+                                                    echo "<option value=\"$db_[ID_BARANG]\">$db_[NM_BARANG] / $d[SISA]</option>";
+                                                }else if($keluar[0] == $masuk[JML_TRANSAKSI]){
+                                                    echo "<option value=\"0\">Kosong</option>";
+                                                }else{
+                                                    echo "<option value=\"$db_[ID_BARANG]\">$db_[NM_BARANG] / $masuk[JML_TRANSAKSI]</option>";
+                                                }
+                                            }
 	                                    ?>
                                     </select>
                                 </div>

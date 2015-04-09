@@ -1,5 +1,9 @@
 <!-- jQuery 2.0.2 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<!-- Morris.js charts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="../assets/js/rapa.js" type="text/javascript"></script>
+<script src="../assets/js/plugins/morris/morris.min.js" type="text/javascript"></script>
 <!-- jQuery UI 1.10.3 -->
 <script src="../assets/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
 <!-- Bootstrap -->
@@ -68,6 +72,74 @@
     // ========================Akhir Jam========================================== //
 </script>
 <script type="text/javascript">
+    function realisasi(){
+            
+        $("#response").hide(); //sebagai div response (gaya2 loading image aja :D)
+        $.ajax({
+            url: "../data.php", //ambil data dari data.php
+            cache: false, //data ga di simpan ke browser
+            type: "GET", //tipe sinkron GET, bisa pake post, terserah aja
+            dataType: "json", //data tipe nya sebagai json
+            timeout:3000, //set 3 detik respon, jika lama berarti gagal
+            beforeSend: function() {     
+                $("#response").show(); //penggaya loading muncul ;D
+                $('#response').html("<img class='text-center' src='../assets/img/ajax-loader.gif' />");                       
+            },
+            success : function (data) {
+                $("#response").hide(); //penggaya loading dimatikan :(  
+                var graph = Morris.Bar({ //di sini inisialkan graph sebagai morris chart area
+                    element: 'contoh-chart1', //masukin chart nya nanti di div id=contoh-chart
+                    data: data, //set data dari callback success function
+                    xkey: 'y', //ini yang tadi sebagai data x (bawah)
+                    ykeys: ['jumlah'], //datanya berupa jumlah penjualan tadi, json data
+                    labels: ['Jml. Member'], //Label data dibikin Penjualan        
+                    barColors: ['#3C8DBC'],
+                    //lineColors: ['#2b44d2'], //bikin warna line nya
+                });
+            }
+        });
+    }
+
+    $(document).ready(function()
+    {           
+        realisasi(); //nah nanti dipanggil di sini
+    });                
+</script>
+<script type="text/javascript">
+    function realisasi2(){
+            
+        $("#res").hide(); //sebagai div response (gaya2 loading image aja :D)
+        $.ajax({
+            url: "../data2.php", //ambil data dari data.php
+            cache: false, //data ga di simpan ke browser
+            type: "GET", //tipe sinkron GET, bisa pake post, terserah aja
+            dataType: "json", //data tipe nya sebagai json
+            timeout:3000, //set 3 detik respon, jika lama berarti gagal
+            beforeSend: function() {     
+                $("#res").show(); //penggaya loading muncul ;D
+                $('#res').html("<img class='text-center' src='../assets/img/ajax-loader.gif' />");                       
+            },
+            success : function (data) {
+                $("#res").hide(); //penggaya loading dimatikan :(  
+                var graph = Morris.Bar({ //di sini inisialkan graph sebagai morris chart area
+                    element: 'contoh-chart2', //masukin chart nya nanti di div id=contoh-chart
+                    data: data, //set data dari callback success function
+                    xkey: 'y', //ini yang tadi sebagai data x (bawah)
+                    ykeys: ['jumlah1', 'jumlah2'], //datanya berupa jumlah penjualan tadi, json data
+                    labels: ['Jml. Member'], //Label data dibikin Penjualan        
+                    barColors: ['#3C8DBC'],
+                    //lineColors: ['#2b44d2'], //bikin warna line nya
+                });
+            }
+        });
+    }
+    
+    $(document).ready(function()
+    {           
+        realisasi2(); //nah nanti dipanggil di sini
+    });                
+</script>
+<script type="text/javascript">
     /*$(document).ready(function() {
         $('.wysihtml5').wysihtml5({
             "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
@@ -89,6 +161,7 @@
     $("#anggota").dataTable();
     $("#notif").dataTable();
     $("#artikel").dataTable();
+    $("#event").dataTable();
 </script>
 <script type="text/javascript">
     $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({

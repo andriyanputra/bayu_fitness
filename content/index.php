@@ -62,7 +62,7 @@
 	                <div class="small-box bg-green" data-toggle="tooltip" title="Inventaris Barang">
 	                    <div class="inner">
 	                        <h3>
-	                            53<sup style="font-size: 20px">%</sup>
+	                            <i class="fa fa-money"></i>
 	                        </h3>
 	                        <p>
 	                            Inventaris Barang
@@ -71,7 +71,7 @@
 	                    <div class="icon">
 	                        <i class="fa fa-shopping-cart"></i>
 	                    </div>
-	                    <a href="#" class="small-box-footer">
+	                    <a href="../beranda/index?fold=inv&page=inv_stock" class="small-box-footer">
 	                        More info <i class="fa fa-arrow-circle-right"></i>
 	                    </a>
 	                </div>

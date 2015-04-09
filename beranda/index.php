@@ -19,6 +19,8 @@
         <meta name="description" content="Common form elements and layouts" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!--page specific plugin styles-->
+        <!-- Morris chart -->
+        <link href="../assets/css/morris/morris.css" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="../assets/img/favicon.png">
         <!-- Artikel WYSIHTML5 -->
         <link rel="stylesheet" href="../assets/css/wysihtml5/prettify.css" />
@@ -67,9 +69,9 @@
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="index" class="logo">
+            <a href="../index" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                New Comando Fitness
+                New Comando Gym
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -362,7 +364,7 @@
         <header class="header">
             <a href="index" class="logo">
                 <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                New Comando Fitness
+                New Comando Gym
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">

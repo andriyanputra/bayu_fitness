@@ -176,7 +176,7 @@
 				                  type: "error",
 				                  showCancelButton: false
 				            }, function(){
-				                document.location = 'index?fold=user&page=iindex';
+				                document.location = 'index?fold=user&page=index';
 				            })
 				        }, 200);
 				      </script>

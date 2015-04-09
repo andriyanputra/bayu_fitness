@@ -78,6 +78,7 @@
 
                     <div class="box-footer">
                         <div class="text-right">
+                            <button class="btn btn-primary" onclick="window.history.back();" data-toggle="tooltip" title="Kembali">Kembali</button>
                             <input type="submit" name="simpan" class="btn btn-primary" value="Simpan" />
                         </div>
                     </div>

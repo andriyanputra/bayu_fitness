@@ -18,7 +18,7 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="../beranda/index?fold=ang&page=anggota"><i class="fa fa-angle-double-right"></i> Daftar Member</a></li>
-            <li><a href="../beranda/index?fold=ang&page=anggota_laporan"><i class="fa fa-angle-double-right"></i> Laporan Member</a></li>
+            <li><a href="../beranda/index?fold=ang&page=anggota_report"><i class="fa fa-angle-double-right"></i> Laporan Member</a></li>
         </ul>
     </li>
     <li class="treeview">
@@ -28,8 +28,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="../beranda/index?fold=inv&page=inv_supp"><i class="fa fa-angle-double-right"></i> Input Supplier</a></li>
-            <li><a href="../beranda/index?fold=inv&page=inv_barang"><i class="fa fa-angle-double-right"></i> Input Barang</a></li>
+            <!--<li><a href="../beranda/index?fold=inv&page=inv_supp"><i class="fa fa-angle-double-right"></i> Input Supplier</a></li>
+            <li><a href="../beranda/index?fold=inv&page=inv_barang"><i class="fa fa-angle-double-right"></i> Input Barang</a></li>-->
             <li><a href="../beranda/index?fold=inv&page=inv_pembelian"><i class="fa fa-angle-double-right"></i> Pembelian</a></li>
             <li><a href="../beranda/index?fold=inv&page=inv_penjualan"><i class="fa fa-angle-double-right"></i> Penjualan</a></li>
             <li><a href="../beranda/index?fold=inv&page=inv_stock"><i class="fa fa-angle-double-right"></i> Stock Barang</a></li>
@@ -42,8 +42,10 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
+            <li><a href="../beranda/index?fold=event&page=index"><i class="fa fa-angle-double-right"></i>Tambah Event</a></li>
             <li><a href="../beranda/index?fold=artikel&page=index"><i class="fa fa-angle-double-right"></i>Tambah Artikel</a></li>
             <li><a href="../beranda/index?fold=artikel&page=artikel_daftar"><i class="fa fa-angle-double-right"></i>Daftar Artikel</a></li>
+            <li><a href="../beranda/index?fold=event&page=event_list"><i class="fa fa-angle-double-right"></i>Daftar Event</a></li>
         </ul>
     </li>
     <li>
@@ -57,8 +59,8 @@
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-angle-double-right"></i> Grafik</a></li>
-            <li><a href="../beranda/index?page=lap"><i class="fa fa-angle-double-right"></i> Laporan Bulanan</a></li>
+            <li><a href="index?fold=graph&page=index"><i class="fa fa-angle-double-right"></i> Grafik</a></li>
+            <!--<li><a href="../beranda/index?page=lap"><i class="fa fa-angle-double-right"></i> Laporan Bulanan</a></li>-->
         </ul>
     </li>
 </ul>
